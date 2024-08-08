@@ -1,25 +1,97 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-
-const routes: Array<RouteRecordRaw> = [
-  {
-    path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
-]
+import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
-})
+  routes: [
+    // 登录重定向
+    {
+      path: "/",
+      redirect: "/index",
+    },
+    {
+      path: "/login",
+      name: "loginPage",
+      component: () => import("../views/login/LoginPage.vue"),
+    },
+    // 主页
+    {
+      path: "/main",
+      name: "/main",
+      component: () => import("../views/MainPage.vue"),
+      meta: { requireAuth: true },
+      children: [
+        {
+          path: "/main",
+          name: "main",
+          component: () => import("../views/index/IndexPage.vue"),
+        },
+        // 首页
+        {
+          path: "/index",
+          name: "index",
+          meta: {
+            title: "首页",
+            icon: "House",
+          },
+          component: () => import("../views/index/IndexPage.vue"),
+        },
+        // 赋酒诗词
+        {
+          path: "/winePoetry",
+          name: "winePoetry",
+          meta: {
+            title: "赋酒诗词",
+            icon: "WinePoetry",
+          },
+          component: () => import("../views/winePoetry/WinePoetry.vue"),
+        },
+        // 酒器
+        {
+          path: "/wineVessel",
+          name: "wineVessel",
+          meta: {
+            title: "酒器",
+            icon: "WineVessel",
+          },
+          component: () => import("../views/wineVessel/WineVessel.vue"),
+        },
+        // 酒画
+        {
+          path: "/winePainting",
+          name: "winePainting",
+          meta: {
+            title: "酒画",
+            icon: "WinePainting",
+          },
+          component: () => import("../views/winePainting/WinePainting.vue"),
+        },
+        // 酒诗图谱
+        {
+          path: "/winePoretyGraph",
+          name: "winePoretyGraph",
+          meta: {
+            title: "酒诗图谱",
+            icon: "House",
+          },
+          component: () =>
+            import("../views/winePoretyGraph/WinePoretyGraph.vue"),
+        },
+        // 酒诗图赏
+        {
+          path: "/winePoetryAppreciation",
+          name: "winePoetryAppreciation",
+          meta: {
+            title: "酒诗图赏",
+            icon: "House",
+          },
+          component: () =>
+            import(
+              "../views/winePoetryAppreciation/WinePoetryAppreciation.vue"
+            ),
+        },
+      ],
+    },
+  ],
+});
 
-export default router
+export default router;
