@@ -6,7 +6,7 @@
           v-model="value"
           clearable
           placeholder="全部"
-          style="width: 5vw; margin-right: 0.5vw; font-size: 1rem"
+          class="select"
         >
           <el-option
             v-for="item in options"
@@ -16,15 +16,15 @@
           />
         </el-select>
         <el-input
+          class="input"
           v-model="input"
-          style="width: 15vw; margin-right: 0.5vw; font-size: 1rem"
           placeholder="检索你感兴趣的内容"
           clearable
         />
         <el-button
           type="primary"
           color="#7D3030"
-          style="font-size: 1rem"
+          class="sbutton"
           >搜索</el-button
         >
       </div>
@@ -33,18 +33,10 @@
       <!-- <div style="text-align: center; font-size: 2rem">唐·酒诗年代山水图</div> -->
     </div>
     <div class="poetryRiver">
-      <div
-        class="textInfo"
-        style="
-          display: inline-block;
-          float: left;
-          background-color: #f6f3e5;
-          height: 40vw;
-        "
-      >
+      <div class="textInfo">
         <img
-          src="@/assets/images/info3.png"
-          style="width: 70%; margin: 14vw 0 0 3vw"
+          src="@/assets/images/infoIndex.png"
+          class="infoImg"
         />
       </div>
       <div
@@ -586,14 +578,14 @@ onUnmounted(() => {
 });
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .indexMain {
   background-image: url("@/assets/images/background.jpg");
   background-size: 100% 100%;
   background-repeat: no-repeat;
   width: 96vw;
-  height: 76vw;
   margin-left: 2vw;
+  padding: 0 0 5vw 0;
   .serachTop {
     height: 25vw;
     width: 100vw;
@@ -603,13 +595,25 @@ onUnmounted(() => {
     // border: 1px solid #000;
     .serach {
       padding: 10vw 0 0 37vw;
+      .select {
+        width: 5vw;
+        margin-right: 0.5vw;
+      }
+      .input {
+        width: 15vw;
+        margin-right: 0.5vw;
+        font-size: 0.8rem;
+      }
+      .sbutton {
+        font-size: 1rem;
+      }
     }
   }
   .title {
     height: 3vw;
     width: 100vw;
     margin-left: -2vw;
-    background-image: url("@/assets/images/title1.png");
+    background-image: url("@/assets/images/titleIndex.png");
     background-size: 100% 100%;
   }
   .poetryRiver {
@@ -630,18 +634,159 @@ onUnmounted(() => {
       // font-size: 1.2rem;
       color: #908d8d;
       border-radius: 20px 0 0 20px;
+      display: inline-block;
+      float: left;
+      background-color: #f6f3e5;
+      height: 40vw;
+      .infoImg {
+        width: 70%;
+        margin: 14vw 0 0 3vw;
+      }
     }
   }
 }
 
-// 去除滚动条
+@media screen and (max-width: 900px) {
+  .indexMain {
+    background-image: url("@/assets/images/background.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    width: 96vw;
+    margin-left: 2vw;
+    padding: 0 0 5vw 0;
+    .serachTop {
+      height: 25vw;
+      width: 100vw;
+      margin-left: -2vw;
+      background-image: url("@/assets/images/indexbackground.png");
+      background-size: 100% 100%;
+      // border: 1px solid #000;
 
-::-webkit-scrollbar {
-  width: 0 !important;
+      .serach {
+        padding: 10vw 0 0 37vw;
+        :deep(.el-select__wrapper) {
+          min-height: 3vw;
+        }
+        .input {
+          width: 15vw;
+          margin-right: 0.5vw;
+          font-size: 0.6rem;
+          height: 3vw;
+        }
+        .sbutton {
+          font-size: 0.5rem;
+          width: 5vw;
+          height: 3vw;
+        }
+      }
+    }
+    .title {
+      height: 3vw;
+      width: 100vw;
+      margin-left: -2vw;
+      background-image: url("@/assets/images/titleIndex.png");
+      background-size: 100% 100%;
+    }
+    .poetryRiver {
+      margin-left: -2vw;
+      // height: 5vw;
+      width: 100vw;
+      // .textInfo {
+      //   margin: 2vw 0 0 25vw;
+      //   // height: 5vw;
+      //   width: 50vw;
+      //   font-size: 1.2rem;
+      //   color: #908d8d;
+      // }
+      .textInfo {
+        margin: 3vw 0 0 14vw;
+        // height: 5vw;
+        width: 12vw;
+        // font-size: 1.2rem;
+        color: #908d8d;
+        border-radius: 20px 0 0 20px;
+        display: inline-block;
+        float: left;
+        background-color: #f6f3e5;
+        height: 40vw;
+        .infoImg {
+          width: 70%;
+          margin: 14vw 0 0 3vw;
+        }
+      }
+    }
+  }
 }
-::-webkit-scrollbar {
-  width: 0 !important;
-  height: 0;
+@media screen and (max-width: 600px) {
+  .indexMain {
+    background-image: url("@/assets/images/background.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    width: 96vw;
+    margin-left: 2vw;
+    padding: 0 0 5vw 0;
+    .serachTop {
+      height: 25vw;
+      width: 100vw;
+      margin-left: -2vw;
+      background-image: url("@/assets/images/indexbackground.png");
+      background-size: 100% 100%;
+      // border: 1px solid #000;
+      .serach {
+        padding: 10vw 0 0 37vw;
+        :deep(.el-select__wrapper) {
+          // min-height: 16px;
+          width: 35px;
+        }
+        .input {
+          width: 15vw;
+          margin: 0 0.5vw 0 5vw;
+          font-size: 0.4rem;
+          height: 22px;
+        }
+        .sbutton {
+          font-size: 0.5rem;
+          width: 5vw;
+          height: 20px;
+        }
+      }
+    }
+    .title {
+      height: 3vw;
+      width: 100vw;
+      margin-left: -2vw;
+      background-image: url("@/assets/images/titleIndex.png");
+      background-size: 100% 100%;
+    }
+    .poetryRiver {
+      margin-left: -2vw;
+      // height: 5vw;
+      width: 100vw;
+      // .textInfo {
+      //   margin: 2vw 0 0 25vw;
+      //   // height: 5vw;
+      //   width: 50vw;
+      //   font-size: 1.2rem;
+      //   color: #908d8d;
+      // }
+      .textInfo {
+        margin: 3vw 0 0 14vw;
+        // height: 5vw;
+        width: 12vw;
+        // font-size: 1.2rem;
+        color: #908d8d;
+        border-radius: 20px 0 0 20px;
+        display: inline-block;
+        float: left;
+        background-color: #f6f3e5;
+        height: 40vw;
+        .infoImg {
+          width: 70%;
+          margin: 14vw 0 0 3vw;
+        }
+      }
+    }
+  }
 }
 
 // @media screen and (max-width: 1000px) {

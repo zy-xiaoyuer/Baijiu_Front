@@ -50,13 +50,12 @@
       <div class="right">
         <img
           src="@/assets/images/user.png"
-          style="height: 2vh"
+          class="rightimg"
         />
         <el-button
           link
           @click="toggleChange"
           class="loginbtn"
-          style="font-size: 1.2rem; margin-top: -0.6vw"
         >
           登录
         </el-button>
@@ -84,6 +83,7 @@
         ></component>
       </router-view>
     </div>
+    <div class="foot"></div>
   </div>
 
   <el-backtop :bottom="100">
@@ -183,6 +183,13 @@ onUnmounted(() => {
       width: 10vw;
       height: 3.5vw;
       // float: left;
+      .rightimg {
+        height: 1.5vw;
+      }
+      .loginbtn {
+        font-size: 1.2rem;
+        margin-top: -0.6vw;
+      }
     }
   }
 
@@ -192,6 +199,135 @@ onUnmounted(() => {
     // background-image: url("@/assets/images/background.jpg");
     // background-color: "#908d8d";
     // background-size: 100% 100%;
+  }
+  .foot {
+    width: 100vw;
+    height: 9vw;
+    background-image: url("@/assets/images/foot.png");
+    background-size: 100% 100%;
+  }
+}
+@media screen and (max-width: 900px) {
+  .mainContainer {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    .headMenu {
+      width: 100vw;
+      height: 4.5vw;
+      background-image: url("@/assets/images/head.png");
+      background-size: 100% 100%;
+
+      // font-size:30px;
+
+      .middle {
+        width: 20vw;
+        height: 3.5vw;
+        margin: 1vw 0 0 45vw;
+        display: inline-block;
+
+        .el-menu {
+          height: 100%;
+
+          .el-menu-item {
+            font-size: 1rem;
+          }
+        }
+      }
+
+      .right {
+        margin: 1vw 0 0 20vw;
+        display: inline-block;
+        width: 10vw;
+        height: 3.5vw;
+        // float: left;
+        .rightimg {
+          height: 2vw;
+        }
+        .loginbtn {
+          font-size: 1rem;
+          margin-top: -0.6vw;
+        }
+      }
+    }
+
+    .main {
+      // width: 100vw;
+      // height: 100%;
+      // background-image: url("@/assets/images/background.jpg");
+      // background-color: "#908d8d";
+      // background-size: 100% 100%;
+    }
+
+    .foot {
+      width: 100vw;
+      height: 9vw;
+      background-image: url("@/assets/images/foot.png");
+      background-size: 100% 100%;
+    }
+  }
+}
+@media screen and (max-width: 600px) {
+  .mainContainer {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    .headMenu {
+      width: 100vw;
+      height: 4.5vw;
+      background-image: url("@/assets/images/head.png");
+      background-size: 100% 100%;
+
+      // font-size:30px;
+
+      .middle {
+        width: 10vw;
+        height: 3.5vw;
+        margin: 1vw 0 0 45vw;
+        display: inline-block;
+
+        .el-menu {
+          height: 100%;
+
+          .el-menu-item {
+            font-size: 0.6rem;
+          }
+        }
+      }
+
+      .right {
+        margin: 0 0 0 30vw;
+        display: inline-block;
+        width: 10vw;
+        height: 3.5vw;
+
+        // float: left;
+        .rightimg {
+          height: 2.5vw;
+        }
+        .loginbtn {
+          font-size: 0.6rem;
+          margin-top: -0.6vw;
+        }
+      }
+    }
+
+    .main {
+      // width: 100vw;
+      // height: 100%;
+      // background-image: url("@/assets/images/background.jpg");
+      // background-color: "#908d8d";
+      // background-size: 100% 100%;
+    }
+
+    .foot {
+      width: 100vw;
+      height: 9vw;
+      background-image: url("@/assets/images/foot.png");
+      background-size: 100% 100%;
+    }
   }
 }
 </style>
