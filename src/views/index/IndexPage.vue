@@ -42,14 +42,7 @@
       <div
         :id="echartId"
         ref="charts"
-        style="
-          width: 60vw;
-          height: 40vw;
-          background-color: #f6f3e5;
-          margin: 3vw 0 0 0;
-          border-radius: 0 20px 20px 0;
-          display: inline-block;
-        "
+        class="echarts"
       ></div>
       <!-- <div>
         <img
@@ -101,12 +94,13 @@ const input = ref("");
 // console.log(nowClientWidth);
 
 const nowClientWidth = reactive({
-  value: 1720,
+  value: window.innerWidth,
 });
 
 function handleResize() {
   nowClientWidth.value = window.innerWidth;
   initChart();
+  console.log(-1 * nowSize(195));
 }
 
 const nowSize = (val: number) => {
@@ -169,11 +163,15 @@ const initChart = () => {
           // console.log("不是点---------");
         }
       },
+      textStyle: {
+        fontSize: nowSize(16),
+      },
     },
     grid: {
-      left: nowSize(10),
-      right: nowSize(40),
-      // bottom: nowSize(30),
+      left: nowSize(1) + "%",
+      right: nowSize(10) + "%",
+      bottom: nowSize(3) + "%",
+      top: nowSize(1) + "%",
       containLabel: true,
     },
     xAxis: [
@@ -183,7 +181,7 @@ const initChart = () => {
           interval: 0, //全部显示x轴
           show: true,
           color: "#6abd78",
-          fontSize: 8,
+          fontSize: nowSize(8),
         },
         boundaryGap: false,
         data: [
@@ -304,7 +302,7 @@ const initChart = () => {
           show: false, // 不显示坐标轴线
         },
         position: "top",
-        offset: -1 * nowSize(195),
+        offset: -1.02 * nowSize(305),
       },
     ],
     yAxis: [
@@ -322,8 +320,17 @@ const initChart = () => {
           itemStyle: {
             color: "#d2691e",
           },
-          symbolSize: 25,
+          symbolSize: nowSize(25),
           symbolOffset: [0, "-50%"],
+          label: {
+            normal: {
+              show: true,
+              textStyle: {
+                color: "#000",
+                fontSize: nowSize(12),
+              },
+            },
+          },
         },
         stack: "Total",
         smooth: true,
@@ -331,16 +338,7 @@ const initChart = () => {
         lineStyle: {
           width: 0,
         },
-        label: {
-          // normal: {
-          //   show: true,
-          //   position: "top",
-          //   textStyle: {
-          //     color: "#000",
-          //     fontSize: 12,
-          //   },
-          // },
-        },
+
         showSymbol: false,
         areaStyle: {
           opacity: 0.8,
@@ -383,7 +381,7 @@ const initChart = () => {
             color: "#d2691e",
           },
           // symbol: "image://" + require("@/assets/images/hy.png"),
-          symbolSize: 25,
+          symbolSize: nowSize(25),
           symbolOffset: [0, "-50%"],
         },
         showSymbol: false,
@@ -463,7 +461,7 @@ const initChart = () => {
   };
   // 新
   ts.forEach((item: any) => {
-    // console.log("item.data", item.data);
+    console.log("item.data", item.data);
     let colorStyle = "";
     let n = 0;
     // 距离设置
@@ -473,6 +471,7 @@ const initChart = () => {
         n++;
         // console.log("n", n);
         let m: any = item.data[i];
+        // item.data[i] = -1 * (2 * item.num - 1);
         item.data[i] = -1 * item.num + 70;
         // item.data[i] = -1 * item.num - 50;
       }
@@ -519,7 +518,7 @@ const initChart = () => {
             color: "#d2691e",
           },
           // symbol: "image://" + require("@/assets/images/hy.png"),
-          symbolSize: 25,
+          symbolSize: nowSize(25),
           symbolOffset: [0, "-50%"],
         },
         showSymbol: false,
@@ -550,8 +549,8 @@ const initChart = () => {
             color: "#d2691e",
           },
           // symbol: "image://" + require("@/assets/images/hy.png"),
-          symbolSize: 25,
-          symbolOffset: [0, "-50%"],
+          symbolSize: nowSize(25),
+          symbolOffset: [0, "50%"],
         },
         showSymbol: false,
         data: item.data,
@@ -637,11 +636,19 @@ onUnmounted(() => {
       display: inline-block;
       float: left;
       background-color: #f6f3e5;
-      height: 40vw;
+      height: 100vh;
       .infoImg {
         width: 70%;
-        margin: 14vw 0 0 3vw;
+        margin: 20vw 0 0 3vw;
       }
+    }
+    .echarts {
+      width: 60vw;
+      height: 100vh;
+      background-color: #f6f3e5;
+      margin: 3vw 0 0 0;
+      border-radius: 0 20px 20px 0;
+      display: inline-block;
     }
   }
 }
@@ -708,11 +715,19 @@ onUnmounted(() => {
         display: inline-block;
         float: left;
         background-color: #f6f3e5;
-        height: 40vw;
+        height: 100vh;
         .infoImg {
           width: 70%;
-          margin: 14vw 0 0 3vw;
+          margin: 20vw 0 0 3vw;
         }
+      }
+      .echarts {
+        width: 60vw;
+        height: 100vh;
+        background-color: #f6f3e5;
+        margin: 3vw 0 0 0;
+        border-radius: 0 20px 20px 0;
+        display: inline-block;
       }
     }
   }
@@ -779,11 +794,19 @@ onUnmounted(() => {
         display: inline-block;
         float: left;
         background-color: #f6f3e5;
-        height: 40vw;
+        height: 100vh;
         .infoImg {
           width: 70%;
-          margin: 14vw 0 0 3vw;
+          margin: 20vw 0 0 3vw;
         }
+      }
+      .echarts {
+        width: 60vw;
+        height: 100vh;
+        // background-color: #f6f3e5;
+        margin: 3vw 0 0 0;
+        border-radius: 0 20px 20px 0;
+        display: inline-block;
       }
     }
   }
