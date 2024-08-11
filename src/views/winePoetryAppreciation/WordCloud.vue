@@ -210,13 +210,37 @@
 
 <script lang="ts" setup>
 import * as echarts from "echarts";
-import { onMounted } from "vue";
+import { onMounted, reactive, onUnmounted } from "vue";
 import "echarts-gl"; // 引入echarts
 // import "@/assets/js/echarts-wordcloud.js";
 import "echarts-wordcloud";
 
+// 监听窗口变化
+// let nowClientWidth = document.documentElement.clientWidth;
+// console.log(nowClientWidth);
+
+const nowClientWidth = reactive({
+  value: window.innerWidth,
+});
+
+function handleResize() {
+  nowClientWidth.value = window.innerWidth;
+  initWordChat();
+  console.log(nowSize(2));
+}
+
+const nowSize = (val: number) => {
+  const initWidth = 1920;
+  return val * (nowClientWidth.value / initWidth);
+};
+
 onMounted(() => {
   initWordChat();
+  window.addEventListener("resize", handleResize);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", handleResize);
 });
 // let radio = reactive(1);
 var dataStyle = {
@@ -553,8 +577,8 @@ const initWordChat = () => {
     series: [
       {
         type: "wordCloud",
-        gridSize: 1,
-        sizeRange: [12, 35],
+        gridSize: nowSize(1),
+        sizeRange: [nowSize(12), nowSize(35)],
         rotationRange: [0, 0, 0, 0],
         maskImage: maskImage,
         textStyle: {
@@ -578,7 +602,7 @@ const initWordChat = () => {
         name: "Line 1",
         type: "pie",
         clockWise: true,
-        radius: [120, 140],
+        radius: [nowSize(120), nowSize(140)],
         itemStyle: dataStyle,
         hoverAnimation: false,
         color: "rgb(214,169,145)",
@@ -600,7 +624,7 @@ const initWordChat = () => {
         name: "Line 2",
         type: "pie",
         clockWise: true,
-        radius: [100, 120],
+        radius: [nowSize(100), nowSize(120)],
         itemStyle: dataStyle,
         hoverAnimation: false,
         color: "rgb(178,195,181)",
@@ -622,7 +646,7 @@ const initWordChat = () => {
         type: "pie",
         clockWise: true,
         hoverAnimation: false,
-        radius: [80, 100],
+        radius: [nowSize(80), nowSize(100)],
         itemStyle: dataStyle,
         color: "rgb(176,177,181)",
 
@@ -655,8 +679,8 @@ const initWordChat = () => {
     series: [
       {
         type: "wordCloud",
-        gridSize: 1,
-        sizeRange: [12, 35],
+        gridSize: nowSize(1) * 0.5,
+        sizeRange: [nowSize(6), nowSize(20)],
         rotationRange: [0, 0, 0, 0],
         maskImage1: maskImage1,
         textStyle: {
@@ -680,7 +704,7 @@ const initWordChat = () => {
         name: "Line 1",
         type: "pie",
         clockWise: true,
-        radius: [120, 140],
+        radius: [nowSize(120), nowSize(140)],
         itemStyle: dataStyle,
         hoverAnimation: false,
         color: "rgb(214,169,145)",
@@ -702,7 +726,7 @@ const initWordChat = () => {
         name: "Line 2",
         type: "pie",
         clockWise: true,
-        radius: [100, 120],
+        radius: [nowSize(100), nowSize(120)],
         itemStyle: dataStyle,
         hoverAnimation: false,
         color: "rgb(178,195,181)",
@@ -724,7 +748,7 @@ const initWordChat = () => {
         type: "pie",
         clockWise: true,
         hoverAnimation: false,
-        radius: [80, 100],
+        radius: [nowSize(80), nowSize(100)],
         itemStyle: dataStyle,
         color: "rgb(176,177,181)",
 
@@ -757,8 +781,8 @@ const initWordChat = () => {
     series: [
       {
         type: "wordCloud",
-        gridSize: 1,
-        sizeRange: [12, 35],
+        gridSize: nowSize(1),
+        sizeRange: [nowSize(12), nowSize(35)],
         rotationRange: [0, 0, 0, 0],
         maskImage2: maskImage2,
         textStyle: {
@@ -782,7 +806,7 @@ const initWordChat = () => {
         name: "Line 1",
         type: "pie",
         clockWise: true,
-        radius: [120, 140],
+        radius: [nowSize(120), nowSize(140)],
         itemStyle: dataStyle,
         hoverAnimation: false,
         color: "rgb(214,169,145)",
@@ -804,7 +828,7 @@ const initWordChat = () => {
         name: "Line 2",
         type: "pie",
         clockWise: true,
-        radius: [100, 120],
+        radius: [nowSize(100), nowSize(120)],
         itemStyle: dataStyle,
         hoverAnimation: false,
         color: "rgb(178,195,181)",
@@ -826,7 +850,7 @@ const initWordChat = () => {
         type: "pie",
         clockWise: true,
         hoverAnimation: false,
-        radius: [80, 100],
+        radius: [nowSize(80), nowSize(100)],
         itemStyle: dataStyle,
         color: "rgb(176,177,181)",
 
@@ -859,8 +883,8 @@ const initWordChat = () => {
     series: [
       {
         type: "wordCloud",
-        gridSize: 1,
-        sizeRange: [12, 35],
+        gridSize: nowSize(1),
+        sizeRange: [nowSize(12), nowSize(35)],
         rotationRange: [0, 0, 0, 0],
         maskImage3: maskImage3,
         textStyle: {
@@ -884,7 +908,7 @@ const initWordChat = () => {
         name: "Line 1",
         type: "pie",
         clockWise: true,
-        radius: [120, 140],
+        radius: [nowSize(120), nowSize(140)],
         itemStyle: dataStyle,
         hoverAnimation: false,
         color: "rgb(214,169,145)",
@@ -906,7 +930,7 @@ const initWordChat = () => {
         name: "Line 2",
         type: "pie",
         clockWise: true,
-        radius: [100, 120],
+        radius: [nowSize(100), nowSize(120)],
         itemStyle: dataStyle,
         hoverAnimation: false,
         color: "rgb(178,195,181)",
@@ -928,7 +952,7 @@ const initWordChat = () => {
         type: "pie",
         clockWise: true,
         hoverAnimation: false,
-        radius: [80, 100],
+        radius: [nowSize(80), nowSize(100)],
         itemStyle: dataStyle,
         color: "rgb(176,177,181)",
 
@@ -961,8 +985,8 @@ const initWordChat = () => {
     series: [
       {
         type: "wordCloud",
-        gridSize: 1,
-        sizeRange: [12, 35],
+        gridSize: nowSize(1),
+        sizeRange: [nowSize(12), nowSize(35)],
         rotationRange: [0, 0, 0, 0],
         maskImage4: maskImage4,
         textStyle: {
@@ -986,7 +1010,7 @@ const initWordChat = () => {
         name: "Line 1",
         type: "pie",
         clockWise: true,
-        radius: [120, 140],
+        radius: [nowSize(120), nowSize(140)],
         itemStyle: dataStyle,
         hoverAnimation: false,
         color: "rgb(214,169,145)",
@@ -1009,7 +1033,7 @@ const initWordChat = () => {
         name: "Line 2",
         type: "pie",
         clockWise: true,
-        radius: [100, 120],
+        radius: [nowSize(100), nowSize(120)],
         itemStyle: dataStyle,
         hoverAnimation: false,
         color: "rgb(178,195,181)",
@@ -1031,7 +1055,7 @@ const initWordChat = () => {
         type: "pie",
         clockWise: true,
         hoverAnimation: false,
-        radius: [80, 100],
+        radius: [nowSize(80), nowSize(100)],
         itemStyle: dataStyle,
         color: "rgb(176,177,181)",
 
@@ -1065,8 +1089,8 @@ const initWordChat = () => {
     series: [
       {
         type: "wordCloud",
-        gridSize: 1,
-        sizeRange: [12, 35],
+        gridSize: nowSize(1),
+        sizeRange: [nowSize(12), nowSize(35)],
         rotationRange: [0, 0, 0, 0],
         maskImage5: maskImage5,
         textStyle: {
@@ -1090,7 +1114,7 @@ const initWordChat = () => {
         name: "Line 1",
         type: "pie",
         clockWise: true,
-        radius: [120, 140],
+        radius: [nowSize(120), nowSize(140)],
         itemStyle: dataStyle,
         hoverAnimation: false,
         color: "rgb(214,169,145)",
@@ -1112,7 +1136,7 @@ const initWordChat = () => {
         name: "Line 2",
         type: "pie",
         clockWise: true,
-        radius: [100, 120],
+        radius: [nowSize(100), nowSize(120)],
         itemStyle: dataStyle,
         hoverAnimation: false,
         color: "rgb(178,195,181)",
@@ -1134,7 +1158,7 @@ const initWordChat = () => {
         type: "pie",
         clockWise: true,
         hoverAnimation: false,
-        radius: [80, 100],
+        radius: [nowSize(80), nowSize(100)],
         itemStyle: dataStyle,
         color: "rgb(176,177,181)",
 
@@ -1167,8 +1191,8 @@ const initWordChat = () => {
     series: [
       {
         type: "wordCloud",
-        gridSize: 1,
-        sizeRange: [12, 35],
+        gridSize: nowSize(1),
+        sizeRange: [nowSize(12), nowSize(35)],
         rotationRange: [0, 0, 0, 0],
         maskImage6: maskImage6,
         textStyle: {
@@ -1192,7 +1216,7 @@ const initWordChat = () => {
         name: "Line 1",
         type: "pie",
         clockWise: true,
-        radius: [120, 140],
+        radius: [nowSize(120), nowSize(140)],
         itemStyle: dataStyle,
         hoverAnimation: false,
         color: "rgb(214,169,145)",
@@ -1214,7 +1238,7 @@ const initWordChat = () => {
         name: "Line 2",
         type: "pie",
         clockWise: true,
-        radius: [100, 120],
+        radius: [nowSize(100), nowSize(120)],
         itemStyle: dataStyle,
         hoverAnimation: false,
         color: "rgb(178,195,181)",
@@ -1236,7 +1260,7 @@ const initWordChat = () => {
         type: "pie",
         clockWise: true,
         hoverAnimation: false,
-        radius: [80, 100],
+        radius: [nowSize(80), nowSize(100)],
         itemStyle: dataStyle,
         color: "rgb(176,177,181)",
 
@@ -1269,8 +1293,8 @@ const initWordChat = () => {
     series: [
       {
         type: "wordCloud",
-        gridSize: 1,
-        sizeRange: [12, 35],
+        gridSize: nowSize(1),
+        sizeRange: [nowSize(12), nowSize(35)],
         rotationRange: [0, 0, 0, 0],
         maskImage7: maskImage7,
         textStyle: {
@@ -1294,7 +1318,7 @@ const initWordChat = () => {
         name: "Line 1",
         type: "pie",
         clockWise: true,
-        radius: [120, 140],
+        radius: [nowSize(120), nowSize(140)],
         itemStyle: dataStyle,
         hoverAnimation: false,
         color: "rgb(214,169,145)",
@@ -1316,7 +1340,7 @@ const initWordChat = () => {
         name: "Line 2",
         type: "pie",
         clockWise: true,
-        radius: [100, 120],
+        radius: [nowSize(100), nowSize(120)],
         itemStyle: dataStyle,
         hoverAnimation: false,
         color: "rgb(178,195,181)",
@@ -1338,7 +1362,7 @@ const initWordChat = () => {
         type: "pie",
         clockWise: true,
         hoverAnimation: false,
-        radius: [80, 100],
+        radius: [nowSize(80), nowSize(100)],
         itemStyle: dataStyle,
         color: "rgb(176,177,181)",
 
@@ -1371,8 +1395,8 @@ const initWordChat = () => {
     series: [
       {
         type: "wordCloud",
-        gridSize: 1,
-        sizeRange: [12, 35],
+        gridSize: nowSize(1),
+        sizeRange: [nowSize(12), nowSize(35)],
         rotationRange: [0, 0, 0, 0],
         maskImage8: maskImage8,
         textStyle: {
@@ -1396,7 +1420,7 @@ const initWordChat = () => {
         name: "Line 1",
         type: "pie",
         clockWise: true,
-        radius: [120, 140],
+        radius: [nowSize(120), nowSize(140)],
         itemStyle: dataStyle,
         hoverAnimation: false,
         color: "rgb(214,169,145)",
@@ -1418,7 +1442,7 @@ const initWordChat = () => {
         name: "Line 2",
         type: "pie",
         clockWise: true,
-        radius: [100, 120],
+        radius: [nowSize(100), nowSize(120)],
         itemStyle: dataStyle,
         hoverAnimation: false,
         color: "rgb(178,195,181)",
@@ -1440,7 +1464,7 @@ const initWordChat = () => {
         type: "pie",
         clockWise: true,
         hoverAnimation: false,
-        radius: [80, 100],
+        radius: [nowSize(80), nowSize(100)],
         itemStyle: dataStyle,
         color: "rgb(176,177,181)",
 
@@ -1475,8 +1499,8 @@ const initWordChat = () => {
     series: [
       {
         type: "wordCloud",
-        gridSize: 1,
-        sizeRange: [12, 35],
+        gridSize: nowSize(1),
+        sizeRange: [nowSize(12), nowSize(35)],
         rotationRange: [0, 0, 0, 0],
         maskImage9: maskImage9,
         textStyle: {
@@ -1500,7 +1524,7 @@ const initWordChat = () => {
         name: "Line 1",
         type: "pie",
         clockWise: true,
-        radius: [120, 140],
+        radius: [nowSize(120), nowSize(140)],
         itemStyle: dataStyle,
         hoverAnimation: false,
         color: "rgb(214,169,145)",
@@ -1522,7 +1546,7 @@ const initWordChat = () => {
         name: "Line 2",
         type: "pie",
         clockWise: true,
-        radius: [100, 120],
+        radius: [nowSize(100), nowSize(120)],
         itemStyle: dataStyle,
         hoverAnimation: false,
         color: "rgb(178,195,181)",
@@ -1544,7 +1568,7 @@ const initWordChat = () => {
         type: "pie",
         clockWise: true,
         hoverAnimation: false,
-        radius: [80, 100],
+        radius: [nowSize(80), nowSize(100)],
         itemStyle: dataStyle,
         color: "rgb(176,177,181)",
 
@@ -1577,8 +1601,8 @@ const initWordChat = () => {
     series: [
       {
         type: "wordCloud",
-        gridSize: 1,
-        sizeRange: [12, 35],
+        gridSize: nowSize(1),
+        sizeRange: [nowSize(12), nowSize(35)],
         rotationRange: [0, 0, 0, 0],
         maskImage10: maskImage10,
         textStyle: {
@@ -1602,7 +1626,7 @@ const initWordChat = () => {
         name: "Line 1",
         type: "pie",
         clockWise: true,
-        radius: [120, 140],
+        radius: [nowSize(120), nowSize(140)],
         itemStyle: dataStyle,
         hoverAnimation: false,
         color: "rgb(214,169,145)",
@@ -1624,7 +1648,7 @@ const initWordChat = () => {
         name: "Line 2",
         type: "pie",
         clockWise: true,
-        radius: [100, 120],
+        radius: [nowSize(100), nowSize(120)],
         itemStyle: dataStyle,
         hoverAnimation: false,
         color: "rgb(178,195,181)",
@@ -1646,7 +1670,7 @@ const initWordChat = () => {
         type: "pie",
         clockWise: true,
         hoverAnimation: false,
-        radius: [80, 100],
+        radius: [nowSize(80), nowSize(100)],
         itemStyle: dataStyle,
         color: "rgb(176,177,181)",
 
@@ -1679,8 +1703,8 @@ const initWordChat = () => {
     series: [
       {
         type: "wordCloud",
-        gridSize: 1,
-        sizeRange: [12, 35],
+        gridSize: nowSize(1),
+        sizeRange: [nowSize(12), nowSize(35)],
         rotationRange: [0, 0, 0, 0],
         maskImage11: maskImage11,
         textStyle: {
@@ -1704,7 +1728,7 @@ const initWordChat = () => {
         name: "Line 1",
         type: "pie",
         clockWise: true,
-        radius: [120, 140],
+        radius: [nowSize(120), nowSize(140)],
         itemStyle: dataStyle,
         hoverAnimation: false,
         color: "rgb(214,169,145)",
@@ -1726,7 +1750,7 @@ const initWordChat = () => {
         name: "Line 2",
         type: "pie",
         clockWise: true,
-        radius: [100, 120],
+        radius: [nowSize(100), nowSize(120)],
         itemStyle: dataStyle,
         hoverAnimation: false,
         color: "rgb(178,195,181)",
@@ -1748,7 +1772,7 @@ const initWordChat = () => {
         type: "pie",
         clockWise: true,
         hoverAnimation: false,
-        radius: [80, 100],
+        radius: [nowSize(80), nowSize(100)],
         itemStyle: dataStyle,
         color: "rgb(176,177,181)",
 
@@ -1784,25 +1808,27 @@ const initWordChat = () => {
     background-color: #f6f3e5;
     margin: 5vw 0 0 15vw;
     width: 70vw;
-    height: 190vh;
+    height: 160vh;
     border-radius: 20px;
     .container {
       margin: 0 0 0 3vw;
-      padding-top: 5vw;
+      padding-top: 2vw;
 
       .items {
-        margin-left: 50px;
+        margin-left: 2vw;
         .main {
-          width: 280px;
-          height: 280px;
+          width: 15vw;
+          height: 30vh;
         }
         .name {
           text-align: center;
-          margin: 0px 0px 50px 0px;
+          margin: 0 0 2vw 0;
+          font-size: 1rem;
         }
       }
       .name1 {
-        margin: 10% 0px 0px 50px;
+        margin: 12vh 0 0 2vw;
+        font-size: 1rem;
       }
     }
   }

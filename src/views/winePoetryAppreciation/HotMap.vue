@@ -702,7 +702,7 @@ onMounted(() => {
 <style lang="less" scoped>
 .hotMap {
   #all {
-    margin: 30vh 0 0 15vw;
+    margin: 33vh 0 0 15vw;
     background-color: #f6f3e5;
     width: 48vw;
     border-radius: 20px;

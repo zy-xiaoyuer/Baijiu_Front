@@ -45,6 +45,16 @@ const router = createRouter({
           },
           component: () => import("../views/winePoetry/WinePoetry.vue"),
         },
+        // 赋酒诗词子页面
+        {
+          path: "/winePoetryDetail",
+          name: "winePoetryDetail",
+          meta: {
+            title: "赋酒诗词细节",
+            icon: "WinePoetryDetail",
+          },
+          component: () => import("../views/winePoetry/WinePoetryDetail.vue"),
+        },
         // 酒器
         {
           path: "/wineVessel",
@@ -55,6 +65,16 @@ const router = createRouter({
           },
           component: () => import("../views/wineVessel/WineVessel.vue"),
         },
+        // 酒器子页面
+        {
+          path: "/wineVesselDetail",
+          name: "wineVesselDetail",
+          meta: {
+            title: "酒器子页面",
+            icon: "WineVesselDetail",
+          },
+          component: () => import("../views/wineVessel/WineVesselDetail.vue"),
+        },
         // 酒画
         {
           path: "/winePainting",
@@ -64,6 +84,17 @@ const router = createRouter({
             icon: "WinePainting",
           },
           component: () => import("../views/winePainting/WinePainting.vue"),
+        },
+        // 酒画子页面
+        {
+          path: "/winePaintingDetail",
+          name: "winePaintingDetail",
+          meta: {
+            title: "酒画子页面",
+            icon: "WinePaintingDetail",
+          },
+          component: () =>
+            import("../views/winePainting/WinePaintingDetail.vue"),
         },
         // 酒诗图谱
         {

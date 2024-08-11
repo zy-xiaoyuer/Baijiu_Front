@@ -104,9 +104,9 @@ const initMap = () => {
       regionHeight: 2,
     },
     visualMap: {
-      left: 200,
-      bottom: 50,
-      max: 343,
+      left: nowSize(30),
+      bottom: nowSize(10),
+      max: nowSize(343),
       calculable: true,
       realtime: false,
       inRange: {
@@ -158,7 +158,7 @@ onUnmounted(() => {
     position: absolute;
     display: inline-block;
     width: 22vw;
-    height: 80vh;
+    height: 40vw;
     // background-color: #f6f3e5;
     margin: 5vw 0 0 15vw;
     .imgInfo {
@@ -171,7 +171,7 @@ onUnmounted(() => {
     background-color: #f6f3e5;
     margin: 5vw 0 0 40vw;
     width: 40vw;
-    height: 60vh;
+    height: 30vw;
     border-radius: 20px;
   }
 }
