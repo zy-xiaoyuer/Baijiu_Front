@@ -148,6 +148,7 @@
   background-size: 100% 100%;
   background-repeat: no-repeat;
   width: 96vw;
+  height: 55vw;
   margin-left: 2vw;
   padding: 0 0 5vw 0;
   .common-layout1 {
