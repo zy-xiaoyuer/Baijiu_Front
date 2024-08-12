@@ -22,29 +22,165 @@
     <div class="text">
       <h3>共100条数据</h3>
       <hr />
-      <el-button
+      <!-- <el-button
         link
         @click="toOut2"
         class="btn"
         style="position: absolute; width: 115vw; top: 4vw"
       >
         查看酒器细节
-      </el-button>
-      <el-card style="max-width: 14vw">
+      </el-button> -->
+      <el-card
+        style="
+          max-width: 14vw;
+          position: relative;
+          width: 18vw;
+          margin-left: 2vw;
+          margin-bottom: 2vw;
+        "
+        class="1"
+      >
+        <!-- <template #header>Yummy hamburger</template> -->
+        <img
+          src="http://inews.gtimg.com/newsapp_match/0/14521737333/0"
+          @click="toOut2"
+          style="width: 12vw"
+        />
+      </el-card>
+      <el-card
+        style="
+          max-width: 14vw;
+          position: absolute;
+          width: 18vw;
+          margin-left: 2vw;
+          margin-bottom: 2vw;
+          top: 3.8vw;
+          left: 20vw;
+        "
+        class="2"
+      >
         <!-- <template #header>Yummy hamburger</template> -->
         <img
           src="http://inews.gtimg.com/newsapp_match/0/14521737333/0"
           style="width: 12vw"
         />
       </el-card>
-      <el-card style="max-width: 14vw">
+      <el-card
+        style="
+          max-width: 14vw;
+          position: absolute;
+          width: 18vw;
+          margin-left: 2vw;
+          margin-bottom: 2vw;
+          top: 3.8vw;
+          left: 40vw;
+        "
+        class="3"
+      >
         <!-- <template #header>Yummy hamburger</template> -->
         <img
           src="http://inews.gtimg.com/newsapp_match/0/14521737333/0"
           style="width: 12vw"
         />
       </el-card>
-      <el-card style="max-width: 14vw">
+      <el-card
+        style="
+          max-width: 14vw;
+          position: relative;
+          width: 18vw;
+          margin-left: 2vw;
+          margin-bottom: 2vw;
+        "
+        class="4"
+      >
+        <!-- <template #header>Yummy hamburger</template> -->
+        <img
+          src="http://inews.gtimg.com/newsapp_match/0/14521737333/0"
+          style="width: 12vw"
+        />
+      </el-card>
+      <el-card
+        style="
+          max-width: 14vw;
+          position: absolute;
+          width: 18vw;
+          margin-left: 2vw;
+          margin-bottom: 2vw;
+          top: 19vw;
+          left: 20vw;
+        "
+        class="5"
+      >
+        <!-- <template #header>Yummy hamburger</template> -->
+        <img
+          src="http://inews.gtimg.com/newsapp_match/0/14521737333/0"
+          style="width: 12vw"
+        />
+      </el-card>
+      <el-card
+        style="
+          max-width: 14vw;
+          position: absolute;
+          width: 18vw;
+          margin-left: 2vw;
+          margin-bottom: 2vw;
+          top: 19vw;
+          left: 40vw;
+        "
+        class="6"
+      >
+        <!-- <template #header>Yummy hamburger</template> -->
+        <img
+          src="http://inews.gtimg.com/newsapp_match/0/14521737333/0"
+          style="width: 12vw"
+        />
+      </el-card>
+      <el-card
+        style="
+          max-width: 14vw;
+          position: relative;
+          width: 18vw;
+          margin-left: 2vw;
+          margin-bottom: 2vw;
+        "
+        class="7"
+      >
+        <!-- <template #header>Yummy hamburger</template> -->
+        <img
+          src="http://inews.gtimg.com/newsapp_match/0/14521737333/0"
+          style="width: 12vw"
+        />
+      </el-card>
+      <el-card
+        style="
+          max-width: 14vw;
+          position: absolute;
+          width: 18vw;
+          margin-left: 2vw;
+          margin-bottom: 2vw;
+          top: 35vw;
+          left: 20vw;
+        "
+        class="8"
+      >
+        <!-- <template #header>Yummy hamburger</template> -->
+        <img
+          src="http://inews.gtimg.com/newsapp_match/0/14521737333/0"
+          style="width: 12vw"
+        />
+      </el-card>
+      <el-card
+        style="
+          max-width: 14vw;
+          position: absolute;
+          width: 18vw;
+          margin-left: 2vw;
+          margin-bottom: 2vw;
+          top: 35vw;
+          left: 40vw;
+        "
+        class="9"
+      >
         <!-- <template #header>Yummy hamburger</template> -->
         <img
           src="http://inews.gtimg.com/newsapp_match/0/14521737333/0"
@@ -270,33 +406,10 @@ const toOut2 = () => {
     opacity: 1;
 
     background: #f6f3e5;
-    .el-descriptions {
-      margin-top: 1vw;
-      padding: 0.5vw;
-      background-color: #f6f3e5;
-    }
-    .margin-top1 {
-      margin-top: 1vw;
-    }
-    .margin-top2 {
-      margin-top: 1vw;
-    }
-    .margin-top3 {
-      margin-top: 1vw;
-    }
-    .margin-top4 {
-      margin-top: 1vw;
-    }
-    .margin-top5 {
-      margin-top: 1vw;
-    }
-    .margin-top6 {
-      margin-top: 1vw;
-    }
     .vertical {
-      position: relative;
+      position: absolute;
       left: 24vw;
-      top: 7vw;
+      top: 50vw;
       width: 12vw;
       height: 1vw;
       opacity: 1;
