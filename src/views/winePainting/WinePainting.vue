@@ -218,6 +218,7 @@ import { textProps } from "element-plus";
 import type { ComponentSize } from "element-plus";
 import { ArrowDown, ArrowUp, Minus, Plus } from "@element-plus/icons-vue";
 
+const input = ref('');
 const activeNames = ref(["1"]);
 const handleChange = (val: string[]) => {
   console.log(val);
