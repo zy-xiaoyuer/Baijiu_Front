@@ -16,7 +16,7 @@
 
     <div id="rank" ref="rank" class="rank">
       分类统计
-      <div id="rank1" ref="rank1" class="rank1">朝代</div>
+      <div id="rank1" ref="rank1" class="rank1"></div>
     </div>
 
     <div class="text">
@@ -218,133 +218,203 @@ import { textProps } from "element-plus";
 import type { ComponentSize } from "element-plus";
 import { ArrowDown, ArrowUp, Minus, Plus } from "@element-plus/icons-vue";
 
-const input = ref('');
-const activeNames = ref(["1"]);
-const handleChange = (val: string[]) => {
-  console.log(val);
-};
-const num = ref(1);
+const input = ref("");
+// const activeNames = ref(["1"]);
+// const handleChange = (val: string[]) => {
+//   console.log(val);
+// };
+// const num = ref(1);
 
-const size = ref<ComponentSize>("default");
+// const size = ref<ComponentSize>("default");
 
-const nowClientWidth1 = reactive({
-  value: window.innerWidth,
-});
+// const nowClientWidth1 = reactive({
+//   value: window.innerWidth,
+// });
 
-function handleResize1() {
-  nowClientWidth1.value = window.innerWidth;
-  initChart1();
-  console.log(nowSize1(1));
-}
+// function handleResize1() {
+//   nowClientWidth1.value = window.innerWidth;
+//   initChart1();
+//   console.log(nowSize1(1));
+// }
 
-const nowSize1 = (val: number) => {
-  const initWidth = 1920;
-  return val * (nowClientWidth1.value / initWidth);
-};
-let myChart1 = null;
-const initChart1 = () => {
-  const mapChart1: HTMLElement = document.getElementById(
-    "rank1"
-  ) as HTMLElement;
-  if (myChart1) {
-    myChart1.dispose();
-  }
-  let xData = [23, 24, 36, 38, 43, 48, 49, 96];
-  let yData = [
-    "先秦",
-    "汉朝",
-    "魏晋",
-    "南北朝",
-    "隋朝",
-    "唐朝",
-    "宋朝",
-    "辽朝",
-  ];
-  myChart1 = echarts.init(mapChart1);
-  // 绘制图表
-  let option = {
+// const nowSize1 = (val: number) => {
+//   const initWidth = 1920;
+//   return val * (nowClientWidth1.value / initWidth);
+// };
+// let myChart1 = null;
+// const initChart1 = () => {
+//   const mapChart1: HTMLElement = document.getElementById(
+//     "rank1"
+//   ) as HTMLElement;
+//   if (myChart1) {
+//     myChart1.dispose();
+//   }
+//   let xData = [23, 24, 36, 38, 43, 48, 49, 96];
+//   let yData = [
+//     "先秦",
+//     "汉朝",
+//     "魏晋",
+//     "南北朝",
+//     "隋朝",
+//     "唐朝",
+//     "宋朝",
+//     "辽朝",
+//   ];
+//   myChart1 = echarts.init(mapChart1);
+//   // 绘制图表
+//   let option = {
+//     tooltip: {
+//       trigger: "axis",
+//       axisPointer: {
+//         type: "shadow",
+//       },
+//       textStyle: {
+//         fontSize: nowSize1(1),
+//       },
+//     },
+//     legend: {},
+//     grid: {
+//       left: nowSize1(0) + "%",
+//       right: nowSize1(0) + "%",
+//       bottom: nowSize1(0) + "%",
+//       top: nowSize1(20) + "%",
+//       containLabel: true,
+//     },
+//     xAxis: {
+//       show: false,
+//       type: "value",
+//       boundaryGap: [0, 0.01],
+//       splitLine: {
+//         show: false, // 不显示网格线
+//       },
+//     },
+//     yAxis: [
+//       {
+//         //   show: false,
+//         type: "category",
+//         axisTick: {
+//           show: false, // 不显示坐标轴刻度线
+//         },
+//         axisLine: {
+//           show: false, // 不显示坐标轴线
+//         },
+//         position: "left",
+//         axisLabel: {
+//           show: true,
+//           fontSize: nowSize1(20),
+//           color: "#3D3D3D",
+//         },
+//         data: yData,
+//       },
+//     ],
+//     series: [
+//       {
+//         // name: "2011",
+//         type: "bar",
+//         data: xData,
+//         itemStyle: {
+//           color: "#7D3030",
+//           shadowColor: "#7b4885",
+//           shadowOffsetX: nowSize1(0),
+//           shadowOffsetY: nowSize1(0),
+//           shadowBlur: nowSize1(1),
+//         },
+//         label: {
+//           show: false,
+//           position: "right",
+//           // color: "#9d7294",
+//           offset: [nowSize1(0), 0],
+//           textStyle: {
+//             fontSize: nowSize1(2),
+//           },
+//         },
+//       },
+//     ],
+//   };
+//   myChart1.setOption(option);
+// };
+// onMounted(() => {
+//   initChart1();
+//   window.addEventListener("resize", handleResize1);
+// });
+
+// onUnmounted(() => {
+//   window.removeEventListener("resize", handleResize1);
+// });
+
+// const toOut3 = () => {
+//   window.location.href = "/WinePaintingDetail";
+// };
+// const markCharts = () => {
+  var chartDom = document.getElementById("rank1");
+  var myChart = echarts.init(chartDom);
+  var option;
+
+  option = {
     tooltip: {
       trigger: "axis",
       axisPointer: {
         type: "shadow",
       },
-      textStyle: {
-        fontSize: nowSize1(1),
-      },
     },
-    legend: {},
+    legend: {
+      data: ["朝代"],
+    },
     grid: {
-      left: nowSize1(0) + "%",
-      right: nowSize1(0) + "%",
-      bottom: nowSize1(0) + "%",
-      top: nowSize1(20) + "%",
+      left: "3%",
+      right: "4%",
+      bottom: "3%",
       containLabel: true,
     },
-    xAxis: {
-      show: false,
-      type: "value",
-      boundaryGap: [0, 0.01],
-      splitLine: {
-        show: false, // 不显示网格线
+    xAxis: [
+      {
+        type: "value",
+        show: false,
       },
-    },
+    ],
     yAxis: [
       {
-        //   show: false,
         type: "category",
         axisTick: {
-          show: false, // 不显示坐标轴刻度线
+          show: false,
         },
-        axisLine: {
-          show: false, // 不显示坐标轴线
-        },
-        position: "left",
-        axisLabel: {
-          show: true,
-          fontSize: nowSize1(20),
-          color: "#3D3D3D",
-        },
-        data: yData,
+        data: [
+          "辽朝",
+          "宋朝",
+          "唐朝",
+          "隋朝",
+          "南北朝",
+          "魏晋",
+          "汉朝",
+          "先秦",
+        ],
       },
     ],
     series: [
       {
-        // name: "2011",
+        name: "朝代",
         type: "bar",
-        data: xData,
-        itemStyle: {
-          color: "#7D3030",
-          shadowColor: "#7b4885",
-          shadowOffsetX: nowSize1(0),
-          shadowOffsetY: nowSize1(0),
-          shadowBlur: nowSize1(1),
-        },
+        color: "#7D3030",
         label: {
           show: false,
-          position: "right",
-          // color: "#9d7294",
-          offset: [nowSize1(0), 0],
-          textStyle: {
-            fontSize: nowSize1(2),
-          },
+          position: "inside",
         },
+        emphasis: {
+          focus: "series",
+        },
+        data: [200, 170, 240, 244, 200, 220, 210, 150],
       },
     ],
   };
-  myChart1.setOption(option);
-};
-onMounted(() => {
-  initChart1();
-  window.addEventListener("resize", handleResize1);
-});
 
-onUnmounted(() => {
-  window.removeEventListener("resize", handleResize1);
-});
+  option && myChart.setOption(option);
 
-const toOut3 = () => {
-  window.location.href = "/WinePaintingDetail";
-};
+//   onMounted(async () => {
+//     setTimeout(() => {
+//       markCharts();
+//     }, 1000);
+//   });
+// };
 </script>
   <style lang="less" scoped>
 .about {
