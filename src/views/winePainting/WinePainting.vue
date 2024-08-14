@@ -298,6 +298,9 @@ const markCharts = () => {
     }, 1000);
   });
 
+  const toOut3 = () => {
+  window.location.href = "/WinePaintingDetail";
+};
 </script>
   <style lang="less" scoped>
 .about {
