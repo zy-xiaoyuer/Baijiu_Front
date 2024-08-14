@@ -24,30 +24,29 @@
       <h3>共100条数据</h3>
       <hr />
       <!-- <router-link to="/JuTi"> -->
-        <el-descriptions
-          class="margin-top1"
-          :column="3"
-          :size="size"
-          :style="blockMargin"
+      <el-descriptions
+        class="margin-top1"
+        :column="3"
+        :size="size"
+        :style="blockMargin"
+      >
+        <el-descriptions-item class="shiming1"
+          >赠崔秋浦三首 其一</el-descriptions-item
         >
-          <el-descriptions-item class="shiming1"
-            >赠崔秋浦三首 其一</el-descriptions-item
-          >
-          <el-descriptions-item class="shiren1">盛唐 李白</el-descriptions-item>
-          <el-descriptions-item class="leixing1">五言律诗</el-descriptions-item>
-          <el-descriptions-item class="shici1">
-            吾爱崔秋浦，宛然陶令风。门前五杨柳，井上二梧桐。山鸟下厅事，檐花落酒中。怀君未忍去，惆怅意无穷。
-          </el-descriptions-item>
-        </el-descriptions>
-        <el-button
-      link
-      @click="toOut1"
-      class="btn"
-      style="position: absolute;width: 115vw;top: 4vw;"
-    >
-      查看诗词细节
-    </el-button>
-        <hr />
+        <el-descriptions-item class="shiren1">盛唐 李白</el-descriptions-item>
+        <el-descriptions-item class="leixing1">五言律诗</el-descriptions-item>
+        <el-descriptions-item class="shici1">
+          吾爱崔秋浦，宛然陶令风。门前五杨柳，井上二梧桐。山鸟下厅事，檐花落酒中。怀君未忍去，惆怅意无穷。
+        </el-descriptions-item>
+      </el-descriptions>
+      <el-button
+        link
+        @click="toOut1"
+        class="btn"
+      >
+        查看诗词细节
+      </el-button>
+      <hr />
       <!-- </router-link> -->
       <!-- <router-view></router-view> -->
       <el-descriptions
@@ -70,7 +69,9 @@
         :size="size"
         :style="blockMargin"
       >
-        <el-descriptions-item class="shiming3">陪侍郎叔游洞庭醉后三首 其二</el-descriptions-item>
+        <el-descriptions-item class="shiming3"
+          >陪侍郎叔游洞庭醉后三首 其二</el-descriptions-item
+        >
         <el-descriptions-item class="shiren3">盛唐 李白</el-descriptions-item>
         <el-descriptions-item class="leixing3">五言绝句</el-descriptions-item>
         <el-descriptions-item class="shici3">
@@ -79,20 +80,20 @@
       </el-descriptions>
       <hr />
       <el-descriptions
-          class="margin-top4"
-          :column="3"
-          :size="size"
-          :style="blockMargin"
+        class="margin-top4"
+        :column="3"
+        :size="size"
+        :style="blockMargin"
+      >
+        <el-descriptions-item class="shiming1"
+          >赠崔秋浦三首 其一</el-descriptions-item
         >
-          <el-descriptions-item class="shiming1"
-            >赠崔秋浦三首 其一</el-descriptions-item
-          >
-          <el-descriptions-item class="shiren1">盛唐 李白</el-descriptions-item>
-          <el-descriptions-item class="leixing1">五言律诗</el-descriptions-item>
-          <el-descriptions-item class="shici1">
-            吾爱崔秋浦，宛然陶令风。门前五杨柳，井上二梧桐。山鸟下厅事，檐花落酒中。怀君未忍去，惆怅意无穷。
-          </el-descriptions-item>
-        </el-descriptions>
+        <el-descriptions-item class="shiren1">盛唐 李白</el-descriptions-item>
+        <el-descriptions-item class="leixing1">五言律诗</el-descriptions-item>
+        <el-descriptions-item class="shici1">
+          吾爱崔秋浦，宛然陶令风。门前五杨柳，井上二梧桐。山鸟下厅事，檐花落酒中。怀君未忍去，惆怅意无穷。
+        </el-descriptions-item>
+      </el-descriptions>
       <hr />
       <el-descriptions
         class="margin-top5"
@@ -114,7 +115,9 @@
         :size="size"
         :style="blockMargin"
       >
-        <el-descriptions-item class="shiming3">陪侍郎叔游洞庭醉后三首 其二</el-descriptions-item>
+        <el-descriptions-item class="shiming3"
+          >陪侍郎叔游洞庭醉后三首 其二</el-descriptions-item
+        >
         <el-descriptions-item class="shiren3">盛唐 李白</el-descriptions-item>
         <el-descriptions-item class="leixing3">五言绝句</el-descriptions-item>
         <el-descriptions-item class="shici3">
@@ -136,10 +139,10 @@
   </div>
 </template>
 <script lang="ts" setup>
-import geoJson from "@/assets/json/china.json";
+// import geoJson from "@/assets/json/china.json";
 import * as echarts from "echarts";
-import poi from "@/assets/json/position.json";
-import "echarts-gl";
+// import poi from "@/assets/json/position.json";
+// import "echarts-gl";
 import {
   onMounted,
   ref,
@@ -149,243 +152,154 @@ import {
   computed,
   methods,
 } from "vue";
-import { textProps } from "element-plus";
+// import { textProps } from "element-plus";
 import type { ComponentSize } from "element-plus";
-import { ArrowDown, ArrowUp, Minus, Plus } from "@element-plus/icons-vue";
+// import { ArrowDown, ArrowUp, Minus, Plus } from "@element-plus/icons-vue";
 
-const input = ref('');
-const activeNames = ref(['1'])
+const input = ref("");
+
+const activeNames = ref(["1"]);
 const handleChange = (val: string[]) => {
-  console.log(val)
-}
+  console.log(val);
+};
 const num = ref(1);
 
 const size = ref<ComponentSize>("default");
 
-const nowClientWidth1 = reactive({
-  value: window.innerWidth,
-});
+const markCharts1 = () => {
+  var chartDom = document.getElementById("rank1");
+  var myChart = echarts.init(chartDom);
+  var option;
 
-function handleResize1() {
-  nowClientWidth1.value = window.innerWidth;
-  initChart1();
-  console.log(nowSize1(1));
-}
-
-const nowSize1 = (val: number) => {
-  const initWidth = 1920;
-  return val * (nowClientWidth1.value / initWidth);
-};
-let myChart1 = null;
-const initChart1 = () => {
-  const mapChart1: HTMLElement = document.getElementById(
-    "rank1"
-  ) as HTMLElement;
-  if (myChart1) {
-    myChart1.dispose();
-  }
-  let xData = [23, 24, 36, 38, 43, 48, 49, 96];
-  let yData = [
-    "先秦",
-    "汉朝",
-    "魏晋",
-    "南北朝",
-    "隋朝",
-    "唐朝",
-    "宋朝",
-    "辽朝",
-  ];
-  myChart1 = echarts.init(mapChart1);
-  // 绘制图表
-  let option = {
+  option = {
     tooltip: {
       trigger: "axis",
       axisPointer: {
         type: "shadow",
       },
-      textStyle: {
-        fontSize: nowSize1(1),
-      },
     },
-    legend: {},
+    legend: {
+      data: ["朝代"],
+    },
     grid: {
-      left: nowSize1(0) + "%",
-      right: nowSize1(0) + "%",
-      bottom: nowSize1(0) + "%",
-      top: nowSize1(20) + "%",
+      left: "3%",
+      right: "4%",
+      bottom: "3%",
       containLabel: true,
     },
-    xAxis: {
-      show: false,
-      type: "value",
-      boundaryGap: [0, 0.01],
-      splitLine: {
-        show: false, // 不显示网格线
+    xAxis: [
+      {
+        type: "value",
+        show: false,
       },
-    },
+    ],
     yAxis: [
       {
-        //   show: false,
         type: "category",
         axisTick: {
-          show: false, // 不显示坐标轴刻度线
+          show: false,
         },
-        axisLine: {
-          show: false, // 不显示坐标轴线
-        },
-        position: "left",
-        axisLabel: {
-          show: true,
-          fontSize: nowSize1(20),
-          color: "#3D3D3D",
-        },
-        data: yData,
+        data: [
+          "辽朝",
+          "宋朝",
+          "唐朝",
+          "隋朝",
+          "南北朝",
+          "魏晋",
+          "汉朝",
+          "先秦",
+        ],
       },
     ],
     series: [
       {
-        // name: "2011",
+        name: "朝代",
         type: "bar",
-        data: xData,
-        itemStyle: {
-          color: "#7D3030",
-          shadowColor: "#7b4885",
-          shadowOffsetX: nowSize1(0),
-          shadowOffsetY: nowSize1(0),
-          shadowBlur: nowSize1(1),
-        },
+        color: "#7D3030",
         label: {
           show: false,
-          position: "right",
-          // color: "#9d7294",
-          offset: [nowSize1(0), 0],
-          textStyle: {
-            fontSize: nowSize1(2),
-          },
+          position: "inside",
         },
+        emphasis: {
+          focus: "series",
+        },
+        data: [200, 170, 240, 244, 200, 220, 210, 150],
       },
     ],
   };
-  myChart1.setOption(option);
+
+  option && myChart.setOption(option);
 };
-onMounted(() => {
-  initChart1();
-  window.addEventListener("resize", handleResize1);
+onMounted(async () => {
+  setTimeout(() => {
+    markCharts1();
+  }, 1000);
 });
 
-onUnmounted(() => {
-  window.removeEventListener("resize", handleResize1);
-});
-const nowClientWidth2 = reactive({
-  value: window.innerWidth,
-});
+const markCharts2 = () => {
+  var chartDom = document.getElementById("rank2");
+  var myChart = echarts.init(chartDom);
+  var option;
 
-function handleResize2() {
-  nowClientWidth2.value = window.innerWidth;
-  initChart2();
-  console.log(nowSize2(1));
-}
-
-const nowSize2 = (val: number) => {
-  const initWidth = 1920;
-  return val * (nowClientWidth2.value / initWidth);
-};
-let myChart2 = null;
-const initChart2 = () => {
-  const mapChart2: HTMLElement = document.getElementById(
-    "rank2"
-  ) as HTMLElement;
-  if (myChart2) {
-    myChart2.dispose();
-  }
-  let xData = [23, 24, 36, 38, 43, 48, 49, 96];
-  let yData = ["李白", "白居易", "刘禹锡", "XXX", "XX", "XXXX", "XX", "XXX"];
-  myChart2 = echarts.init(mapChart2);
-  // 绘制图表
-  let option = {
+  option = {
     tooltip: {
       trigger: "axis",
       axisPointer: {
         type: "shadow",
       },
-      textStyle: {
-        fontSize: nowSize2(1),
-      },
     },
-    legend: {},
+    legend: {
+      data: ["作者"],
+    },
     grid: {
-      left: nowSize2(0) + "%",
-      right: nowSize2(0) + "%",
-      bottom: nowSize2(0) + "%",
-      top: nowSize2(20) + "%",
+      left: "3%",
+      right: "4%",
+      bottom: "3%",
       containLabel: true,
     },
-    xAxis: {
-      show: false,
-      type: "value",
-      boundaryGap: [0, 0.01],
-      splitLine: {
-        show: false, // 不显示网格线
+    xAxis: [
+      {
+        type: "value",
+        show: false,
       },
-    },
+    ],
     yAxis: [
       {
-        //   show: false,
         type: "category",
         axisTick: {
-          show: false, // 不显示坐标轴刻度线
+          show: false,
         },
-        axisLine: {
-          show: false, // 不显示坐标轴线
-        },
-        position: "left",
-        axisLabel: {
-          show: true,
-          fontSize: nowSize2(20),
-          color: "#3D3D3D",
-        },
-        data: yData,
+        data: ["李白", "白居易", "刘禹锡", "XX", "XXXX", "XX", "XXX", "XX"],
       },
     ],
     series: [
       {
-        // name: "2011",
+        name: "作者",
         type: "bar",
-        data: xData,
-        itemStyle: {
-          color: "#7D3030",
-          shadowColor: "#7b4885",
-          shadowOffsetX: nowSize2(0),
-          shadowOffsetY: nowSize2(0),
-          shadowBlur: nowSize2(1),
-        },
+        color: "#7D3030",
         label: {
           show: false,
-          position: "right",
-          // color: "#9d7294",
-          offset: [nowSize2(0), 0],
-          textStyle: {
-            fontSize: nowSize2(2),
-          },
+          position: "inside",
         },
+        emphasis: {
+          focus: "series",
+        },
+        data: [200, 170, 240, 244, 200, 220, 210, 150],
       },
     ],
   };
-  myChart2.setOption(option);
-};
-onMounted(() => {
-  initChart2();
-  window.addEventListener("resize", handleResize2);
-});
 
-onUnmounted(() => {
-  window.removeEventListener("resize", handleResize2);
+  option && myChart.setOption(option);
+};
+onMounted(async () => {
+  setTimeout(() => {
+    markCharts2();
+  }, 1000);
 });
 
 const toOut1 = () => {
   window.location.href = "/WinePoetryDetail";
 };
-
 </script>
   <style lang="less" scoped>
 .about {
@@ -460,6 +374,11 @@ const toOut1 = () => {
     opacity: 1;
 
     background: #f6f3e5;
+    .btn {
+      position: absolute;
+      width: 115vw;
+      top: 4vw;
+    }
     .el-descriptions {
       margin-top: 1vw;
       padding: 0.5vw;
