@@ -201,10 +201,10 @@
   </div>
 </template>
 <script lang="ts" setup>
-import geoJson from "@/assets/json/china.json";
+// import geoJson from "@/assets/json/china.json";
 import * as echarts from "echarts";
-import poi from "@/assets/json/position.json";
-import "echarts-gl";
+// import poi from "@/assets/json/position.json";
+// import "echarts-gl";
 import {
   onMounted,
   ref,
@@ -214,138 +214,21 @@ import {
   computed,
   methods,
 } from "vue";
-import { textProps } from "element-plus";
+// import { textProps } from "element-plus";
 import type { ComponentSize } from "element-plus";
-import { ArrowDown, ArrowUp, Minus, Plus } from "@element-plus/icons-vue";
+// import { ArrowDown, ArrowUp, Minus, Plus } from "@element-plus/icons-vue";
 
 const input = ref("");
-// const activeNames = ref(["1"]);
-// const handleChange = (val: string[]) => {
-//   console.log(val);
-// };
-// const num = ref(1);
 
-// const size = ref<ComponentSize>("default");
+const activeNames = ref(['1'])
+const handleChange = (val: string[]) => {
+  console.log(val)
+}
+const num = ref(1);
 
-// const nowClientWidth1 = reactive({
-//   value: window.innerWidth,
-// });
+const size = ref<ComponentSize>("default");
 
-// function handleResize1() {
-//   nowClientWidth1.value = window.innerWidth;
-//   initChart1();
-//   console.log(nowSize1(1));
-// }
-
-// const nowSize1 = (val: number) => {
-//   const initWidth = 1920;
-//   return val * (nowClientWidth1.value / initWidth);
-// };
-// let myChart1 = null;
-// const initChart1 = () => {
-//   const mapChart1: HTMLElement = document.getElementById(
-//     "rank1"
-//   ) as HTMLElement;
-//   if (myChart1) {
-//     myChart1.dispose();
-//   }
-//   let xData = [23, 24, 36, 38, 43, 48, 49, 96];
-//   let yData = [
-//     "先秦",
-//     "汉朝",
-//     "魏晋",
-//     "南北朝",
-//     "隋朝",
-//     "唐朝",
-//     "宋朝",
-//     "辽朝",
-//   ];
-//   myChart1 = echarts.init(mapChart1);
-//   // 绘制图表
-//   let option = {
-//     tooltip: {
-//       trigger: "axis",
-//       axisPointer: {
-//         type: "shadow",
-//       },
-//       textStyle: {
-//         fontSize: nowSize1(1),
-//       },
-//     },
-//     legend: {},
-//     grid: {
-//       left: nowSize1(0) + "%",
-//       right: nowSize1(0) + "%",
-//       bottom: nowSize1(0) + "%",
-//       top: nowSize1(20) + "%",
-//       containLabel: true,
-//     },
-//     xAxis: {
-//       show: false,
-//       type: "value",
-//       boundaryGap: [0, 0.01],
-//       splitLine: {
-//         show: false, // 不显示网格线
-//       },
-//     },
-//     yAxis: [
-//       {
-//         //   show: false,
-//         type: "category",
-//         axisTick: {
-//           show: false, // 不显示坐标轴刻度线
-//         },
-//         axisLine: {
-//           show: false, // 不显示坐标轴线
-//         },
-//         position: "left",
-//         axisLabel: {
-//           show: true,
-//           fontSize: nowSize1(20),
-//           color: "#3D3D3D",
-//         },
-//         data: yData,
-//       },
-//     ],
-//     series: [
-//       {
-//         // name: "2011",
-//         type: "bar",
-//         data: xData,
-//         itemStyle: {
-//           color: "#7D3030",
-//           shadowColor: "#7b4885",
-//           shadowOffsetX: nowSize1(0),
-//           shadowOffsetY: nowSize1(0),
-//           shadowBlur: nowSize1(1),
-//         },
-//         label: {
-//           show: false,
-//           position: "right",
-//           // color: "#9d7294",
-//           offset: [nowSize1(0), 0],
-//           textStyle: {
-//             fontSize: nowSize1(2),
-//           },
-//         },
-//       },
-//     ],
-//   };
-//   myChart1.setOption(option);
-// };
-// onMounted(() => {
-//   initChart1();
-//   window.addEventListener("resize", handleResize1);
-// });
-
-// onUnmounted(() => {
-//   window.removeEventListener("resize", handleResize1);
-// });
-
-// const toOut3 = () => {
-//   window.location.href = "/WinePaintingDetail";
-// };
-// const markCharts = () => {
+const markCharts = () => {
   var chartDom = document.getElementById("rank1");
   var myChart = echarts.init(chartDom);
   var option;
@@ -408,13 +291,13 @@ const input = ref("");
   };
 
   option && myChart.setOption(option);
+};
+  onMounted(async () => {
+    setTimeout(() => {
+      markCharts();
+    }, 1000);
+  });
 
-//   onMounted(async () => {
-//     setTimeout(() => {
-//       markCharts();
-//     }, 1000);
-//   });
-// };
 </script>
   <style lang="less" scoped>
 .about {
