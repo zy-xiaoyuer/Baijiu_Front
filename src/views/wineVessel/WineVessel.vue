@@ -22,171 +22,18 @@
     <div class="text">
       <h3>共100条数据</h3>
       <hr />
-      <!-- <el-button
-        link
-        @click="toOut2"
-        class="btn"
-        style="position: absolute; width: 115vw; top: 4vw"
-      >
-        查看酒器细节
-      </el-button> -->
-      <el-card
-        style="
-          max-width: 14vw;
-          position: relative;
-          width: 18vw;
-          margin-left: 2vw;
-          margin-bottom: 2vw;
-        "
-        class="1"
-      >
-        <!-- <template #header>Yummy hamburger</template> -->
-        <img
-          src="http://inews.gtimg.com/newsapp_match/0/14521737333/0"
-          @click="toOut2"
-          style="width: 12vw"
-        />
-      </el-card>
-      <el-card
-        style="
-          max-width: 14vw;
-          position: absolute;
-          width: 18vw;
-          margin-left: 2vw;
-          margin-bottom: 2vw;
-          top: 3.8vw;
-          left: 20vw;
-        "
-        class="2"
-      >
-        <!-- <template #header>Yummy hamburger</template> -->
-        <img
-          src="http://inews.gtimg.com/newsapp_match/0/14521737333/0"
-          style="width: 12vw"
-        />
-      </el-card>
-      <el-card
-        style="
-          max-width: 14vw;
-          position: absolute;
-          width: 18vw;
-          margin-left: 2vw;
-          margin-bottom: 2vw;
-          top: 3.8vw;
-          left: 40vw;
-        "
-        class="3"
-      >
-        <!-- <template #header>Yummy hamburger</template> -->
-        <img
-          src="http://inews.gtimg.com/newsapp_match/0/14521737333/0"
-          style="width: 12vw"
-        />
-      </el-card>
-      <el-card
-        style="
-          max-width: 14vw;
-          position: relative;
-          width: 18vw;
-          margin-left: 2vw;
-          margin-bottom: 2vw;
-        "
-        class="4"
-      >
-        <!-- <template #header>Yummy hamburger</template> -->
-        <img
-          src="http://inews.gtimg.com/newsapp_match/0/14521737333/0"
-          style="width: 12vw"
-        />
-      </el-card>
-      <el-card
-        style="
-          max-width: 14vw;
-          position: absolute;
-          width: 18vw;
-          margin-left: 2vw;
-          margin-bottom: 2vw;
-          top: 19vw;
-          left: 20vw;
-        "
-        class="5"
-      >
-        <!-- <template #header>Yummy hamburger</template> -->
-        <img
-          src="http://inews.gtimg.com/newsapp_match/0/14521737333/0"
-          style="width: 12vw"
-        />
-      </el-card>
-      <el-card
-        style="
-          max-width: 14vw;
-          position: absolute;
-          width: 18vw;
-          margin-left: 2vw;
-          margin-bottom: 2vw;
-          top: 19vw;
-          left: 40vw;
-        "
-        class="6"
-      >
-        <!-- <template #header>Yummy hamburger</template> -->
-        <img
-          src="http://inews.gtimg.com/newsapp_match/0/14521737333/0"
-          style="width: 12vw"
-        />
-      </el-card>
-      <el-card
-        style="
-          max-width: 14vw;
-          position: relative;
-          width: 18vw;
-          margin-left: 2vw;
-          margin-bottom: 2vw;
-        "
-        class="7"
-      >
-        <!-- <template #header>Yummy hamburger</template> -->
-        <img
-          src="http://inews.gtimg.com/newsapp_match/0/14521737333/0"
-          style="width: 12vw"
-        />
-      </el-card>
-      <el-card
-        style="
-          max-width: 14vw;
-          position: absolute;
-          width: 18vw;
-          margin-left: 2vw;
-          margin-bottom: 2vw;
-          top: 35vw;
-          left: 20vw;
-        "
-        class="8"
-      >
-        <!-- <template #header>Yummy hamburger</template> -->
-        <img
-          src="http://inews.gtimg.com/newsapp_match/0/14521737333/0"
-          style="width: 12vw"
-        />
-      </el-card>
-      <el-card
-        style="
-          max-width: 14vw;
-          position: absolute;
-          width: 18vw;
-          margin-left: 2vw;
-          margin-bottom: 2vw;
-          top: 35vw;
-          left: 40vw;
-        "
-        class="9"
-      >
-        <!-- <template #header>Yummy hamburger</template> -->
-        <img
-          src="http://inews.gtimg.com/newsapp_match/0/14521737333/0"
-          style="width: 12vw"
-        />
-      </el-card>
+
+      <div id="imgs">
+        <div
+          class="card"
+          v-for="message in messages"
+          :key="message.id"
+          v-bind:title="message.title"
+        >
+          <img class="img" :src="message.src" /><br />
+        </div>
+      </div>
+
       <el-space class="vertical">
         <el-space
           >前往 <el-input-number v-model="num" />页
@@ -218,12 +65,12 @@ import {
 import type { ComponentSize } from "element-plus";
 // import { ArrowDown, ArrowUp, Minus, Plus } from "@element-plus/icons-vue";
 
-const input = ref('');
+const input = ref("");
 
-const activeNames = ref(['1'])
+const activeNames = ref(["1"]);
 const handleChange = (val: string[]) => {
-  console.log(val)
-}
+  console.log(val);
+};
 const num = ref(1);
 
 const size = ref<ComponentSize>("default");
@@ -292,16 +139,79 @@ const markCharts = () => {
 
   option && myChart.setOption(option);
 };
-  onMounted(async () => {
-    setTimeout(() => {
-      markCharts();
-    }, 1000);
-  });
+onMounted(async () => {
+  setTimeout(() => {
+    markCharts();
+  }, 1000);
+});
 
 const toOut2 = () => {
   window.location.href = "/WineVesselDetail";
 };
 </script>
+  
+<script lang="ts">
+export default {
+  data() {
+    return {
+      messages: [
+        {
+          id: "1",
+          title: "jiuhua1",
+          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+        },
+        {
+          id: "2",
+          title: "jiuhua2",
+          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+        },
+        {
+          id: "3",
+          title: "jiuhua3",
+          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+        },
+        {
+          id: "4",
+          title: "jiuhua4",
+          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+        },
+        {
+          id: "5",
+          title: "jiuhua4",
+          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+        },
+        {
+          id: "4",
+          title: "jiuhua5",
+          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+        },
+        {
+          id: "6",
+          title: "jiuhua6",
+          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+        },
+        {
+          id: "7",
+          title: "jiuhua7",
+          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+        },
+        {
+          id: "8",
+          title: "jiuhua8",
+          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+        },
+        {
+          id: "9",
+          title: "jiuhua9",
+          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+        },
+      ],
+    };
+  },
+};
+</script>
+
+
   <style lang="less" scoped>
 .about {
   background-image: url("@/assets/images/background.jpg");
@@ -363,6 +273,30 @@ const toOut2 = () => {
     opacity: 1;
 
     background: #f6f3e5;
+    .imgs {
+      display: flex;
+      flex-flow: column wrap;
+      align-content: flex-start;
+      white-space: nowrap;
+    }
+    .card {
+      display: flex;
+      /*height: 300px;*/
+      padding: auto;
+      margin: auto;
+      white-space: nowrap;
+    }
+    .card .img {
+      
+      display: flex;
+      flex-flow: wrap;
+      /*height: 250px;*/
+      height: 14vw;
+      width: 14vw;
+      // vertical-align: middle;
+      // max-width: 15%;
+      margin-bottom: 0.5vw;
+    }
     .vertical {
       position: absolute;
       left: 24vw;
