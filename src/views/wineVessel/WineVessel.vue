@@ -181,11 +181,6 @@ export default {
           src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
         },
         {
-          id: "4",
-          title: "jiuhua5",
-          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
-        },
-        {
           id: "6",
           title: "jiuhua6",
           src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
@@ -273,30 +268,7 @@ export default {
     opacity: 1;
 
     background: #f6f3e5;
-    .imgs {
-      display: flex;
-      flex-flow: column wrap;
-      align-content: flex-start;
-      white-space: nowrap;
-    }
-    .card {
-      display: flex;
-      /*height: 300px;*/
-      padding: auto;
-      margin: auto;
-      white-space: nowrap;
-    }
-    .card .img {
-      
-      display: flex;
-      flex-flow: wrap;
-      /*height: 250px;*/
-      height: 14vw;
-      width: 14vw;
-      // vertical-align: middle;
-      // max-width: 15%;
-      margin-bottom: 0.5vw;
-    }
+
     .vertical {
       position: absolute;
       left: 24vw;
@@ -310,6 +282,38 @@ export default {
       box-sizing: border-box;
       // border: 1px solid rgba(145, 119, 119, 0.8);
     }
+  }
+  .imgs {
+    // width: 10vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: flex-start;
+  }
+  .card {
+    /*height: 300px;*/
+    // padding: 0.5vw;
+    // margin: 0.5vw;
+    width: 17vw;
+    height: 14vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    float: left;
+    margin-bottom: 1vw;
+    margin-left: 3vw;
+  }
+  .card .img {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    float: left;
+    /*height: 250px;*/
+    height: 14vw;
+    width: 11vw;
+    // margin-right: 0.5vw;
+    // vertical-align: middle;
+    // max-width: 10%;
   }
 }
 </style>
