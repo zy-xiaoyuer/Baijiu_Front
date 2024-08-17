@@ -30,163 +30,16 @@
       >
         查看酒器细节
       </el-button> -->
-      <el-card
-        style="
-          max-width: 14vw;
-          position: relative;
-          width: 18vw;
-          margin-left: 2vw;
-          margin-bottom: 1vw;
-        "
-        class="1"
-      >
-        <!-- <template #header>Yummy hamburger</template> -->
-        <img
-          src="https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@2o.jpg"
-          @click="toOut3"
-          style="width: 12vw"
-        />
-      </el-card>
-      <el-card
-        style="
-          max-width: 14vw;
-          position: absolute;
-          width: 18vw;
-          margin-left: 2vw;
-          margin-bottom: 1vw;
-          top: 3.8vw;
-          left: 20vw;
-        "
-        class="2"
-      >
-        <!-- <template #header>Yummy hamburger</template> -->
-        <img
-          src="https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@2o.jpg"
-          style="width: 12vw"
-        />
-      </el-card>
-      <el-card
-        style="
-          max-width: 14vw;
-          position: absolute;
-          width: 18vw;
-          margin-left: 2vw;
-          margin-bottom: 1vw;
-          top: 3.8vw;
-          left: 40vw;
-        "
-        class="3"
-      >
-        <!-- <template #header>Yummy hamburger</template> -->
-        <img
-          src="https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@2o.jpg"
-          style="width: 12vw"
-        />
-      </el-card>
-      <el-card
-        style="
-          max-width: 14vw;
-          position: relative;
-          width: 18vw;
-          margin-left: 2vw;
-          margin-bottom: 1vw;
-        "
-        class="4"
-      >
-        <!-- <template #header>Yummy hamburger</template> -->
-        <img
-          src="https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@2o.jpg"
-          style="width: 12vw"
-        />
-      </el-card>
-      <el-card
-        style="
-          max-width: 14vw;
-          position: absolute;
-          width: 18vw;
-          margin-left: 2vw;
-          margin-bottom: 1vw;
-          top: 21.5vw;
-          left: 20vw;
-        "
-        class="5"
-      >
-        <!-- <template #header>Yummy hamburger</template> -->
-        <img
-          src="https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@2o.jpg"
-          style="width: 12vw"
-        />
-      </el-card>
-      <el-card
-        style="
-          max-width: 14vw;
-          position: absolute;
-          width: 18vw;
-          margin-left: 2vw;
-          margin-bottom: 1vw;
-          top: 21.5vw;
-          left: 40vw;
-        "
-        class="6"
-      >
-        <!-- <template #header>Yummy hamburger</template> -->
-        <img
-          src="https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@2o.jpg"
-          style="width: 12vw"
-        />
-      </el-card>
-      <el-card
-        style="
-          max-width: 14vw;
-          position: relative;
-          width: 18vw;
-          margin-left: 2vw;
-          margin-bottom: 1vw;
-        "
-        class="7"
-      >
-        <!-- <template #header>Yummy hamburger</template> -->
-        <img
-          src="https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@2o.jpg"
-          style="width: 12vw"
-        />
-      </el-card>
-      <el-card
-        style="
-          max-width: 14vw;
-          position: absolute;
-          width: 18vw;
-          margin-left: 2vw;
-          margin-bottom: 1vw;
-          top: 39vw;
-          left: 20vw;
-        "
-        class="8"
-      >
-        <!-- <template #header>Yummy hamburger</template> -->
-        <img
-          src="https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@2o.jpg"
-          style="width: 12vw"
-        />
-      </el-card>
-      <el-card
-        style="
-          max-width: 14vw;
-          position: absolute;
-          width: 18vw;
-          margin-left: 2vw;
-          margin-bottom: 1vw;
-          top: 39vw;
-          left: 40vw;
-        "
-        class="9"
-      >
-        <!-- <template #header>Yummy hamburger</template> -->
-        <img
-          src="https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@2o.jpg"
-          style="width: 12vw"
-        />
-      </el-card>
+      <div id="imgs">
+        <div
+          class="card"
+          v-for="message in messages"
+          :key="message.id"
+          v-bind:title="message.title"
+        >
+          <img class="img" :src="message.src" @click="toOut3"/><br />
+        </div>
+      </div>
       <el-space class="vertical">
         <el-space
           >前往 <el-input-number v-model="num" />页
@@ -302,7 +155,64 @@ const markCharts = () => {
   window.location.href = "/WinePaintingDetail";
 };
 </script>
-  <style lang="less" scoped>
+ 
+<script lang="ts">
+export default {
+  data() {
+    return {
+      messages: [
+        {
+          id: "1",
+          title: "酒画1",
+          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+        },
+        {
+          id: "2",
+          title: "酒画2",
+          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+        },
+        {
+          id: "3",
+          title: "酒画3",
+          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+        },
+        {
+          id: "4",
+          title: "酒画4",
+          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+        },
+        {
+          id: "5",
+          title: "酒画4",
+          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+        },
+        {
+          id: "6",
+          title: "酒画6",
+          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+        },
+        {
+          id: "7",
+          title: "酒画7",
+          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+        },
+        {
+          id: "8",
+          title: "酒画8",
+          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+        },
+        {
+          id: "9",
+          title: "酒画9",
+          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+        },
+      ],
+    };
+  },
+};
+</script>
+ 
+ <style lang="less" scoped>
 .about {
   background-image: url("@/assets/images/background.jpg");
   background-size: 100% 100%;
@@ -377,6 +287,38 @@ const markCharts = () => {
       box-sizing: border-box;
       // border: 1px solid rgba(145, 119, 119, 0.8);
     }
+  }
+  .imgs {
+    // width: 10vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: flex-start;
+  }
+  .card {
+    /*height: 300px;*/
+    // padding: 0.5vw;
+    // margin: 0.5vw;
+    width: 17vw;
+    height: 14vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    float: left;
+    margin-bottom: 1vw;
+    margin-left: 3vw;
+  }
+  .card .img {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    float: left;
+    /*height: 250px;*/
+    height: 14vw;
+    width: 11vw;
+    // margin-right: 0.5vw;
+    // vertical-align: middle;
+    // max-width: 10%;
   }
 }
 </style>
