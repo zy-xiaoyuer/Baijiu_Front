@@ -30,7 +30,7 @@
           :key="message.id"
           v-bind:title="message.title"
         >
-          <img class="img" :src="message.src" /><br />
+          <img class="img" :src="message.src" @click="toOut2"/><br />
         </div>
       </div>
 
@@ -157,48 +157,48 @@ export default {
       messages: [
         {
           id: "1",
-          title: "jiuhua1",
-          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+          title: "酒器1",
+          src: "http://inews.gtimg.com/newsapp_bt/0/14521737333/641",
         },
         {
           id: "2",
-          title: "jiuhua2",
-          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+          title: "酒器2",
+          src: "http://inews.gtimg.com/newsapp_bt/0/14521737333/641",
         },
         {
           id: "3",
-          title: "jiuhua3",
-          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+          title: "酒器3",
+          src: "http://inews.gtimg.com/newsapp_bt/0/14521737333/641",
         },
         {
           id: "4",
-          title: "jiuhua4",
-          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+          title: "酒器4",
+          src: "http://inews.gtimg.com/newsapp_bt/0/14521737333/641",
         },
         {
           id: "5",
-          title: "jiuhua4",
-          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+          title: "酒器4",
+          src: "http://inews.gtimg.com/newsapp_bt/0/14521737333/641",
         },
         {
           id: "6",
-          title: "jiuhua6",
-          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+          title: "酒器6",
+          src: "http://inews.gtimg.com/newsapp_bt/0/14521737333/641",
         },
         {
           id: "7",
-          title: "jiuhua7",
-          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+          title: "酒器7",
+          src: "http://inews.gtimg.com/newsapp_bt/0/14521737333/641",
         },
         {
           id: "8",
-          title: "jiuhua8",
-          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+          title: "酒器8",
+          src: "http://inews.gtimg.com/newsapp_bt/0/14521737333/641",
         },
         {
           id: "9",
-          title: "jiuhua9",
-          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+          title: "酒器9",
+          src: "http://inews.gtimg.com/newsapp_bt/0/14521737333/641",
         },
       ],
     };
@@ -301,7 +301,7 @@ export default {
     justify-content: space-around;
     float: left;
     margin-bottom: 1vw;
-    margin-left: 3vw;
+    margin-left: 2vw;
   }
   .card .img {
     display: flex;
@@ -310,7 +310,7 @@ export default {
     float: left;
     /*height: 250px;*/
     height: 14vw;
-    width: 11vw;
+    width: 16vw;
     // margin-right: 0.5vw;
     // vertical-align: middle;
     // max-width: 10%;
