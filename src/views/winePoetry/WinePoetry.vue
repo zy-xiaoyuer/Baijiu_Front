@@ -39,13 +39,7 @@
           吾爱崔秋浦，宛然陶令风。门前五杨柳，井上二梧桐。山鸟下厅事，檐花落酒中。怀君未忍去，惆怅意无穷。
         </el-descriptions-item>
       </el-descriptions>
-      <el-button
-        link
-        @click="toOut1"
-        class="btn"
-      >
-        查看诗词细节
-      </el-button>
+      <el-button link @click="toOut1" class="btn"> 查看诗词细节 </el-button>
       <hr />
       <!-- </router-link> -->
       <!-- <router-view></router-view> -->
@@ -125,6 +119,12 @@
         </el-descriptions-item>
       </el-descriptions>
       <hr />
+      <el-pagination class="page"
+        :page-size="2"
+        :pager-count="5"
+        layout="prev, pager, next"
+        :total="10"
+      />
       <el-space class="vertical">
         <el-space
           >前往 <el-input-number v-model="num" />页
@@ -402,10 +402,19 @@ const toOut1 = () => {
     .margin-top6 {
       margin-top: 1vw;
     }
+    .page{
+      position: relative;
+      left: 17vw;
+      top: 7vw;
+      width: 12vw;
+      height: 1vw;
+      opacity: 1;
+      box-sizing: border-box;
+    }
     .vertical {
       position: relative;
-      left: 24vw;
-      top: 7vw;
+      left: 29vw;
+      top: 6vw;
       width: 12vw;
       height: 1vw;
       opacity: 1;
