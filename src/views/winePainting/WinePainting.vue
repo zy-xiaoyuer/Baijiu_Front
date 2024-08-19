@@ -40,6 +40,12 @@
           <img class="img" :src="message.src" @click="toOut3"/><br />
         </div>
       </div>
+      <el-pagination class="page"
+        :page-size="2"
+        :pager-count="5"
+        layout="prev, pager, next"
+        :total="10"
+      />
       <el-space class="vertical">
         <el-space
           >前往 <el-input-number v-model="num" />页
@@ -274,10 +280,19 @@ export default {
     opacity: 1;
 
     background: #f6f3e5;
+    .page{
+      position: relative;
+      left: 16vw;
+      top: 7vw;
+      width: 12vw;
+      height: 1vw;
+      opacity: 1;
+      box-sizing: border-box;
+    }
     .vertical {
       position: absolute;
-      left: 24vw;
-      top: 58vw;
+      left: 29vw;
+      top: 55.9vw;
       width: 12vw;
       height: 1vw;
       opacity: 1;
