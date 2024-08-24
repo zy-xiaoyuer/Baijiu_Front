@@ -17,8 +17,8 @@
     <div class="main-content">
       <div id="rank" ref="rank" class="rank">
         分类统计
-        <div id="rank1" ref="rank1" class="rank1"></div>
-        <div id="rank2" ref="rank2" class="rank2"></div>
+        <div id="rank1" ref="rank1" class="rank-item"></div>
+        <div id="rank2" ref="rank2" class="rank-item"></div>
       </div>
 
       <div class="text">
@@ -66,10 +66,8 @@
             v-model:page-size="pageSize4"
             :page-sizes="[10, 20, 30, 40]"
             :size="size"
-            :disabled="disabled"
-            :background="background"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="2"
+            :total="total"
             @current-change="handlePageChange"
           />
         </div>
@@ -80,14 +78,10 @@
 
 <script lang="ts" setup>
 import * as echarts from "echarts";
-import { onMounted, ref, computed, watch } from "vue";
+import { onMounted, ref, computed } from "vue";
 import type { ComponentSize } from "element-plus";
 
 const input = ref("");
-const num = ref(1);
-// const size = ref("default");
-const selectedPageSize = ref(10); // 默认每页条数
-
 const currentPage4 = ref(1);
 const pageSize4 = ref(10);
 const size = ref<ComponentSize>("default");
@@ -142,46 +136,25 @@ const poems = ref([
   // 更多诗词
 ]);
 
-const background = ref(false);
-const disabled = ref(false);
-
-
 const total = computed(() => poems.value.length);
-const maxPage = computed(() => Math.ceil(total.value / selectedPageSize.value));
 
 const paginatedPoems = computed(() => {
-  const start = (num.value - 1) * selectedPageSize.value;
-  return poems.value.slice(start, start + selectedPageSize.value);
-});
-
-watch(num, (newVal) => {
-  if (newVal > maxPage.value) {
-    num.value = maxPage.value;
-  } else if (newVal < 1) {
-    num.value = 1;
-  }
-});
-
-watch(selectedPageSize, () => {
-  num.value = 1; // 每次更改每页条数时，将页码重置为第一页
+  const start = (currentPage4.value - 1) * pageSize4.value;
+  return poems.value.slice(start, start + pageSize4.value);
 });
 
 const searchPoems = () => {
   // 搜索逻辑
 };
 
-const handlePageChange = (page) => {
-  num.value = page;
+const handlePageChange = (page: number) => {
+  currentPage4.value = page;
 };
 
-// const handlePageSizeChange = (value) => {
-//   selectedPageSize.value = value; // 更新每页条数
-// };
-
-const markCharts = (id, data, category) => {
-  var chartDom = document.getElementById(id);
-  var myChart = echarts.init(chartDom);
-  var option = {
+const markCharts = (id: string, data: string[], category: string) => {
+  const chartDom = document.getElementById(id);
+  const myChart = echarts.init(chartDom);
+  const option = {
     tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
     legend: { data: [category] },
     grid: { left: "3%", right: "4%", bottom: "3%", containLabel: true },
@@ -198,7 +171,7 @@ const markCharts = (id, data, category) => {
       },
     ],
   };
-  option && myChart.setOption(option);
+  myChart.setOption(option);
 };
 
 onMounted(() => {
@@ -228,7 +201,6 @@ onMounted(() => {
     height: 10vw;
     width: 100vw;
     margin-left: -2vw;
-    background-size: 100%;
     .serach {
       padding: 1vw 0 0 37vw;
       .input {
@@ -248,13 +220,11 @@ onMounted(() => {
   }
 
   .rank {
-    top: 1vw;
     margin-left: 1vw;
     width: 18vw;
     background: #f6f3e5;
     padding: 2vw;
-    .rank1,
-    .rank2 {
+    .rank-item {
       width: 100%;
       height: 17vw;
       margin-bottom: 3vw;
@@ -281,11 +251,11 @@ onMounted(() => {
       .custom-title,
       .custom-author,
       .custom-type {
-        color: #3D3D3D; /* 标题、作者、类型的颜色 */
+        color: #3D3D3D;
       }
 
       .custom-content {
-        color: #908D8D; /* 诗句内容颜色 */
+        color: #908D8D;
       }
     }
 
@@ -299,7 +269,7 @@ onMounted(() => {
 
     .demo-pagination-block {
       display: flex;
-      justify-content: center; /* 使分页组件居中对齐 */
+      justify-content: center;
       align-items: center;
       gap: 1vw;
     }
