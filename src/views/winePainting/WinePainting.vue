@@ -8,9 +8,9 @@
           placeholder="检索你感兴趣的内容"
           clearable
         />
-        <el-button type="primary" color="#7D3030" class="sbutton"
-          >搜索</el-button
-        >
+        <el-button type="primary" color="#7D3030" class="sbutton">
+          搜索
+        </el-button>
       </div>
     </div>
 
@@ -22,14 +22,6 @@
     <div class="text">
       <h3>共100条数据</h3>
       <hr />
-      <!-- <el-button
-        link
-        @click="toOut2"
-        class="btn"
-        style="position: absolute; width: 115vw; top: 4vw"
-      >
-        查看酒器细节
-      </el-button> -->
       <div id="imgs">
         <div
           class="card"
@@ -37,28 +29,26 @@
           :key="message.id"
           v-bind:title="message.title"
         >
-          <img class="img" :src="message.src" @click="toOut3"/><br />
+          <img class="img" :src="message.src" @click="toOut3" /><br />
         </div>
       </div>
-      <el-pagination class="page"
-        :page-size="2"
-        :pager-count="5"
-        layout="prev, pager, next"
-        :total="10"
-      />
-      <el-space class="vertical">
-        <el-space
-          >前往 <el-input-number v-model="num" />页
-          <template #decrease-icon>
-            <el-icon>
-              <ArrowDown />
-            </el-icon>
-          </template>
-        </el-space>
-      </el-space>
+      <div class="demo-pagination-block">
+        <el-pagination
+          v-model:current-page="currentPage4"
+          v-model:page-size="pageSize4"
+          :page-sizes="[10, 20, 30, 40]"
+          :size="size"
+          :disabled="disabled"
+          :background="background"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="10"
+          @current-change="handlePageChange"
+        />
+      </div>
     </div>
   </div>
 </template>
+
 <script lang="ts" setup>
 // import geoJson from "@/assets/json/china.json";
 import * as echarts from "echarts";
@@ -218,7 +208,7 @@ export default {
 };
 </script>
  
- <style lang="less" scoped>
+<style lang="less" scoped>
 .about {
   background-image: url("@/assets/images/background.jpg");
   background-size: 100% 100%;
@@ -232,7 +222,6 @@ export default {
     width: 100vw;
     margin-left: -2vw;
     background-size: 100% 100%;
-    // border: 1px solid #000;
     .serach {
       padding: 1vw 0 0 37vw;
       .input {
@@ -271,7 +260,6 @@ export default {
   }
   .text {
     position: absolute;
-    // padding: 2vw;
     left: 32vw;
     top: 8vw;
     width: 60vw;
@@ -280,60 +268,37 @@ export default {
     opacity: 1;
 
     background: #f6f3e5;
-    .page{
+    .imgs {
+      margin-top: 3vw;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-content: flex-start;
+    }
+    .card {
+      margin-top: 1vw;
+      width: 17vw;
+      height: 14vw;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      float: left;
+      margin-bottom: 1vw;
+      margin-left: 3vw;
+    }
+    .card .img {
+      height: 14vw;
+      width: 11vw;
+    }
+    .demo-pagination-block {
       position: relative;
-      left: 16vw;
-      top: 7vw;
-      width: 12vw;
-      height: 1vw;
-      opacity: 1;
-      box-sizing: border-box;
+      left: -29vw;
+      height: 98vw;
+      display: flex;
+      justify-content: center; /* 使分页组件居中对齐 */
+      align-items: center;
+      margin-top: 2vw; /* 调整与图片的间距 */
     }
-    .vertical {
-      position: absolute;
-      left: 29vw;
-      top: 55.9vw;
-      width: 12vw;
-      height: 1vw;
-      opacity: 1;
-
-      // background: #ffffff;
-
-      box-sizing: border-box;
-      // border: 1px solid rgba(145, 119, 119, 0.8);
-    }
-  }
-  .imgs {
-    // width: 10vw;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-content: flex-start;
-  }
-  .card {
-    /*height: 300px;*/
-    // padding: 0.5vw;
-    // margin: 0.5vw;
-    width: 17vw;
-    height: 14vw;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    float: left;
-    margin-bottom: 1vw;
-    margin-left: 3vw;
-  }
-  .card .img {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    float: left;
-    /*height: 250px;*/
-    height: 14vw;
-    width: 11vw;
-    // margin-right: 0.5vw;
-    // vertical-align: middle;
-    // max-width: 10%;
   }
 }
 </style>
