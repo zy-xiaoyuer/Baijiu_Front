@@ -33,22 +33,19 @@
           <img class="img" :src="message.src" @click="toOut2"/><br />
         </div>
       </div>
-      <el-pagination class="page"
-        :page-size="2"
-        :pager-count="5"
-        layout="prev, pager, next"
-        :total="10"
-      />
-      <el-space class="vertical">
-        <el-space
-          >前往 <el-input-number v-model="num" />页
-          <template #decrease-icon>
-            <el-icon>
-              <ArrowDown />
-            </el-icon>
-          </template>
-        </el-space>
-      </el-space>
+      <div class="demo-pagination-block">
+        <el-pagination
+          v-model:current-page="currentPage4"
+          v-model:page-size="pageSize4"
+          :page-sizes="[10, 20, 30, 40]"
+          :size="size"
+          :disabled="disabled"
+          :background="background"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="10"
+          @current-change="handlePageChange"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -282,18 +279,14 @@ export default {
       opacity: 1;
       box-sizing: border-box;
     }
-    .vertical {
-      position: absolute;
-      left: 29vw;
-      top: 49.9vw;
-      width: 12vw;
-      height: 1vw;
-      opacity: 1;
-
-      // background: #ffffff;
-
-      box-sizing: border-box;
-      // border: 1px solid rgba(145, 119, 119, 0.8);
+    .demo-pagination-block {
+      position: relative;
+      left: -29vw;
+      height: 90vw;
+      display: flex;
+      justify-content: center; /* 使分页组件居中对齐 */
+      align-items: center;
+      margin-top: 2vw; /* 调整与图片的间距 */
     }
   }
   .imgs {
