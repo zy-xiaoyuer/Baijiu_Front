@@ -27,36 +27,21 @@
         <div
           v-for="(poem, index) in paginatedPoems"
           :key="index"
-          class="poem-item"
+          class="poem-item-wrapper"
         >
-          <el-descriptions
-            :column="3"
-            :size="size"
-            :style="blockMargin"
-            class="poem-description custom-descriptions"
-          >
-            <el-descriptions-item class="custom-title">{{
-              poem.title
-            }}</el-descriptions-item>
-            <el-descriptions-item class="custom-author">{{
-              poem.author
-            }}</el-descriptions-item>
-            <el-descriptions-item class="custom-type">{{
-              poem.type
-            }}</el-descriptions-item>
-            <el-descriptions-item class="custom-content">{{
-              poem.content
-            }}</el-descriptions-item>
-          </el-descriptions>
-
           <router-link
-            class="view-link"
+            class="poem-item"
             :to="{
               name: 'winePoetryDetail',
               params: { winePoetryDetailId: poem.id },
             }"
           >
-            查看诗词
+          <div class="poem-header">
+            <span class="custom-title">{{ poem.title }}</span>
+            <span class="custom-author">{{ poem.author }}</span>
+            <span class="custom-type">{{ poem.type }}</span>
+            </div>
+            <p class="custom-content">{{ poem.content }}</p>
           </router-link>
           <hr />
         </div>
@@ -238,33 +223,56 @@ onMounted(() => {
     padding: 2vw;
     margin-right: 1vw;
 
+    .poem-item-wrapper {
+      margin-bottom: 1vw;
+    }
+
     .poem-item {
-      width: 100%;
+      display: flex;
+      flex-direction: column;
       background: #f6f3e5;
       border-radius: 0.5vw;
       padding: 1vw;
       position: relative;
-      margin-bottom: 1vw;
-    }
-
-    .custom-descriptions {
-      .custom-title,
-      .custom-author,
-      .custom-type {
-        color: #3D3D3D;
-      }
-
-      .custom-content {
-        color: #908D8D;
+      text-decoration: none;
+      transition: background-color 0.3s;
+      &:hover {
+        background-color: #e0d8d1;
       }
     }
 
-    .view-link {
-      position: absolute;
-      top: 1vw;
-      right: 1vw;
-      color: #7d3030;
-      text-decoration: underline;
+    .poem-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5vw;
+    }
+
+    .custom-title {
+      font-family: 'Source Han Sans', sans-serif;
+      color: #3D3D3D;
+      flex: 2;
+      text-align: left;
+    }
+
+    .custom-author {
+      font-family: 'Source Han Sans', sans-serif;
+      color: #3D3D3D;
+      flex: 1;
+      text-align: center;
+    }
+
+    .custom-type {
+      font-family: 'Source Han Sans', sans-serif;
+      color: #3D3D3D;
+      flex: 1;
+      text-align: right;
+    }
+
+    .custom-content {
+      font-family: 'Source Han Sans', sans-serif;
+      color: #908D8D;
+      margin-top: 0.5vw;
     }
 
     .demo-pagination-block {
