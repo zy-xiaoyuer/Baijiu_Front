@@ -8,7 +8,12 @@
           placeholder="检索你感兴趣的内容"
           clearable
         />
-        <el-button type="primary" color="#7D3030" class="sbutton">
+        <el-button
+          type="primary"
+          color="#7D3030"
+          class="sbutton"
+          @click="search"
+        >
           搜索
         </el-button>
       </div>
@@ -20,7 +25,7 @@
     </div>
 
     <div class="text">
-      <h3>共100条数据</h3>
+      <h3>共{{ messages.length }}条数据</h3>
       <hr />
       <div id="imgs">
         <div
@@ -29,7 +34,8 @@
           :key="message.id"
           v-bind:title="message.title"
         >
-          <img class="img" :src="message.src" @click="toOut3" /><br />
+          <img class="img" :src="message.src" @click="viewDetail(message.id)" />
+          <br />
         </div>
       </div>
       <div class="demo-pagination-block">
@@ -41,7 +47,7 @@
           :disabled="disabled"
           :background="background"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="10"
+          :total="messages.length"
           @current-change="handlePageChange"
         />
       </div>
@@ -50,39 +56,68 @@
 </template>
 
 <script lang="ts" setup>
-// import geoJson from "@/assets/json/china.json";
 import * as echarts from "echarts";
-// import poi from "@/assets/json/position.json";
-// import "echarts-gl";
-import {
-  onMounted,
-  ref,
-  watch,
-  onUnmounted,
-  reactive,
-  computed,
-  methods,
-} from "vue";
-// import { textProps } from "element-plus";
+import { onMounted, ref } from "vue";
 import type { ComponentSize } from "element-plus";
-// import { ArrowDown, ArrowUp, Minus, Plus } from "@element-plus/icons-vue";
 
 const input = ref("");
-
-const activeNames = ref(['1'])
-const handleChange = (val: string[]) => {
-  console.log(val)
-}
-const num = ref(1);
-
+const currentPage4 = ref(1);
+const pageSize4 = ref(10);
 const size = ref<ComponentSize>("default");
+
+const messages = ref([
+  {
+    id: "1",
+    title: "酒画1",
+    src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+  },
+  {
+    id: "2",
+    title: "酒画2",
+    src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+  },
+  {
+    id: "3",
+    title: "酒画3",
+    src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+  },
+  {
+    id: "4",
+    title: "酒画4",
+    src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+  },
+  {
+    id: "5",
+    title: "酒画4",
+    src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+  },
+  {
+    id: "6",
+    title: "酒画6",
+    src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+  },
+  {
+    id: "7",
+    title: "酒画7",
+    src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+  },
+  {
+    id: "8",
+    title: "酒画8",
+    src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+  },
+  {
+    id: "9",
+    title: "酒画9",
+    src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+  },
+  // 其他图片数据
+]);
 
 const markCharts = () => {
   var chartDom = document.getElementById("rank1");
   var myChart = echarts.init(chartDom);
-  var option;
-
-  option = {
+  var option = {
     tooltip: {
       trigger: "axis",
       axisPointer: {
@@ -141,73 +176,27 @@ const markCharts = () => {
 
   option && myChart.setOption(option);
 };
-  onMounted(async () => {
-    setTimeout(() => {
-      markCharts();
-    }, 1000);
-  });
 
-  const toOut3 = () => {
-  window.location.href = "/WinePaintingDetail";
+onMounted(async () => {
+  setTimeout(() => {
+    markCharts();
+  }, 1000);
+});
+
+const viewDetail = (id: string) => {
+  // 跳转到详情页，并传递 id 参数
+  window.location.href = `/WinePaintingDetail/${id}`;
+};
+
+const handlePageChange = (page: number) => {
+  currentPage4.value = page;
+};
+
+const search = () => {
+  // 你可以在这里实现搜索功能
 };
 </script>
- 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      messages: [
-        {
-          id: "1",
-          title: "酒画1",
-          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
-        },
-        {
-          id: "2",
-          title: "酒画2",
-          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
-        },
-        {
-          id: "3",
-          title: "酒画3",
-          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
-        },
-        {
-          id: "4",
-          title: "酒画4",
-          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
-        },
-        {
-          id: "5",
-          title: "酒画4",
-          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
-        },
-        {
-          id: "6",
-          title: "酒画6",
-          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
-        },
-        {
-          id: "7",
-          title: "酒画7",
-          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
-        },
-        {
-          id: "8",
-          title: "酒画8",
-          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
-        },
-        {
-          id: "9",
-          title: "酒画9",
-          src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
-        },
-      ],
-    };
-  },
-};
-</script>
- 
+
 <style lang="less" scoped>
 .about {
   background-image: url("@/assets/images/background.jpg");
@@ -217,23 +206,28 @@ export default {
   height: 66vw;
   margin-left: 2vw;
   padding: 0 0 5vw 0;
+  
   .serachTop {
     height: 25vw;
     width: 100vw;
     margin-left: -2vw;
     background-size: 100% 100%;
+    
     .serach {
       padding: 1vw 0 0 37vw;
+      
       .input {
         width: 24vw;
         margin-right: 1vw;
         font-size: 0.8rem;
       }
+      
       .sbutton {
         font-size: 1rem;
       }
     }
   }
+  
   .rank {
     position: relative;
     padding: 2vw;
@@ -242,9 +236,8 @@ export default {
     width: 18vw;
     height: 23vw;
     border-radius: 1vw;
-    opacity: 1;
-
     background: #f6f3e5;
+    
     .rank1 {
       position: absolute;
       left: 1vw;
@@ -252,52 +245,50 @@ export default {
       width: 19vw;
       height: 17vw;
       border-radius: 1vw;
-      opacity: 1;
-
       box-sizing: border-box;
       border: 1px solid #7d3030;
     }
   }
+  
   .text {
-    position: absolute;
+    position: relative; /* Changed to relative */
     left: 32vw;
-    top: 8vw;
+    top: -46vw;
     width: 60vw;
-    height: 62vw;
+    height: 56vw; /* Changed to auto to fit content */
     border-radius: 1px;
-    opacity: 1;
-
     background: #f6f3e5;
-    .imgs {
-      margin-top: 3vw;
+    
+    #imgs {
+      margin-top: 1vw;
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-around;
+      justify-content: center; /* Center the images */
       align-content: flex-start;
     }
+    
     .card {
       margin-top: 1vw;
       width: 17vw;
       height: 14vw;
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-around;
-      float: left;
+      justify-content: center; /* Center cards */
       margin-bottom: 1vw;
-      margin-left: 3vw;
+      margin-left: 0; /* Adjust left margin */
     }
+    
     .card .img {
       height: 14vw;
       width: 11vw;
     }
+    
     .demo-pagination-block {
-      position: relative;
-      left: -29vw;
-      height: 98vw;
+      width: 100%; /* Full width to center */
       display: flex;
-      justify-content: center; /* 使分页组件居中对齐 */
+      justify-content: center; /* Center pagination */
       align-items: center;
-      margin-top: 2vw; /* 调整与图片的间距 */
+      margin-top: 1vw; /* Space between images and pagination */
     }
   }
 }
