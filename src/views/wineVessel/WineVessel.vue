@@ -158,7 +158,7 @@ const handlePageChange = (page: number) => {
   background-image: url("@/assets/images/background.jpg");
   background-size: cover;
   width: 96vw;
-  height: 60vw;
+  height: 62vw;
   margin-left: 2vw;
   padding-bottom: 5vw;
   .serachTop {
@@ -199,12 +199,12 @@ const handlePageChange = (page: number) => {
   .text {
     position: absolute;
     left: 32vw;
-    top: 8vw;
+    top: 14vw;
     width: 60vw;
     height: 54vw;
     border-radius: 1px;
     background: #f6f3e5;
-    padding: 2vw;
+    padding: 1vw;
     .demo-pagination-block {
       display: flex;
       justify-content: center;
