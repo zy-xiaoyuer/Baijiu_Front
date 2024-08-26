@@ -251,14 +251,14 @@ const search = () => {
   }
   
   .text {
-    position: relative; /* Changed to relative */
+    position: absolute;
     left: 32vw;
-    top: -46vw;
+    top: 14vw;
     width: 60vw;
     height: 56vw; /* Changed to auto to fit content */
     border-radius: 1px;
     background: #f6f3e5;
-    
+    padding: 1vw;
     #imgs {
       margin-top: 1vw;
       display: flex;
