@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+    <div class="about">
     <div class="serachTop">
       <div class="serach">
         <el-input
@@ -25,12 +25,12 @@
     </div>
 
     <div class="text">
-      <h3>共{{ messages.length }}条数据</h3>
+      <h3>共{{ total }}条数据</h3>
       <hr />
       <div id="imgs">
         <div
           class="card"
-          v-for="message in messages"
+          v-for="message in paginatedMessages"
           :key="message.id"
           v-bind:title="message.title"
         >
@@ -47,7 +47,7 @@
           :disabled="disabled"
           :background="background"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="messages.length"
+          :total="total"
           @current-change="handlePageChange"
         />
       </div>
@@ -57,7 +57,7 @@
 
 <script lang="ts" setup>
 import * as echarts from "echarts";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import type { ComponentSize } from "element-plus";
 
 const input = ref("");
@@ -65,59 +65,89 @@ const currentPage4 = ref(1);
 const pageSize4 = ref(10);
 const size = ref<ComponentSize>("default");
 
-const messages = ref([
+const messages = ref<any[]>([
   {
     id: "1",
     title: "酒画1",
     src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+    dynasty: "唐朝",
   },
   {
     id: "2",
     title: "酒画2",
     src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+    dynasty: "唐朝",
   },
   {
     id: "3",
     title: "酒画3",
     src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+    dynasty: "唐朝",
   },
   {
     id: "4",
     title: "酒画4",
     src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+    dynasty: "唐朝",
   },
   {
     id: "5",
     title: "酒画4",
     src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+    dynasty: "唐朝",
   },
   {
     id: "6",
     title: "酒画6",
     src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+    dynasty: "唐朝",
   },
   {
     id: "7",
     title: "酒画7",
     src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+    dynasty: "唐朝",
   },
   {
     id: "8",
     title: "酒画8",
     src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+    dynasty: "唐朝",
   },
   {
     id: "9",
     title: "酒画9",
     src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
+    dynasty: "唐朝",
   },
   // 其他图片数据
 ]);
+// 用于存储过滤后的信息
+const filteredMessages = ref<any[]>(messages.value);
+
+const total = computed(() => filteredMessages.value.length);
+
+const paginatedMessages = computed(() => {
+  const start = (currentPage4.value - 1) * pageSize4.value;
+  return filteredMessages.value.slice(start, start + pageSize4.value);
+});
+
+const search = () => {
+  const query = input.value.toLowerCase();
+  filteredMessages.value = messages.value.filter(message =>
+    message.title.toLowerCase().includes(query)
+  );
+  currentPage4.value = 1; // 搜索后重置分页到第一页
+};
+
+const handlePageChange = (page: number) => {
+  currentPage4.value = page;
+};
 
 const markCharts = () => {
-  var chartDom = document.getElementById("rank1");
-  var myChart = echarts.init(chartDom);
-  var option = {
+  const chartDom = document.getElementById("rank1");
+  const myChart = echarts.init(chartDom);
+  const option = {
     tooltip: {
       trigger: "axis",
       axisPointer: {
@@ -175,25 +205,28 @@ const markCharts = () => {
   };
 
   option && myChart.setOption(option);
+
+  myChart.on('click', (params) => {
+    const selectedItem = params.name; // 获取被点击的项
+    filterMessagesByCategory(selectedItem); // 根据点击的项筛选数据
+  });
 };
 
-onMounted(async () => {
+const filterMessagesByCategory = (selectedItem: string) => {
+  filteredMessages.value = messages.value.filter(message => {
+    return message.dynasty === selectedItem;
+  });
+  currentPage4.value = 1; // 筛选后重置分页到第一页
+};
+
+onMounted(() => {
   setTimeout(() => {
     markCharts();
   }, 1000);
 });
 
 const viewDetail = (id: string) => {
-  // 跳转到详情页，并传递 id 参数
   window.location.href = `/WinePaintingDetail/${id}`;
-};
-
-const handlePageChange = (page: number) => {
-  currentPage4.value = page;
-};
-
-const search = () => {
-  // 你可以在这里实现搜索功能
 };
 </script>
 
