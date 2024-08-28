@@ -36,10 +36,10 @@
               params: { winePoetryDetailId: poem.id },
             }"
           >
-          <div class="poem-header">
-            <span class="custom-title">{{ poem.title }}</span>
-            <span class="custom-author">{{ poem.author }}</span>
-            <span class="custom-type">{{ poem.type }}</span>
+            <div class="poem-header">
+              <span class="custom-title">{{ poem.title }}</span>
+              <span class="custom-author">{{ poem.author }}</span>
+              <span class="custom-type">{{ poem.type }}</span>
             </div>
             <p class="custom-content">{{ poem.content }}</p>
           </router-link>
@@ -71,7 +71,7 @@ const currentPage4 = ref(1);
 const pageSize4 = ref(10);
 const size = ref<ComponentSize>("default");
 
-const poems = ref([
+const poems = ref<any[]>([
   {
     id: 1,
     title: "赠崔秋浦三首 其一",
@@ -118,18 +118,26 @@ const poems = ref([
     type: "五言绝句",
     content: "船上齐桡乐，湖心泛月归。白鸥闲不去，争拂酒筵飞。",
   },
-  // 更多诗词
+  // 更多诗词数据
 ]);
 
-const total = computed(() => poems.value.length);
+const filteredPoems = ref<any[]>([]);
+
+const total = computed(() => filteredPoems.value.length);
 
 const paginatedPoems = computed(() => {
   const start = (currentPage4.value - 1) * pageSize4.value;
-  return poems.value.slice(start, start + pageSize4.value);
+  return filteredPoems.value.slice(start, start + pageSize4.value);
 });
 
 const searchPoems = () => {
-  // 搜索逻辑
+  // 根据用户输入筛选诗词
+  const query = input.value.toLowerCase();
+  filteredPoems.value = poems.value.filter(poem =>
+    poem.title.toLowerCase().includes(query) ||
+    poem.author.toLowerCase().includes(query) ||
+    poem.content.toLowerCase().includes(query)
+  );
 };
 
 const handlePageChange = (page: number) => {
@@ -156,13 +164,31 @@ const markCharts = (id: string, data: string[], category: string) => {
       },
     ],
   };
+
   myChart.setOption(option);
+
+  // 添加点击事件
+  myChart.on('click', (params) => {
+    const selectedItem = params.name; // 获取被点击的项
+    filterPoemsByCategory(category, selectedItem); // 根据点击的项筛选诗词
+  });
+};
+
+const filterPoemsByCategory = (category: string, selectedItem: string) => {
+  filteredPoems.value = poems.value.filter(poem => {
+    if (category === '朝代') {
+      return poem.author.includes(selectedItem); // 根据朝代筛选诗词
+    } else if (category === '作者') {
+      return poem.author.includes(selectedItem); // 根据作者筛选诗词
+    }
+    return true;
+  });
 };
 
 onMounted(() => {
   markCharts(
     "rank1",
-    ["辽朝", "宋朝", "唐朝", "隋朝", "南北朝", "魏晋", "汉朝", "先秦"],
+    ["辽朝", "宋朝", "盛唐", "隋朝", "南北朝", "魏晋", "汉朝", "先秦"],
     "朝代"
   );
   markCharts(
@@ -170,6 +196,9 @@ onMounted(() => {
     ["李白", "白居易", "刘禹锡", "杜甫", "王维", "孟浩然", "韩愈", "柳宗元"],
     "作者"
   );
+  
+  // 初始化筛选
+  filteredPoems.value = poems.value;
 });
 </script>
 
