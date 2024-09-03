@@ -8,15 +8,26 @@
           placeholder="检索你感兴趣的内容"
           clearable
         />
-        <el-button type="primary" color="#7D3030" class="sbutton"
+        <el-button
+          type="primary"
+          color="#7D3030"
+          class="sbutton"
           >搜索</el-button
         >
       </div>
     </div>
 
-    <div id="rank" ref="rank" class="rank">
+    <div
+      id="rank"
+      ref="rank"
+      class="rank"
+    >
       分类统计
-      <div id="rank1" ref="rank1" class="rank1"></div>
+      <div
+        id="rank1"
+        ref="rank1"
+        class="rank1"
+      ></div>
     </div>
 
     <div class="text">
@@ -345,7 +356,7 @@ const input = ref("");
 // const toOut3 = () => {
 //   window.location.href = "/WinePaintingDetail";
 // };
-// const markCharts = () => {
+const markCharts = () => {
   var chartDom = document.getElementById("rank1");
   var myChart = echarts.init(chartDom);
   var option;
@@ -408,15 +419,15 @@ const input = ref("");
   };
 
   option && myChart.setOption(option);
+};
 
-//   onMounted(async () => {
-//     setTimeout(() => {
-//       markCharts();
-//     }, 1000);
-//   });
-// };
+onMounted(async () => {
+  setTimeout(() => {
+    markCharts();
+  }, 1000);
+});
 </script>
-  <style lang="less" scoped>
+<style lang="less" scoped>
 .about {
   background-image: url("@/assets/images/background.jpg");
   background-size: 100% 100%;

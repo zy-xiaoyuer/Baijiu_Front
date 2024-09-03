@@ -8,46 +8,65 @@
           placeholder="检索你感兴趣的内容"
           clearable
         />
-        <el-button type="primary" color="#7D3030" class="sbutton"
+        <el-button
+          type="primary"
+          color="#7D3030"
+          class="sbutton"
           >搜索</el-button
         >
       </div>
     </div>
 
-    <div id="rank" ref="rank" class="rank">
+    <div
+      id="rank"
+      ref="rank"
+      class="rank"
+    >
       分类统计
-      <div id="rank1" ref="rank1" class="rank1">朝代</div>
-      <div id="rank2" ref="rank2" class="rank2">作者</div>
+      <div
+        id="rank1"
+        ref="rank1"
+        class="rank1"
+      >
+        朝代
+      </div>
+      <div
+        id="rank2"
+        ref="rank2"
+        class="rank2"
+      >
+        作者
+      </div>
     </div>
 
     <div class="text">
       <h3>共100条数据</h3>
       <hr />
       <!-- <router-link to="/JuTi"> -->
-        <el-descriptions
-          class="margin-top1"
-          :column="3"
-          :size="size"
-          :style="blockMargin"
+      <el-descriptions
+        class="margin-top1"
+        :column="3"
+        :size="size"
+        :style="blockMargin"
+      >
+        <el-descriptions-item class="shiming1"
+          >赠崔秋浦三首 其一</el-descriptions-item
         >
-          <el-descriptions-item class="shiming1"
-            >赠崔秋浦三首 其一</el-descriptions-item
-          >
-          <el-descriptions-item class="shiren1">盛唐 李白</el-descriptions-item>
-          <el-descriptions-item class="leixing1">五言律诗</el-descriptions-item>
-          <el-descriptions-item class="shici1">
-            吾爱崔秋浦，宛然陶令风。门前五杨柳，井上二梧桐。山鸟下厅事，檐花落酒中。怀君未忍去，惆怅意无穷。
-          </el-descriptions-item>
-        </el-descriptions>
-        <el-button
-      link
-      @click="toOut1"
-      class="btn"
-      style="position: absolute;width: 115vw;top: 4vw;"
-    >
-      查看诗词细节
-    </el-button>
-        <hr />
+        <el-descriptions-item class="shiren1">盛唐 李白</el-descriptions-item>
+        <el-descriptions-item class="leixing1">五言律诗</el-descriptions-item>
+        <el-descriptions-item class="shici1">
+          吾爱崔秋浦，宛然陶令风。门前五杨柳，井上二梧桐。山鸟下厅事，檐花落酒中。怀君未忍去，惆怅意无穷。
+        </el-descriptions-item>
+      </el-descriptions>
+      <el-button
+        link
+        @click="toOut1"
+        class="btn"
+        style="position: absolute; width: 115vw; top: 4vw"
+      >
+        查看诗词细节
+      </el-button>
+      <hr />
       <!-- </router-link> -->
       <!-- <router-view></router-view> -->
       <el-descriptions
@@ -70,7 +89,9 @@
         :size="size"
         :style="blockMargin"
       >
-        <el-descriptions-item class="shiming3">陪侍郎叔游洞庭醉后三首 其二</el-descriptions-item>
+        <el-descriptions-item class="shiming3"
+          >陪侍郎叔游洞庭醉后三首 其二</el-descriptions-item
+        >
         <el-descriptions-item class="shiren3">盛唐 李白</el-descriptions-item>
         <el-descriptions-item class="leixing3">五言绝句</el-descriptions-item>
         <el-descriptions-item class="shici3">
@@ -79,20 +100,20 @@
       </el-descriptions>
       <hr />
       <el-descriptions
-          class="margin-top4"
-          :column="3"
-          :size="size"
-          :style="blockMargin"
+        class="margin-top4"
+        :column="3"
+        :size="size"
+        :style="blockMargin"
+      >
+        <el-descriptions-item class="shiming1"
+          >赠崔秋浦三首 其一</el-descriptions-item
         >
-          <el-descriptions-item class="shiming1"
-            >赠崔秋浦三首 其一</el-descriptions-item
-          >
-          <el-descriptions-item class="shiren1">盛唐 李白</el-descriptions-item>
-          <el-descriptions-item class="leixing1">五言律诗</el-descriptions-item>
-          <el-descriptions-item class="shici1">
-            吾爱崔秋浦，宛然陶令风。门前五杨柳，井上二梧桐。山鸟下厅事，檐花落酒中。怀君未忍去，惆怅意无穷。
-          </el-descriptions-item>
-        </el-descriptions>
+        <el-descriptions-item class="shiren1">盛唐 李白</el-descriptions-item>
+        <el-descriptions-item class="leixing1">五言律诗</el-descriptions-item>
+        <el-descriptions-item class="shici1">
+          吾爱崔秋浦，宛然陶令风。门前五杨柳，井上二梧桐。山鸟下厅事，檐花落酒中。怀君未忍去，惆怅意无穷。
+        </el-descriptions-item>
+      </el-descriptions>
       <hr />
       <el-descriptions
         class="margin-top5"
@@ -114,7 +135,9 @@
         :size="size"
         :style="blockMargin"
       >
-        <el-descriptions-item class="shiming3">陪侍郎叔游洞庭醉后三首 其二</el-descriptions-item>
+        <el-descriptions-item class="shiming3"
+          >陪侍郎叔游洞庭醉后三首 其二</el-descriptions-item
+        >
         <el-descriptions-item class="shiren3">盛唐 李白</el-descriptions-item>
         <el-descriptions-item class="leixing3">五言绝句</el-descriptions-item>
         <el-descriptions-item class="shici3">
@@ -153,11 +176,11 @@ import { textProps } from "element-plus";
 import type { ComponentSize } from "element-plus";
 import { ArrowDown, ArrowUp, Minus, Plus } from "@element-plus/icons-vue";
 
-const input = ref('');
-const activeNames = ref(['1'])
+const input = ref("");
+const activeNames = ref(["1"]);
 const handleChange = (val: string[]) => {
-  console.log(val)
-}
+  console.log(val);
+};
 const num = ref(1);
 
 const size = ref<ComponentSize>("default");
@@ -385,9 +408,8 @@ onUnmounted(() => {
 const toOut1 = () => {
   window.location.href = "/WinePoetryDetail";
 };
-
 </script>
-  <style lang="less" scoped>
+<style lang="less" scoped>
 .about {
   background-image: url("@/assets/images/background.jpg");
   background-size: 100% 100%;
