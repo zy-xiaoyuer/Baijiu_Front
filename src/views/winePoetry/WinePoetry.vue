@@ -10,405 +10,215 @@
         />
         <el-button
           type="primary"
-          color="#7D3030"
           class="sbutton"
-          >搜索</el-button
+          @click="searchPoems"
         >
+          搜索
+        </el-button>
       </div>
     </div>
 
-    <div
-      id="rank"
-      ref="rank"
-      class="rank"
-    >
-      分类统计
+    <div class="main-content">
       <div
-        id="rank1"
-        ref="rank1"
-        class="rank1"
+        id="rank"
+        ref="rank"
+        class="rank"
       >
-        朝代
+        分类统计
+        <div
+          id="rank1"
+          ref="rank1"
+          class="rank-item"
+        ></div>
+        <div
+          id="rank2"
+          ref="rank2"
+          class="rank-item"
+        ></div>
       </div>
-      <div
-        id="rank2"
-        ref="rank2"
-        class="rank2"
-      >
-        作者
-      </div>
-    </div>
 
-    <div class="text">
-      <h3>共100条数据</h3>
-      <hr />
-      <!-- <router-link to="/JuTi"> -->
-      <el-descriptions
-        class="margin-top1"
-        :column="3"
-        :size="size"
-        :style="blockMargin"
-      >
-        <el-descriptions-item class="shiming1"
-          >赠崔秋浦三首 其一</el-descriptions-item
+      <div class="text">
+        <h3>共{{ total }}条数据</h3>
+        <hr />
+        <div
+          v-for="(poem, index) in paginatedPoems"
+          :key="index"
+          class="poem-item-wrapper"
         >
-        <el-descriptions-item class="shiren1">盛唐 李白</el-descriptions-item>
-        <el-descriptions-item class="leixing1">五言律诗</el-descriptions-item>
-        <el-descriptions-item class="shici1">
-          吾爱崔秋浦，宛然陶令风。门前五杨柳，井上二梧桐。山鸟下厅事，檐花落酒中。怀君未忍去，惆怅意无穷。
-        </el-descriptions-item>
-      </el-descriptions>
-      <el-button
-        link
-        @click="toOut1"
-        class="btn"
-        style="position: absolute; width: 115vw; top: 4vw"
-      >
-        查看诗词细节
-      </el-button>
-      <hr />
-      <!-- </router-link> -->
-      <!-- <router-view></router-view> -->
-      <el-descriptions
-        class="margin-top2"
-        :column="3"
-        :size="size"
-        :style="blockMargin"
-      >
-        <el-descriptions-item class="shiming2">赠郭将军</el-descriptions-item>
-        <el-descriptions-item class="shiren2">盛唐 李白</el-descriptions-item>
-        <el-descriptions-item class="leixing2">七言律诗</el-descriptions-item>
-        <el-descriptions-item class="shici2">
-          将军少年出武威（一作豪荡有英威），入（一作昔）掌银台护紫微。平明拂剑朝天去，薄暮垂鞭醉酒归。爱子临风吹玉笛，美人向月舞罗衣。畴昔雄豪如梦里，相逢且欲醉春晖（一作今日相逢俱失路，何年霸上弄春晖）。
-        </el-descriptions-item>
-      </el-descriptions>
-      <hr />
-      <el-descriptions
-        class="margin-top3"
-        :column="3"
-        :size="size"
-        :style="blockMargin"
-      >
-        <el-descriptions-item class="shiming3"
-          >陪侍郎叔游洞庭醉后三首 其二</el-descriptions-item
-        >
-        <el-descriptions-item class="shiren3">盛唐 李白</el-descriptions-item>
-        <el-descriptions-item class="leixing3">五言绝句</el-descriptions-item>
-        <el-descriptions-item class="shici3">
-          船上齐桡乐，湖心泛月归。白鸥闲不去，争拂酒筵飞。
-        </el-descriptions-item>
-      </el-descriptions>
-      <hr />
-      <el-descriptions
-        class="margin-top4"
-        :column="3"
-        :size="size"
-        :style="blockMargin"
-      >
-        <el-descriptions-item class="shiming1"
-          >赠崔秋浦三首 其一</el-descriptions-item
-        >
-        <el-descriptions-item class="shiren1">盛唐 李白</el-descriptions-item>
-        <el-descriptions-item class="leixing1">五言律诗</el-descriptions-item>
-        <el-descriptions-item class="shici1">
-          吾爱崔秋浦，宛然陶令风。门前五杨柳，井上二梧桐。山鸟下厅事，檐花落酒中。怀君未忍去，惆怅意无穷。
-        </el-descriptions-item>
-      </el-descriptions>
-      <hr />
-      <el-descriptions
-        class="margin-top5"
-        :column="3"
-        :size="size"
-        :style="blockMargin"
-      >
-        <el-descriptions-item class="shiming2">赠郭将军</el-descriptions-item>
-        <el-descriptions-item class="shiren2">盛唐 李白</el-descriptions-item>
-        <el-descriptions-item class="leixing2">七言律诗</el-descriptions-item>
-        <el-descriptions-item class="shici2">
-          将军少年出武威（一作豪荡有英威），入（一作昔）掌银台护紫微。平明拂剑朝天去，薄暮垂鞭醉酒归。爱子临风吹玉笛，美人向月舞罗衣。畴昔雄豪如梦里，相逢且欲醉春晖（一作今日相逢俱失路，何年霸上弄春晖）。
-        </el-descriptions-item>
-      </el-descriptions>
-      <hr />
-      <el-descriptions
-        class="margin-top6"
-        :column="3"
-        :size="size"
-        :style="blockMargin"
-      >
-        <el-descriptions-item class="shiming3"
-          >陪侍郎叔游洞庭醉后三首 其二</el-descriptions-item
-        >
-        <el-descriptions-item class="shiren3">盛唐 李白</el-descriptions-item>
-        <el-descriptions-item class="leixing3">五言绝句</el-descriptions-item>
-        <el-descriptions-item class="shici3">
-          船上齐桡乐，湖心泛月归。白鸥闲不去，争拂酒筵飞。
-        </el-descriptions-item>
-      </el-descriptions>
-      <hr />
-      <el-space class="vertical">
-        <el-space
-          >前往 <el-input-number v-model="num" />页
-          <template #decrease-icon>
-            <el-icon>
-              <ArrowDown />
-            </el-icon>
-          </template>
-        </el-space>
-      </el-space>
+          <router-link
+            class="poem-item"
+            :to="{
+              name: 'winePoetryDetail',
+              params: { winePoetryDetailId: poem.id },
+            }"
+          >
+            <div class="poem-header">
+              <span class="custom-title">{{ poem.title }}</span>
+              <span class="custom-author">{{ poem.author }}</span>
+              <span class="custom-type">{{ poem.type }}</span>
+            </div>
+            <p class="custom-content">{{ poem.content }}</p>
+          </router-link>
+          <hr />
+        </div>
+        <div class="demo-pagination-block">
+          <el-pagination
+            v-model:current-page="currentPage4"
+            v-model:page-size="pageSize4"
+            :page-sizes="[10, 20, 30, 40]"
+            :size="size"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total"
+            @current-change="handlePageChange"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
+
 <script lang="ts" setup>
-import geoJson from "@/assets/json/china.json";
 import * as echarts from "echarts";
-import poi from "@/assets/json/position.json";
-import "echarts-gl";
-import {
-  onMounted,
-  ref,
-  watch,
-  onUnmounted,
-  reactive,
-  computed,
-  methods,
-} from "vue";
-import { textProps } from "element-plus";
+import { onMounted, ref, computed } from "vue";
 import type { ComponentSize } from "element-plus";
-import { ArrowDown, ArrowUp, Minus, Plus } from "@element-plus/icons-vue";
 
 const input = ref("");
-const activeNames = ref(["1"]);
-const handleChange = (val: string[]) => {
-  console.log(val);
-};
-const num = ref(1);
-
+const currentPage4 = ref(1);
+const pageSize4 = ref(10);
 const size = ref<ComponentSize>("default");
 
-const nowClientWidth1 = reactive({
-  value: window.innerWidth,
+const poems = ref<any[]>([
+  {
+    id: 1,
+    title: "赠崔秋浦三首 其一",
+    author: "盛唐 李白",
+    type: "五言律诗",
+    content:
+      "吾爱崔秋浦,宛然陶令风。门前五杨柳，井上二梧桐。山鸟下厅事，檐花落酒中。怀君未忍去，惆怅意无穷。",
+  },
+  {
+    id: 2,
+    title: "赠郭将军",
+    author: "盛唐 李白",
+    type: "七言律诗",
+    content:
+      "将军少年出武威（一作豪荡有英威），入（一作昔）掌银台护紫微。平明拂剑朝天去，薄暮垂鞭醉酒归。爱子临风吹玉笛，美人向月舞罗衣。畴昔雄豪如梦里，相逢且欲醉春晖（一作今日相逢俱失路，何年霸上弄春晖）。",
+  },
+  {
+    id: 3,
+    title: "陪侍郎叔游洞庭醉后三首 其二",
+    author: "盛唐 李白",
+    type: "五言绝句",
+    content: "船上齐桡乐，湖心泛月归。白鸥闲不去，争拂酒筵飞。",
+  },
+  {
+    id: 4,
+    title: "赠崔秋浦三首 其一",
+    author: "盛唐 李白",
+    type: "五言律诗",
+    content:
+      "吾爱崔秋浦,宛然陶令风。门前五杨柳，井上二梧桐。山鸟下厅事，檐花落酒中。怀君未忍去，惆怅意无穷。",
+  },
+  {
+    id: 5,
+    title: "赠郭将军",
+    author: "盛唐 李白",
+    type: "七言律诗",
+    content:
+      "将军少年出武威（一作豪荡有英威），入（一作昔）掌银台护紫微。平明拂剑朝天去，薄暮垂鞭醉酒归。爱子临风吹玉笛，美人向月舞罗衣。畴昔雄豪如梦里，相逢且欲醉春晖（一作今日相逢俱失路，何年霸上弄春晖）。",
+  },
+  {
+    id: 6,
+    title: "陪侍郎叔游洞庭醉后三首 其二",
+    author: "盛唐 李白",
+    type: "五言绝句",
+    content: "船上齐桡乐，湖心泛月归。白鸥闲不去，争拂酒筵飞。",
+  },
+  // 更多诗词数据
+]);
+
+const filteredPoems = ref<any[]>([]);
+
+const total = computed(() => filteredPoems.value.length);
+
+const paginatedPoems = computed(() => {
+  const start = (currentPage4.value - 1) * pageSize4.value;
+  return filteredPoems.value.slice(start, start + pageSize4.value);
 });
 
-function handleResize1() {
-  nowClientWidth1.value = window.innerWidth;
-  initChart1();
-  console.log(nowSize1(1));
-}
-
-const nowSize1 = (val: number) => {
-  const initWidth = 1920;
-  return val * (nowClientWidth1.value / initWidth);
+const searchPoems = () => {
+  // 根据用户输入筛选诗词
+  const query = input.value.toLowerCase();
+  filteredPoems.value = poems.value.filter(
+    (poem) =>
+      poem.title.toLowerCase().includes(query) ||
+      poem.author.toLowerCase().includes(query) ||
+      poem.content.toLowerCase().includes(query)
+  );
 };
-let myChart1 = null;
-const initChart1 = () => {
-  const mapChart1: HTMLElement = document.getElementById(
-    "rank1"
-  ) as HTMLElement;
-  if (myChart1) {
-    myChart1.dispose();
-  }
-  let xData = [23, 24, 36, 38, 43, 48, 49, 96];
-  let yData = [
-    "先秦",
-    "汉朝",
-    "魏晋",
-    "南北朝",
-    "隋朝",
-    "唐朝",
-    "宋朝",
-    "辽朝",
-  ];
-  myChart1 = echarts.init(mapChart1);
-  // 绘制图表
-  let option = {
-    tooltip: {
-      trigger: "axis",
-      axisPointer: {
-        type: "shadow",
-      },
-      textStyle: {
-        fontSize: nowSize1(1),
-      },
-    },
-    legend: {},
-    grid: {
-      left: nowSize1(0) + "%",
-      right: nowSize1(0) + "%",
-      bottom: nowSize1(0) + "%",
-      top: nowSize1(20) + "%",
-      containLabel: true,
-    },
-    xAxis: {
-      show: false,
-      type: "value",
-      boundaryGap: [0, 0.01],
-      splitLine: {
-        show: false, // 不显示网格线
-      },
-    },
-    yAxis: [
-      {
-        //   show: false,
-        type: "category",
-        axisTick: {
-          show: false, // 不显示坐标轴刻度线
-        },
-        axisLine: {
-          show: false, // 不显示坐标轴线
-        },
-        position: "left",
-        axisLabel: {
-          show: true,
-          fontSize: nowSize1(20),
-          color: "#3D3D3D",
-        },
-        data: yData,
-      },
-    ],
+
+const handlePageChange = (page: number) => {
+  currentPage4.value = page;
+};
+
+const markCharts = (id: string, data: string[], category: string) => {
+  const chartDom = document.getElementById(id);
+  const myChart = echarts.init(chartDom);
+  const option = {
+    tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
+    legend: { data: [category] },
+    grid: { left: "3%", right: "4%", bottom: "3%", containLabel: true },
+    xAxis: [{ type: "value", show: false }],
+    yAxis: [{ type: "category", axisTick: { show: false }, data }],
     series: [
       {
-        // name: "2011",
+        name: category,
         type: "bar",
-        data: xData,
-        itemStyle: {
-          color: "#7D3030",
-          shadowColor: "#7b4885",
-          shadowOffsetX: nowSize1(0),
-          shadowOffsetY: nowSize1(0),
-          shadowBlur: nowSize1(1),
-        },
-        label: {
-          show: false,
-          position: "right",
-          // color: "#9d7294",
-          offset: [nowSize1(0), 0],
-          textStyle: {
-            fontSize: nowSize1(2),
-          },
-        },
+        color: "#7D3030",
+        label: { show: false, position: "inside" },
+        emphasis: { focus: "series" },
+        data: [200, 170, 240, 244, 200, 220, 210, 150],
       },
     ],
   };
-  myChart1.setOption(option);
+
+  myChart.setOption(option);
+
+  // 添加点击事件
+  myChart.on("click", (params) => {
+    const selectedItem = params.name; // 获取被点击的项
+    filterPoemsByCategory(category, selectedItem); // 根据点击的项筛选诗词
+  });
 };
+
+const filterPoemsByCategory = (category: string, selectedItem: string) => {
+  filteredPoems.value = poems.value.filter((poem) => {
+    if (category === "朝代") {
+      return poem.author.includes(selectedItem); // 根据朝代筛选诗词
+    } else if (category === "作者") {
+      return poem.author.includes(selectedItem); // 根据作者筛选诗词
+    }
+    return true;
+  });
+};
+
 onMounted(() => {
-  initChart1();
-  window.addEventListener("resize", handleResize1);
-});
+  markCharts(
+    "rank1",
+    ["辽朝", "宋朝", "盛唐", "隋朝", "南北朝", "魏晋", "汉朝", "先秦"],
+    "朝代"
+  );
+  markCharts(
+    "rank2",
+    ["李白", "白居易", "刘禹锡", "杜甫", "王维", "孟浩然", "韩愈", "柳宗元"],
+    "作者"
+  );
 
-onUnmounted(() => {
-  window.removeEventListener("resize", handleResize1);
+  // 初始化筛选
+  filteredPoems.value = poems.value;
 });
-const nowClientWidth2 = reactive({
-  value: window.innerWidth,
-});
-
-function handleResize2() {
-  nowClientWidth2.value = window.innerWidth;
-  initChart2();
-  console.log(nowSize2(1));
-}
-
-const nowSize2 = (val: number) => {
-  const initWidth = 1920;
-  return val * (nowClientWidth2.value / initWidth);
-};
-let myChart2 = null;
-const initChart2 = () => {
-  const mapChart2: HTMLElement = document.getElementById(
-    "rank2"
-  ) as HTMLElement;
-  if (myChart2) {
-    myChart2.dispose();
-  }
-  let xData = [23, 24, 36, 38, 43, 48, 49, 96];
-  let yData = ["李白", "白居易", "刘禹锡", "XXX", "XX", "XXXX", "XX", "XXX"];
-  myChart2 = echarts.init(mapChart2);
-  // 绘制图表
-  let option = {
-    tooltip: {
-      trigger: "axis",
-      axisPointer: {
-        type: "shadow",
-      },
-      textStyle: {
-        fontSize: nowSize2(1),
-      },
-    },
-    legend: {},
-    grid: {
-      left: nowSize2(0) + "%",
-      right: nowSize2(0) + "%",
-      bottom: nowSize2(0) + "%",
-      top: nowSize2(20) + "%",
-      containLabel: true,
-    },
-    xAxis: {
-      show: false,
-      type: "value",
-      boundaryGap: [0, 0.01],
-      splitLine: {
-        show: false, // 不显示网格线
-      },
-    },
-    yAxis: [
-      {
-        //   show: false,
-        type: "category",
-        axisTick: {
-          show: false, // 不显示坐标轴刻度线
-        },
-        axisLine: {
-          show: false, // 不显示坐标轴线
-        },
-        position: "left",
-        axisLabel: {
-          show: true,
-          fontSize: nowSize2(20),
-          color: "#3D3D3D",
-        },
-        data: yData,
-      },
-    ],
-    series: [
-      {
-        // name: "2011",
-        type: "bar",
-        data: xData,
-        itemStyle: {
-          color: "#7D3030",
-          shadowColor: "#7b4885",
-          shadowOffsetX: nowSize2(0),
-          shadowOffsetY: nowSize2(0),
-          shadowBlur: nowSize2(1),
-        },
-        label: {
-          show: false,
-          position: "right",
-          // color: "#9d7294",
-          offset: [nowSize2(0), 0],
-          textStyle: {
-            fontSize: nowSize2(2),
-          },
-        },
-      },
-    ],
-  };
-  myChart2.setOption(option);
-};
-onMounted(() => {
-  initChart2();
-  window.addEventListener("resize", handleResize2);
-});
-
-onUnmounted(() => {
-  window.removeEventListener("resize", handleResize2);
-});
-
-const toOut1 = () => {
-  window.location.href = "/WinePoetryDetail";
-};
 </script>
+
 <style lang="less" scoped>
 .about {
   background-image: url("@/assets/images/background.jpg");
@@ -417,106 +227,105 @@ const toOut1 = () => {
   width: 96vw;
   margin-left: 2vw;
   padding: 0 0 5vw 0;
+
   .serachTop {
-    height: 25vw;
+    height: 10vw;
     width: 100vw;
     margin-left: -2vw;
-    background-size: 100% 100%;
-    // border: 1px solid #000;
     .serach {
       padding: 1vw 0 0 37vw;
       .input {
         width: 24vw;
         margin-right: 1vw;
-        font-size: 0.8rem;
       }
       .sbutton {
         font-size: 1rem;
       }
     }
   }
+
+  .main-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 2vw;
+  }
+
   .rank {
-    position: relative;
-    padding: 2vw;
-    left: 2vw;
-    top: -12vw;
+    margin-left: 1vw;
     width: 18vw;
-    height: 38vw;
-    border-radius: 1vw;
-    opacity: 1;
-
     background: #f6f3e5;
-    .rank1 {
-      position: absolute;
-      left: 1vw;
-      top: 4vw;
-      width: 19vw;
+    padding: 2vw;
+    .rank-item {
+      width: 100%;
       height: 17vw;
-      border-radius: 1vw;
-      opacity: 1;
-
-      box-sizing: border-box;
-      border: 1px solid #7d3030;
-    }
-    .rank2 {
-      position: absolute;
-      left: 1vw;
-      top: 22vw;
-      width: 19vw;
-      height: 17vw;
-      border-radius: 1vw;
-      opacity: 1;
-
-      box-sizing: border-box;
+      margin-bottom: 3vw;
       border: 1px solid #7d3030;
     }
   }
+
   .text {
-    position: absolute;
-    // padding: 2vw;
-    left: 33vw;
-    top: 17vw;
-    width: 62vw;
-    height: 55vw;
-    border-radius: 1px;
-    opacity: 1;
-
+    flex: 1;
     background: #f6f3e5;
-    .el-descriptions {
-      margin-top: 1vw;
-      padding: 0.5vw;
-      background-color: #f6f3e5;
+    padding: 2vw;
+    margin-right: 1vw;
+
+    .poem-item-wrapper {
+      margin-bottom: 1vw;
     }
-    .margin-top1 {
-      margin-top: 1vw;
-    }
-    .margin-top2 {
-      margin-top: 1vw;
-    }
-    .margin-top3 {
-      margin-top: 1vw;
-    }
-    .margin-top4 {
-      margin-top: 1vw;
-    }
-    .margin-top5 {
-      margin-top: 1vw;
-    }
-    .margin-top6 {
-      margin-top: 1vw;
-    }
-    .vertical {
+
+    .poem-item {
+      display: flex;
+      flex-direction: column;
+      background: #f6f3e5;
+      border-radius: 0.5vw;
+      padding: 1vw;
       position: relative;
-      left: 24vw;
-      top: 7vw;
-      width: 12vw;
-      height: 1vw;
-      opacity: 1;
+      text-decoration: none;
+      transition: background-color 0.3s;
+      &:hover {
+        background-color: #e0d8d1;
+      }
+    }
 
-      // background: #ffffff;
+    .poem-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5vw;
+    }
 
-      box-sizing: border-box;
-      // border: 1px solid rgba(145, 119, 119, 0.8);
+    .custom-title {
+      font-family: "Source Han Sans", sans-serif;
+      color: #3d3d3d;
+      flex: 2;
+      text-align: left;
+    }
+
+    .custom-author {
+      font-family: "Source Han Sans", sans-serif;
+      color: #3d3d3d;
+      flex: 1;
+      text-align: center;
+    }
+
+    .custom-type {
+      font-family: "Source Han Sans", sans-serif;
+      color: #3d3d3d;
+      flex: 1;
+      text-align: right;
+    }
+
+    .custom-content {
+      font-family: "Source Han Sans", sans-serif;
+      color: #908d8d;
+      margin-top: 0.5vw;
+    }
+
+    .demo-pagination-block {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1vw;
     }
   }
 }

@@ -20,70 +20,11 @@
         />
       </el-card>
       <el-container>
-        <el-header
-          style="
-            position: relative;
-            left: 52vw;
-            top: 6vw;
-            width: 12vw;
-            height: 3vw;
-            opacity: 1;
-
-            font-family: Source Han Sans;
-            font-size: 1vw;
-            font-weight: normal;
-            line-height: normal;
-            letter-spacing: 0em;
-
-            font-variation-settings: 'opsz' auto;
-            font-feature-settings: 'kern' on;
-            color: #908D8D;
-          "
-          >出处:XXX</el-header
-        >
-        <el-main
-          style="
-            position: relative;
-            left: 4vw;
-            top: 9vw;
-            width: 12vw;
-            height: 3vw;
-            opacity: 1;
-
-            font-family: Source Han Sans;
-            font-size: 1vw;
-            font-weight: normal;
-            line-height: normal;
-            letter-spacing: 0em;
-
-            font-variation-settings: 'opsz' auto;
-            font-feature-settings: 'kern' on;
-            color: #3D3D3D;
-          "
-          >相关描述</el-main
-        >
-        <el-footer
-          style="
-            position: relative;
-            left: 6vw;
-            top: 10vw;
-            width: 66vw;
-            height: 4vw;
-            opacity: 1;
-
-            font-family: Source Han Sans;
-            font-size: 1vw;
-            font-weight: normal;
-            line-height: normal;
-            letter-spacing: 0em;
-
-            font-variation-settings: 'opsz' auto;
-            font-feature-settings: 'kern' on;
-            color: #908d8d;
-          "
+        <el-header class="header11">出处:XXX</el-header>
+        <el-main class="main11">相关描述</el-main>
+        <el-footer class="footer11"
           >方彝是中国古代盛酒器,盛行于商晚期至西周中期。方彝的造型特征是长方形器身,带盖,直口,直腹,圈足。器盖上小底大,做成斜坡式屋顶形,圈足上往往每边都有一个缺口。方彝的盖与器身往往铸有4条或8条凸起的扉棱,全器满饰云雷纹地,上凸雕出兽面、动物等纹样，给人以庄重华丽的感觉。
-</el-footer
-        >
+        </el-footer>
       </el-container>
     </div>
   </div>
@@ -107,7 +48,60 @@
     opacity: 1;
 
     background: #f6f3e5;
+    .header11 {
+      position: relative;
+      left: 52vw;
+      top: 6vw;
+      width: 12vw;
+      height: 3vw;
+      opacity: 1;
+
+      font-family: Source Han Sans;
+      font-size: 1vw;
+      font-weight: normal;
+      line-height: normal;
+      letter-spacing: 0em;
+
+      font-variation-settings: "opsz" auto;
+      font-feature-settings: "kern" on;
+      color: #908d8d;
+    }
+    .main11 {
+      position: relative;
+      left: 4vw;
+      top: 9vw;
+      width: 12vw;
+      height: 3vw;
+      opacity: 1;
+
+      font-family: Source Han Sans;
+      font-size: 1vw;
+      font-weight: normal;
+      line-height: normal;
+      letter-spacing: 0em;
+
+      font-variation-settings: "opsz" auto;
+      font-feature-settings: "kern" on;
+      color: #3d3d3d;
+    }
+    .footer11 {
+      position: relative;
+      left: 6vw;
+      top: 10vw;
+      width: 66vw;
+      height: 4vw;
+      opacity: 1;
+
+      font-family: Source Han Sans;
+      font-size: 1vw;
+      font-weight: normal;
+      line-height: normal;
+      letter-spacing: 0em;
+
+      font-variation-settings: "opsz" auto;
+      font-feature-settings: "kern" on;
+      color: #908d8d;
+    }
   }
 }
 </style>
-

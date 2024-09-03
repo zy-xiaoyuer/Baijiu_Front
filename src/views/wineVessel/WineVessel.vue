@@ -8,358 +8,221 @@
           placeholder="检索你感兴趣的内容"
           clearable
         />
-        <el-button type="primary" color="#7D3030" class="sbutton"
+        <el-button
+          type="primary"
+          class="sbutton"
           >搜索</el-button
         >
       </div>
     </div>
 
-    <div id="rank" ref="rank" class="rank">
+    <div
+      id="rank"
+      class="rank"
+    >
       分类统计
-      <div id="rank1" ref="rank1" class="rank1">朝代</div>
+      <div
+        id="rank1"
+        class="rank1"
+      >
+        朝代
+      </div>
     </div>
 
     <div class="text">
-      <h3>共100条数据</h3>
+      <h3>共{{ total }}条数据</h3>
       <hr />
-      <!-- <el-button
-        link
-        @click="toOut2"
-        class="btn"
-        style="position: absolute; width: 115vw; top: 4vw"
-      >
-        查看酒器细节
-      </el-button> -->
-      <el-card
-        style="
-          max-width: 14vw;
-          position: relative;
-          width: 18vw;
-          margin-left: 2vw;
-          margin-bottom: 2vw;
-        "
-        class="1"
-      >
-        <!-- <template #header>Yummy hamburger</template> -->
-        <img
-          src="http://inews.gtimg.com/newsapp_match/0/14521737333/0"
-          @click="toOut2"
-          style="width: 12vw"
+      <div id="imgs">
+        <div
+          class="card"
+          v-for="message in paginatedMessages"
+          :key="message.id"
+          :title="message.title"
+        >
+          <img
+            class="img"
+            :src="message.src"
+            @click="viewDetail(message.id)"
+          />
+        </div>
+      </div>
+      <div class="demo-pagination-block">
+        <el-pagination
+          v-model:current-page="currentPage4"
+          v-model:page-size="pageSize4"
+          :page-sizes="[10, 20, 30, 40]"
+          :size="size"
+          :disabled="disabled"
+          :background="background"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total"
+          @current-change="handlePageChange"
         />
-      </el-card>
-      <el-card
-        style="
-          max-width: 14vw;
-          position: absolute;
-          width: 18vw;
-          margin-left: 2vw;
-          margin-bottom: 2vw;
-          top: 3.8vw;
-          left: 20vw;
-        "
-        class="2"
-      >
-        <!-- <template #header>Yummy hamburger</template> -->
-        <img
-          src="http://inews.gtimg.com/newsapp_match/0/14521737333/0"
-          style="width: 12vw"
-        />
-      </el-card>
-      <el-card
-        style="
-          max-width: 14vw;
-          position: absolute;
-          width: 18vw;
-          margin-left: 2vw;
-          margin-bottom: 2vw;
-          top: 3.8vw;
-          left: 40vw;
-        "
-        class="3"
-      >
-        <!-- <template #header>Yummy hamburger</template> -->
-        <img
-          src="http://inews.gtimg.com/newsapp_match/0/14521737333/0"
-          style="width: 12vw"
-        />
-      </el-card>
-      <el-card
-        style="
-          max-width: 14vw;
-          position: relative;
-          width: 18vw;
-          margin-left: 2vw;
-          margin-bottom: 2vw;
-        "
-        class="4"
-      >
-        <!-- <template #header>Yummy hamburger</template> -->
-        <img
-          src="http://inews.gtimg.com/newsapp_match/0/14521737333/0"
-          style="width: 12vw"
-        />
-      </el-card>
-      <el-card
-        style="
-          max-width: 14vw;
-          position: absolute;
-          width: 18vw;
-          margin-left: 2vw;
-          margin-bottom: 2vw;
-          top: 19vw;
-          left: 20vw;
-        "
-        class="5"
-      >
-        <!-- <template #header>Yummy hamburger</template> -->
-        <img
-          src="http://inews.gtimg.com/newsapp_match/0/14521737333/0"
-          style="width: 12vw"
-        />
-      </el-card>
-      <el-card
-        style="
-          max-width: 14vw;
-          position: absolute;
-          width: 18vw;
-          margin-left: 2vw;
-          margin-bottom: 2vw;
-          top: 19vw;
-          left: 40vw;
-        "
-        class="6"
-      >
-        <!-- <template #header>Yummy hamburger</template> -->
-        <img
-          src="http://inews.gtimg.com/newsapp_match/0/14521737333/0"
-          style="width: 12vw"
-        />
-      </el-card>
-      <el-card
-        style="
-          max-width: 14vw;
-          position: relative;
-          width: 18vw;
-          margin-left: 2vw;
-          margin-bottom: 2vw;
-        "
-        class="7"
-      >
-        <!-- <template #header>Yummy hamburger</template> -->
-        <img
-          src="http://inews.gtimg.com/newsapp_match/0/14521737333/0"
-          style="width: 12vw"
-        />
-      </el-card>
-      <el-card
-        style="
-          max-width: 14vw;
-          position: absolute;
-          width: 18vw;
-          margin-left: 2vw;
-          margin-bottom: 2vw;
-          top: 35vw;
-          left: 20vw;
-        "
-        class="8"
-      >
-        <!-- <template #header>Yummy hamburger</template> -->
-        <img
-          src="http://inews.gtimg.com/newsapp_match/0/14521737333/0"
-          style="width: 12vw"
-        />
-      </el-card>
-      <el-card
-        style="
-          max-width: 14vw;
-          position: absolute;
-          width: 18vw;
-          margin-left: 2vw;
-          margin-bottom: 2vw;
-          top: 35vw;
-          left: 40vw;
-        "
-        class="9"
-      >
-        <!-- <template #header>Yummy hamburger</template> -->
-        <img
-          src="http://inews.gtimg.com/newsapp_match/0/14521737333/0"
-          style="width: 12vw"
-        />
-      </el-card>
-      <el-space class="vertical">
-        <el-space
-          >前往 <el-input-number v-model="num" />页
-          <template #decrease-icon>
-            <el-icon>
-              <ArrowDown />
-            </el-icon>
-          </template>
-        </el-space>
-      </el-space>
+      </div>
     </div>
   </div>
 </template>
+
 <script lang="ts" setup>
-import geoJson from "@/assets/json/china.json";
+import { onMounted, ref, computed } from "vue";
 import * as echarts from "echarts";
-import poi from "@/assets/json/position.json";
-import "echarts-gl";
-import {
-  onMounted,
-  ref,
-  watch,
-  onUnmounted,
-  reactive,
-  computed,
-  methods,
-} from "vue";
-import { textProps } from "element-plus";
 import type { ComponentSize } from "element-plus";
-import { ArrowDown, ArrowUp, Minus, Plus } from "@element-plus/icons-vue";
 
-const input = ref('');
-const activeNames = ref(["1"]);
-const handleChange = (val: string[]) => {
-  console.log(val);
-};
-const num = ref(1);
-
+const input = ref("");
+const currentPage4 = ref(1);
+const pageSize4 = ref(10);
 const size = ref<ComponentSize>("default");
 
-const nowClientWidth1 = reactive({
-  value: window.innerWidth,
+const messages = ref<any[]>([
+  {
+    id: "1",
+    title: "酒器1",
+    src: "http://inews.gtimg.com/newsapp_bt/0/14521737333/641",
+    dynasty: "唐朝",
+  },
+  {
+    id: "2",
+    title: "酒器2",
+    src: "http://inews.gtimg.com/newsapp_bt/0/14521737333/641",
+    dynasty: "唐朝",
+  },
+  {
+    id: "3",
+    title: "酒器3",
+    src: "http://inews.gtimg.com/newsapp_bt/0/14521737333/641",
+    dynasty: "唐朝",
+  },
+  {
+    id: "4",
+    title: "酒器4",
+    src: "http://inews.gtimg.com/newsapp_bt/0/14521737333/641",
+    dynasty: "唐朝",
+  },
+  {
+    id: "5",
+    title: "酒器5",
+    src: "http://inews.gtimg.com/newsapp_bt/0/14521737333/641",
+    dynasty: "唐朝",
+  },
+  {
+    id: "6",
+    title: "酒器6",
+    src: "http://inews.gtimg.com/newsapp_bt/0/14521737333/641",
+    dynasty: "唐朝",
+  },
+  {
+    id: "7",
+    title: "酒器7",
+    src: "http://inews.gtimg.com/newsapp_bt/0/14521737333/641",
+    dynasty: "唐朝",
+  },
+  {
+    id: "8",
+    title: "酒器8",
+    src: "http://inews.gtimg.com/newsapp_bt/0/14521737333/641",
+    dynasty: "唐朝",
+  },
+  {
+    id: "9",
+    title: "酒器9",
+    src: "http://inews.gtimg.com/newsapp_bt/0/14521737333/641",
+    dynasty: "唐朝",
+  },
+]);
+
+// 用于存储过滤后的信息
+const filteredMessages = ref<any[]>(messages.value);
+
+const total = computed(() => filteredMessages.value.length);
+
+const paginatedMessages = computed(() => {
+  const start = (currentPage4.value - 1) * pageSize4.value;
+  return filteredMessages.value.slice(start, start + pageSize4.value);
 });
 
-function handleResize1() {
-  nowClientWidth1.value = window.innerWidth;
-  initChart1();
-  console.log(nowSize1(1));
-}
-
-const nowSize1 = (val: number) => {
-  const initWidth = 1920;
-  return val * (nowClientWidth1.value / initWidth);
+const search = () => {
+  const query = input.value.toLowerCase();
+  filteredMessages.value = messages.value.filter((message) =>
+    message.title.toLowerCase().includes(query)
+  );
+  currentPage4.value = 1; // 搜索后重置分页到第一页
 };
-let myChart1 = null;
-const initChart1 = () => {
-  const mapChart1: HTMLElement = document.getElementById(
-    "rank1"
-  ) as HTMLElement;
-  if (myChart1) {
-    myChart1.dispose();
-  }
-  let xData = [23, 24, 36, 38, 43, 48, 49, 96];
-  let yData = [
-    "先秦",
-    "汉朝",
-    "魏晋",
-    "南北朝",
-    "隋朝",
-    "唐朝",
-    "宋朝",
-    "辽朝",
-  ];
-  myChart1 = echarts.init(mapChart1);
-  // 绘制图表
-  let option = {
-    tooltip: {
-      trigger: "axis",
-      axisPointer: {
-        type: "shadow",
-      },
-      textStyle: {
-        fontSize: nowSize1(1),
-      },
-    },
-    legend: {},
-    grid: {
-      left: nowSize1(0) + "%",
-      right: nowSize1(0) + "%",
-      bottom: nowSize1(0) + "%",
-      top: nowSize1(20) + "%",
-      containLabel: true,
-    },
-    xAxis: {
-      show: false,
-      type: "value",
-      boundaryGap: [0, 0.01],
-      splitLine: {
-        show: false, // 不显示网格线
-      },
-    },
+
+const handlePageChange = (page: number) => {
+  currentPage4.value = page;
+};
+
+const markCharts = () => {
+  const chartDom = document.getElementById("rank1");
+  const myChart = echarts.init(chartDom);
+  const option = {
+    tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
+    legend: { data: ["朝代"] },
+    grid: { left: "3%", right: "4%", bottom: "3%", containLabel: true },
+    xAxis: [{ type: "value", show: false }],
     yAxis: [
       {
-        //   show: false,
         type: "category",
-        axisTick: {
-          show: false, // 不显示坐标轴刻度线
-        },
-        axisLine: {
-          show: false, // 不显示坐标轴线
-        },
-        position: "left",
-        axisLabel: {
-          show: true,
-          fontSize: nowSize1(20),
-          color: "#3D3D3D",
-        },
-        data: yData,
+        axisTick: { show: false },
+        data: [
+          "辽朝",
+          "宋朝",
+          "唐朝",
+          "隋朝",
+          "南北朝",
+          "魏晋",
+          "汉朝",
+          "先秦",
+        ],
       },
     ],
     series: [
       {
-        // name: "2011",
+        name: "朝代",
         type: "bar",
-        data: xData,
-        itemStyle: {
-          color: "#7D3030",
-          shadowColor: "#7b4885",
-          shadowOffsetX: nowSize1(0),
-          shadowOffsetY: nowSize1(0),
-          shadowBlur: nowSize1(1),
-        },
-        label: {
-          show: false,
-          position: "right",
-          // color: "#9d7294",
-          offset: [nowSize1(0), 0],
-          textStyle: {
-            fontSize: nowSize1(2),
-          },
-        },
+        color: "#7D3030",
+        label: { show: false },
+        emphasis: { focus: "series" },
+        data: [200, 170, 240, 244, 200, 220, 210, 150],
       },
     ],
   };
-  myChart1.setOption(option);
+  myChart.setOption(option);
+
+  myChart.on("click", (params) => {
+    const selectedItem = params.name; // 获取被点击的项
+    filterMessagesByCategory(selectedItem); // 根据点击的项筛选数据
+  });
 };
+
+const filterMessagesByCategory = (selectedItem: string) => {
+  filteredMessages.value = messages.value.filter((message) => {
+    return message.dynasty === selectedItem;
+  });
+  currentPage4.value = 1; // 筛选后重置分页到第一页
+};
+
 onMounted(() => {
-  initChart1();
-  window.addEventListener("resize", handleResize1);
+  setTimeout(markCharts, 1000);
 });
 
-onUnmounted(() => {
-  window.removeEventListener("resize", handleResize1);
-});
-
-const toOut2 = () => {
-  window.location.href = "/WineVesselDetail";
+const viewDetail = (id: string) => {
+  window.location.href = `/WineVesselDetail/${id}`;
 };
 </script>
-  <style lang="less" scoped>
+
+<style lang="less" scoped>
 .about {
   background-image: url("@/assets/images/background.jpg");
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
+  background-size: cover;
   width: 96vw;
+  height: 62vw;
   margin-left: 2vw;
-  padding: 0 0 5vw 0;
+  padding-bottom: 5vw;
   .serachTop {
     height: 25vw;
-    width: 100vw;
-    margin-left: -2vw;
-    background-size: 100% 100%;
-    // border: 1px solid #000;
+    width: 100%;
+    background-size: cover;
     .serach {
       padding: 1vw 0 0 37vw;
       .input {
@@ -380,8 +243,6 @@ const toOut2 = () => {
     width: 18vw;
     height: 23vw;
     border-radius: 1vw;
-    opacity: 1;
-
     background: #f6f3e5;
     .rank1 {
       position: absolute;
@@ -390,36 +251,41 @@ const toOut2 = () => {
       width: 19vw;
       height: 17vw;
       border-radius: 1vw;
-      opacity: 1;
-
-      box-sizing: border-box;
       border: 1px solid #7d3030;
     }
   }
   .text {
     position: absolute;
-    // padding: 2vw;
     left: 32vw;
-    top: 8vw;
+    top: 14vw;
     width: 60vw;
-    height: 53vw;
+    height: 54vw;
     border-radius: 1px;
-    opacity: 1;
-
     background: #f6f3e5;
-    .vertical {
-      position: absolute;
-      left: 24vw;
-      top: 50vw;
-      width: 12vw;
-      height: 1vw;
-      opacity: 1;
-
-      // background: #ffffff;
-
-      box-sizing: border-box;
-      // border: 1px solid rgba(145, 119, 119, 0.8);
+    padding: 1vw;
+    .demo-pagination-block {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 2vw;
     }
+  }
+  #imgs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  .card {
+    width: 17vw;
+    height: 14vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1vw;
+  }
+  .img {
+    height: 14vw;
+    width: 16vw;
   }
 }
 </style>
