@@ -64,6 +64,33 @@ import * as echarts from "echarts";
 import { onMounted, ref, watch, onUnmounted, reactive } from "vue";
 // import ts from "@/assets/ts.json";
 import ts from "@/assets/json/ts.json";
+import request from "@/api/request.js";
+
+// 接口测试
+
+// 酒诗
+function load() {
+  request
+    .post("poemsbylocation/api/listPage", {
+      pageSize: 1,
+      pageNum: 1,
+      // params: {
+      //   search: this.search,
+      // },
+    })
+    .then((res) => {
+      //res已经是data了
+      console.log("----------------------------------------");
+      console.log(res);
+      // if (res.code === 200) {
+      //   this.tableData = res.data;
+      //   this.total = res.total;
+      // } else {
+      //   alert("数据获取失败：" + res.msg);
+      // }
+    });
+}
+// -----------------------------
 
 const value = ref("全部");
 const options = [
@@ -100,7 +127,7 @@ const nowClientWidth = reactive({
 function handleResize() {
   nowClientWidth.value = window.innerWidth;
   initChart();
-  console.log(-1 * nowSize(195));
+  // console.log(-1 * nowSize(195));
 }
 
 const nowSize = (val: number) => {
@@ -461,7 +488,7 @@ const initChart = () => {
   };
   // 新
   ts.forEach((item: any) => {
-    console.log("item.data", item.data);
+    // console.log("item.data", item.data);
     let colorStyle = "";
     let n = 0;
     // 距离设置
@@ -568,6 +595,7 @@ const initChart = () => {
 };
 
 onMounted(() => {
+  load();
   initChart();
   window.addEventListener("resize", handleResize);
 });
