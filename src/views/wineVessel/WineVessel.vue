@@ -8,25 +8,13 @@
           placeholder="检索你感兴趣的内容"
           clearable
         />
-        <el-button
-          type="primary"
-          class="sbutton"
-          >搜索</el-button
-        >
+        <el-button type="primary" class="sbutton" @click="load">搜索</el-button>
       </div>
     </div>
 
-    <div
-      id="rank"
-      class="rank"
-    >
+    <div id="rank" class="rank">
       分类统计
-      <div
-        id="rank1"
-        class="rank1"
-      >
-        朝代
-      </div>
+      <div id="rank1" class="rank1">朝代</div>
     </div>
 
     <div class="text">
@@ -38,12 +26,9 @@
           v-for="message in paginatedMessages"
           :key="message.id"
           :title="message.title"
+          prop="vessel"
         >
-          <img
-            class="img"
-            :src="message.src"
-            @click="viewDetail(message.id)"
-          />
+          <img class="img" :src="message.src" @click="viewDetail(message.id)" />
         </div>
       </div>
       <div class="demo-pagination-block">
@@ -73,62 +58,7 @@ const currentPage4 = ref(1);
 const pageSize4 = ref(10);
 const size = ref<ComponentSize>("default");
 
-const messages = ref<any[]>([
-  {
-    id: "1",
-    title: "酒器1",
-    src: "http://inews.gtimg.com/newsapp_bt/0/14521737333/641",
-    dynasty: "唐朝",
-  },
-  {
-    id: "2",
-    title: "酒器2",
-    src: "http://inews.gtimg.com/newsapp_bt/0/14521737333/641",
-    dynasty: "唐朝",
-  },
-  {
-    id: "3",
-    title: "酒器3",
-    src: "http://inews.gtimg.com/newsapp_bt/0/14521737333/641",
-    dynasty: "唐朝",
-  },
-  {
-    id: "4",
-    title: "酒器4",
-    src: "http://inews.gtimg.com/newsapp_bt/0/14521737333/641",
-    dynasty: "唐朝",
-  },
-  {
-    id: "5",
-    title: "酒器5",
-    src: "http://inews.gtimg.com/newsapp_bt/0/14521737333/641",
-    dynasty: "唐朝",
-  },
-  {
-    id: "6",
-    title: "酒器6",
-    src: "http://inews.gtimg.com/newsapp_bt/0/14521737333/641",
-    dynasty: "唐朝",
-  },
-  {
-    id: "7",
-    title: "酒器7",
-    src: "http://inews.gtimg.com/newsapp_bt/0/14521737333/641",
-    dynasty: "唐朝",
-  },
-  {
-    id: "8",
-    title: "酒器8",
-    src: "http://inews.gtimg.com/newsapp_bt/0/14521737333/641",
-    dynasty: "唐朝",
-  },
-  {
-    id: "9",
-    title: "酒器9",
-    src: "http://inews.gtimg.com/newsapp_bt/0/14521737333/641",
-    dynasty: "唐朝",
-  },
-]);
+const messages = ref<any[]>([]);
 
 // 用于存储过滤后的信息
 const filteredMessages = ref<any[]>(messages.value);
@@ -209,6 +139,48 @@ onMounted(() => {
 const viewDetail = (id: string) => {
   window.location.href = `/WineVesselDetail/${id}`;
 };
+</script>
+
+<script lang="ts">
+
+import request from '@/api/request';
+
+export default {
+    data() {
+        return {
+            tableData: [],
+            currentPage4: 1,
+            pageSize4: 10,
+            total: 0,
+            search: "",
+        }
+    },
+    mounted() {
+        this.load();
+    },
+
+    methods: {
+        load() {
+            request.post("vesselTotal/api/list", {
+                pageSize: this.pageSize4,
+                pageNum: this.currentPage4,
+                params: {
+                    vessel: this.search
+                }
+            })
+                .then(res => {//res已经是data了
+                    console.log(res)
+                    if (res.code === 200) {
+                        this.tableData = res.data;
+                        this.total = res.total;
+                    } else {
+                        alert('数据获取失败：' + res.msg);
+                    }
+
+                })
+        },
+    }
+}
 </script>
 
 <style lang="less" scoped>
