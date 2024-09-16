@@ -11,7 +11,7 @@
         <el-button
           type="primary"
           class="sbutton"
-          @click="searchPoems"
+          @click="serach"
         >
           搜索
         </el-button>
@@ -81,61 +81,77 @@
 import * as echarts from "echarts";
 import { onMounted, ref, computed } from "vue";
 import type { ComponentSize } from "element-plus";
+import request from "@/api/request.js";
+
+function load() {
+  request
+    .post("poemimages/api/listPage", {
+      pageSize: 1,
+      pageNum: 1,
+      // params: {
+      //   search: this.search,
+      // },
+    })
+    .then((res) => {
+      //res已经是data了
+      console.log("----------------------------------------");
+      console.log(res);
+      // if (res.code === 200) {
+      //   this.tableData = res.data;
+      //   this.total = res.total;
+      // } else {
+      //   alert("数据获取失败：" + res.msg);
+      // }
+    });
+}
+// -----------------------------
+function serach() {
+  request
+    .post("poemsbydynasty/api/listPage", {
+      pageSize: 1,
+      pageNum: 1,
+      // params: {
+      //   search: this.search,
+      // },
+    })
+    .then((res) => {
+      //res已经是data了
+      console.log("----------------------------------------");
+      console.log(res);
+      // if (res.code === 200) {
+      //   this.tableData = res.data;
+      //   this.total = res.total;
+      // } else {
+      //   alert("数据获取失败：" + res.msg);
+      // }
+    });
+    request
+    .post("poemsbylocation/api/listPage", {
+      pageSize: 1,
+      pageNum: 1,
+      // params: {
+      //   search: this.search,
+      // },
+    })
+    .then((res) => {
+      //res已经是data了
+      console.log("----------------------------------------");
+      console.log(res);
+      // if (res.code === 200) {
+      //   this.tableData = res.data;
+      //   this.total = res.total;
+      // } else {
+      //   alert("数据获取失败：" + res.msg);
+      // }
+    });
+}
 
 const input = ref("");
 const currentPage4 = ref(1);
 const pageSize4 = ref(10);
 const size = ref<ComponentSize>("default");
 
-const poems = ref<any[]>([
-  {
-    id: 1,
-    title: "赠崔秋浦三首 其一",
-    author: "盛唐 李白",
-    type: "五言律诗",
-    content:
-      "吾爱崔秋浦,宛然陶令风。门前五杨柳，井上二梧桐。山鸟下厅事，檐花落酒中。怀君未忍去，惆怅意无穷。",
-  },
-  {
-    id: 2,
-    title: "赠郭将军",
-    author: "盛唐 李白",
-    type: "七言律诗",
-    content:
-      "将军少年出武威（一作豪荡有英威），入（一作昔）掌银台护紫微。平明拂剑朝天去，薄暮垂鞭醉酒归。爱子临风吹玉笛，美人向月舞罗衣。畴昔雄豪如梦里，相逢且欲醉春晖（一作今日相逢俱失路，何年霸上弄春晖）。",
-  },
-  {
-    id: 3,
-    title: "陪侍郎叔游洞庭醉后三首 其二",
-    author: "盛唐 李白",
-    type: "五言绝句",
-    content: "船上齐桡乐，湖心泛月归。白鸥闲不去，争拂酒筵飞。",
-  },
-  {
-    id: 4,
-    title: "赠崔秋浦三首 其一",
-    author: "盛唐 李白",
-    type: "五言律诗",
-    content:
-      "吾爱崔秋浦,宛然陶令风。门前五杨柳，井上二梧桐。山鸟下厅事，檐花落酒中。怀君未忍去，惆怅意无穷。",
-  },
-  {
-    id: 5,
-    title: "赠郭将军",
-    author: "盛唐 李白",
-    type: "七言律诗",
-    content:
-      "将军少年出武威（一作豪荡有英威），入（一作昔）掌银台护紫微。平明拂剑朝天去，薄暮垂鞭醉酒归。爱子临风吹玉笛，美人向月舞罗衣。畴昔雄豪如梦里，相逢且欲醉春晖（一作今日相逢俱失路，何年霸上弄春晖）。",
-  },
-  {
-    id: 6,
-    title: "陪侍郎叔游洞庭醉后三首 其二",
-    author: "盛唐 李白",
-    type: "五言绝句",
-    content: "船上齐桡乐，湖心泛月归。白鸥闲不去，争拂酒筵飞。",
-  },
-  // 更多诗词数据
-]);
+const poems = ref<any[]>([]);
 
 const filteredPoems = ref<any[]>([]);
 
@@ -146,16 +162,16 @@ const paginatedPoems = computed(() => {
   return filteredPoems.value.slice(start, start + pageSize4.value);
 });
 
-const searchPoems = () => {
-  // 根据用户输入筛选诗词
-  const query = input.value.toLowerCase();
-  filteredPoems.value = poems.value.filter(
-    (poem) =>
-      poem.title.toLowerCase().includes(query) ||
-      poem.author.toLowerCase().includes(query) ||
-      poem.content.toLowerCase().includes(query)
-  );
-};
+// const searchPoems = () => {
+//   // 根据用户输入筛选诗词
+//   const query = input.value.toLowerCase();
+//   filteredPoems.value = poems.value.filter(
+//     (poem) =>
+//       poem.title.toLowerCase().includes(query) ||
+//       poem.author.toLowerCase().includes(query) ||
+//       poem.content.toLowerCase().includes(query)
+//   );
+// };
 
 const handlePageChange = (page: number) => {
   currentPage4.value = page;
@@ -203,6 +219,7 @@ const filterPoemsByCategory = (category: string, selectedItem: string) => {
 };
 
 onMounted(() => {
+  load();
   markCharts(
     "rank1",
     ["辽朝", "宋朝", "盛唐", "隋朝", "南北朝", "魏晋", "汉朝", "先秦"],
