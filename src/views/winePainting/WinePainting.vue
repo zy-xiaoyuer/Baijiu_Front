@@ -12,7 +12,7 @@
           type="primary"
           color="#7D3030"
           class="sbutton"
-          @click="search"
+          @click="serach"
         >
           搜索
         </el-button>
@@ -71,69 +71,58 @@
 import * as echarts from "echarts";
 import { onMounted, ref, computed } from "vue";
 import type { ComponentSize } from "element-plus";
+import request from "@/api/request.js";
+
+function load() {
+  request
+    .post("poemimages/api/listPage", {
+      pageSize: 1,
+      pageNum: 1,
+      // params: {
+      //   search: this.search,
+      // },
+    })
+    .then((res) => {
+      //res已经是data了
+      console.log("----------------------------------------");
+      console.log(res);
+      // if (res.code === 200) {
+      //   this.tableData = res.data;
+      //   this.total = res.total;
+      // } else {
+      //   alert("数据获取失败：" + res.msg);
+      // }
+    });
+}
+// -----------------------------
+function serach() {
+  request
+    .post("poemsbydynasty/api/listPage", {
+      pageSize: 1,
+      pageNum: 1,
+      // params: {
+      //   search: this.search,
+      // },
+    })
+    .then((res) => {
+      //res已经是data了
+      console.log("----------------------------------------");
+      console.log(res);
+      // if (res.code === 200) {
+      //   this.tableData = res.data;
+      //   this.total = res.total;
+      // } else {
+      //   alert("数据获取失败：" + res.msg);
+      // }
+    });
+}
 
 const input = ref("");
 const currentPage4 = ref(1);
 const pageSize4 = ref(10);
 const size = ref<ComponentSize>("default");
 
-const messages = ref<any[]>([
-  {
-    id: "1",
-    title: "酒画1",
-    src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
-    dynasty: "唐朝",
-  },
-  {
-    id: "2",
-    title: "酒画2",
-    src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
-    dynasty: "唐朝",
-  },
-  {
-    id: "3",
-    title: "酒画3",
-    src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
-    dynasty: "唐朝",
-  },
-  {
-    id: "4",
-    title: "酒画4",
-    src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
-    dynasty: "唐朝",
-  },
-  {
-    id: "5",
-    title: "酒画4",
-    src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
-    dynasty: "唐朝",
-  },
-  {
-    id: "6",
-    title: "酒画6",
-    src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
-    dynasty: "唐朝",
-  },
-  {
-    id: "7",
-    title: "酒画7",
-    src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
-    dynasty: "唐朝",
-  },
-  {
-    id: "8",
-    title: "酒画8",
-    src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
-    dynasty: "唐朝",
-  },
-  {
-    id: "9",
-    title: "酒画9",
-    src: "https://img.zcool.cn/community/015e215bfb7bf0a80120925252effc.jpg@1280w_1l_2o_100sh.jpg",
-    dynasty: "唐朝",
-  },
-  // 其他图片数据
-]);
+const messages = ref<any[]>([]);
 // 用于存储过滤后的信息
 const filteredMessages = ref<any[]>(messages.value);
 
@@ -232,6 +221,7 @@ const filterMessagesByCategory = (selectedItem: string) => {
 };
 
 onMounted(() => {
+  load();
   setTimeout(() => {
     markCharts();
   }, 1000);
@@ -241,6 +231,7 @@ const viewDetail = (id: string) => {
   window.location.href = `/WinePaintingDetail/${id}`;
 };
 </script>
+
 
 <style lang="less" scoped>
 .about {
