@@ -8,7 +8,7 @@
           placeholder="检索你感兴趣的内容"
           clearable
         />
-        <el-button type="primary" class="sbutton" @click="load">搜索</el-button>
+        <el-button type="primary" class="sbutton" @click="serach">搜索</el-button>
       </div>
     </div>
 
@@ -52,6 +52,55 @@
 import { onMounted, ref, computed } from "vue";
 import * as echarts from "echarts";
 import type { ComponentSize } from "element-plus";
+import request from "@/api/request.js";
+
+// 接口测试
+
+// 酒诗
+function load() {
+  request
+    .post("vesselTotal/api/listPage", {
+      pageSize: 1,
+      pageNum: 1,
+      // params: {
+      //   search: this.search,
+      // },
+    })
+    .then((res) => {
+      //res已经是data了
+      console.log("----------------------------------------");
+      console.log(res);
+      // if (res.code === 200) {
+      //   this.tableData = res.data;
+      //   this.total = res.total;
+      // } else {
+      //   alert("数据获取失败：" + res.msg);
+      // }
+    });
+}
+// -----------------------------
+function serach() {
+  request
+    .post("vessel/api/listPage", {
+      pageSize: 1,
+      pageNum: 1,
+      // params: {
+      //   search: this.search,
+      // },
+    })
+    .then((res) => {
+      //res已经是data了
+      console.log("----------------------------------------");
+      console.log(res);
+      // if (res.code === 200) {
+      //   this.tableData = res.data;
+      //   this.total = res.total;
+      // } else {
+      //   alert("数据获取失败：" + res.msg);
+      // }
+    });
+}
+// -----------------------------
 
 const input = ref("");
 const currentPage4 = ref(1);
@@ -133,54 +182,13 @@ const filterMessagesByCategory = (selectedItem: string) => {
 };
 
 onMounted(() => {
+  load();
   setTimeout(markCharts, 1000);
 });
 
 const viewDetail = (id: string) => {
   window.location.href = `/WineVesselDetail/${id}`;
 };
-</script>
-
-<script lang="ts">
-
-import request from '@/api/request';
-
-export default {
-    data() {
-        return {
-            tableData: [],
-            currentPage4: 1,
-            pageSize4: 10,
-            total: 0,
-            search: "",
-        }
-    },
-    mounted() {
-        this.load();
-    },
-
-    methods: {
-        load() {
-            request.post("vesselTotal/api/list", {
-                pageSize: this.pageSize4,
-                pageNum: this.currentPage4,
-                params: {
-                    vessel: this.search
-                }
-            })
-                .then(res => {//res已经是data了
-                    console.log(res)
-                    if (res.code === 200) {
-                        this.tableData = res.data;
-                        this.total = res.total;
-                    } else {
-                        alert('数据获取失败：' + res.msg);
-                    }
-
-                })
-        },
-    }
-}
 </script>
 
 <style lang="less" scoped>
