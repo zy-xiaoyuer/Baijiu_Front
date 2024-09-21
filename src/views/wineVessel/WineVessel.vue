@@ -8,7 +8,9 @@
           placeholder="检索你感兴趣的内容"
           clearable
         />
-        <el-button type="primary" class="sbutton" @click="serach">搜索</el-button>
+        <el-button type="primary" class="sbutton" @click="handleSearch"
+          >搜索</el-button
+        >
       </div>
     </div>
 
@@ -20,15 +22,23 @@
     <div class="text">
       <h3>共{{ total }}条数据</h3>
       <hr />
-      <div id="imgs">
-        <div
-          class="card"
-          v-for="message in paginatedMessages"
-          :key="message.id"
-          :title="message.title"
-          prop="vessel"
-        >
-          <img class="img" :src="message.src" @click="viewDetail(message.id)" />
+      <div>
+        <div id="imgs">
+          <div
+            class="card"
+            v-for="message in paginatedMessages"
+            :key="message.id"
+            :title="message.name"
+          >
+            <!-- Base64 编码图片的正确格式 -->
+            <img
+              class="img"
+              :src="'data:image/jpeg;base64,' + message.picture"
+              @click="viewDetail(message.id)"
+              alt="Image"
+            />
+            <!-- <p>{{ message.name }}</p> -->
+          </div>
         </div>
       </div>
       <div class="demo-pagination-block">
@@ -54,53 +64,12 @@ import * as echarts from "echarts";
 import type { ComponentSize } from "element-plus";
 import request from "@/api/request.js";
 
-// 接口测试
-
-// 酒诗
-function load() {
-  request
-    .post("vesselTotal/api/listPage", {
-      pageSize: 1,
-      pageNum: 1,
-      // params: {
-      //   search: this.search,
-      // },
-    })
-    .then((res) => {
-      //res已经是data了
-      console.log("----------------------------------------");
-      console.log(res);
-      // if (res.code === 200) {
-      //   this.tableData = res.data;
-      //   this.total = res.total;
-      // } else {
-      //   alert("数据获取失败：" + res.msg);
-      // }
-    });
+interface message {
+  discription: string;
+  id: number;
+  name: string;
+  picture: byte[];
 }
-// -----------------------------
-function serach() {
-  request
-    .post("vessel/api/listPage", {
-      pageSize: 1,
-      pageNum: 1,
-      // params: {
-      //   search: this.search,
-      // },
-    })
-    .then((res) => {
-      //res已经是data了
-      console.log("----------------------------------------");
-      console.log(res);
-      // if (res.code === 200) {
-      //   this.tableData = res.data;
-      //   this.total = res.total;
-      // } else {
-      //   alert("数据获取失败：" + res.msg);
-      // }
-    });
-}
-// -----------------------------
 
 const input = ref("");
 const currentPage4 = ref(1);
@@ -112,10 +81,67 @@ const messages = ref<any[]>([]);
 // 用于存储过滤后的信息
 const filteredMessages = ref<any[]>(messages.value);
 
-const total = computed(() => filteredMessages.value.length);
+const total = ref(0);
+
+function load() {
+  request
+    .post("vesselTotal/api/listPage", {
+      pageSize: pageSize4.value,
+      pageNum: currentPage4.value,
+      params: {
+        search: input.value,
+      },
+    })
+    .then((res) => {
+      //res已经是data了
+      console.log("----------------------------------------");
+      console.log(res);
+      if (res.code === 200) {
+        // messages.value = res.data;
+        filteredMessages.value = res.data;
+        total.value = res.total;
+      } else {
+        alert("数据获取失败：" + res.msg);
+      }
+    });
+}
+// -----------------------------
+// function handleSearch() {
+//   request
+//     .post("vessel/api/list", {
+//       pageSize: 1,
+//       pageNum: 1,
+//       params: {
+//         search: input.value,
+//       },
+//     })
+//     .then((res) => {
+//       //res已经是data了
+//       console.log("----------------------------------------");
+//       console.log(res);
+//       if (res.code === 200) {
+//         messages.value = res.data;
+//         filteredMessages.value=res.data
+//         total.value= res.total;
+//       } else {
+//         alert("数据获取失败：" + res.msg);
+//       }
+//     });
+// }
+// -----------------------------
+const handleSearch = () => {
+  load();
+};
+
+const handleSizeChange = (newSize: number) => {
+  // queryParam.pageSize = newSize;
+  pageSize4.value = newSize;
+  load();
+};
 
 const paginatedMessages = computed(() => {
-  const start = (currentPage4.value - 1) * pageSize4.value;
+  let start = (currentPage4.value - 1) * pageSize4.value;
+  start = 0;
   return filteredMessages.value.slice(start, start + pageSize4.value);
 });
 
@@ -129,6 +155,7 @@ const search = () => {
 
 const handlePageChange = (page: number) => {
   currentPage4.value = page;
+  load();
 };
 
 const markCharts = () => {
@@ -143,16 +170,7 @@ const markCharts = () => {
       {
         type: "category",
         axisTick: { show: false },
-        data: [
-          "辽朝",
-          "宋朝",
-          "唐朝",
-          "隋朝",
-          "南北朝",
-          "魏晋",
-          "汉朝",
-          "先秦",
-        ],
+        data: ["辽朝", "宋朝", "唐朝", "隋朝", "南北朝", "魏晋", "汉", "先秦"],
       },
     ],
     series: [
