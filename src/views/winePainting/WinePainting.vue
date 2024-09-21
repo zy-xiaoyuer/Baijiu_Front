@@ -12,24 +12,16 @@
           type="primary"
           color="#7D3030"
           class="sbutton"
-          @click="serach"
+          @click="handSearch"
         >
           搜索
         </el-button>
       </div>
     </div>
 
-    <div
-      id="rank"
-      ref="rank"
-      class="rank"
-    >
+    <div id="rank" ref="rank" class="rank">
       分类统计
-      <div
-        id="rank1"
-        ref="rank1"
-        class="rank1"
-      ></div>
+      <div id="rank1" ref="rank1" class="rank1"></div>
     </div>
 
     <div class="text">
@@ -40,12 +32,13 @@
           class="card"
           v-for="message in paginatedMessages"
           :key="message.id"
-          v-bind:title="message.title"
+          v-bind:title="message.imagename"
         >
           <img
             class="img"
-            :src="message.src"
+            :src="'data:image/jpeg;base64,' + message.image"
             @click="viewDetail(message.id)"
+            alt="Image"
           />
           <br />
         </div>
@@ -73,48 +66,11 @@ import { onMounted, ref, computed } from "vue";
 import type { ComponentSize } from "element-plus";
 import request from "@/api/request.js";
 
-function load() {
-  request
-    .post("poemimages/api/listPage", {
-      pageSize: 1,
-      pageNum: 1,
-      // params: {
-      //   search: this.search,
-      // },
-    })
-    .then((res) => {
-      //res已经是data了
-      console.log("----------------------------------------");
-      console.log(res);
-      // if (res.code === 200) {
-      //   this.tableData = res.data;
-      //   this.total = res.total;
-      // } else {
-      //   alert("数据获取失败：" + res.msg);
-      // }
-    });
-}
-// -----------------------------
-function serach() {
-  request
-    .post("poemsbydynasty/api/listPage", {
-      pageSize: 1,
-      pageNum: 1,
-      // params: {
-      //   search: this.search,
-      // },
-    })
-    .then((res) => {
-      //res已经是data了
-      console.log("----------------------------------------");
-      console.log(res);
-      // if (res.code === 200) {
-      //   this.tableData = res.data;
-      //   this.total = res.total;
-      // } else {
-      //   alert("数据获取失败：" + res.msg);
-      // }
-    });
+interface message {
+  dynasty: string;
+  id: number;
+  imagename: string;
+  image: byte[];
 }
 
 const input = ref("");
@@ -126,10 +82,67 @@ const messages = ref<any[]>([]);
 // 用于存储过滤后的信息
 const filteredMessages = ref<any[]>(messages.value);
 
-const total = computed(() => filteredMessages.value.length);
+// const total = computed(() => filteredMessages.value.length);
+const total = ref(0);
+
+function load() {
+  request
+    .post("poemimages/api/listPage", {
+      pageSize: pageSize4.value,
+      pageNum: currentPage4.value,
+      params: {
+        search: input.value,
+      },
+    })
+    .then((res) => {
+      //res已经是data了
+      console.log("----------------------------------------");
+      console.log(res);
+      if (res.code === 200) {
+        // messages.value = res.data;
+        filteredMessages.value = res.data;
+        total.value = res.total;
+      } else {
+        alert("数据获取失败：" + res.msg);
+      }
+    });
+}
+// -----------------------------
+function handSearch() {
+  request
+    .post("poemsbydynasty/api/listPage", {
+      pageSize: pageSize4.value,
+      pageNum: currentPage4.value,
+      params: {
+        search: input.value,
+      },
+    })
+    .then((res) => {
+      //res已经是data了
+      console.log("----------------------------------------");
+      console.log(res);
+      if (res.code === 200) {
+        messages.value = res.data;
+        filteredMessages.value = res.data;
+        total.value = res.total;
+      } else {
+        alert("数据获取失败：" + res.msg);
+      }
+    });
+}
+// const handleSearch = () => {
+//   load();
+// };
+
+const handleSizeChange = (newSize: number) => {
+  // queryParam.pageSize = newSize;
+  pageSize4.value = newSize;
+  load();
+};
 
 const paginatedMessages = computed(() => {
-  const start = (currentPage4.value - 1) * pageSize4.value;
+  let start = (currentPage4.value - 1) * pageSize4.value;
+  start=0;
   return filteredMessages.value.slice(start, start + pageSize4.value);
 });
 
@@ -143,6 +156,7 @@ const search = () => {
 
 const handlePageChange = (page: number) => {
   currentPage4.value = page;
+  load();
 };
 
 const markCharts = () => {
