@@ -45,7 +45,7 @@
         <el-pagination
           v-model:current-page="currentPage4"
           v-model:page-size="pageSize4"
-          :page-sizes="[10, 20, 30, 40]"
+          :page-sizes="[9, 18, 27, 36]"
           :size="size"
           :disabled="disabled"
           :background="background"
@@ -73,7 +73,7 @@ interface message {
 
 const input = ref("");
 const currentPage4 = ref(1);
-const pageSize4 = ref(10);
+const pageSize4 = ref(9);
 const size = ref<ComponentSize>("default");
 
 const messages = ref<any[]>([]);
