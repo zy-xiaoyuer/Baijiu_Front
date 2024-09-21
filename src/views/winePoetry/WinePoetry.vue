@@ -11,7 +11,7 @@
         <el-button
           type="primary"
           class="sbutton"
-          @click="serach"
+          @click="handleSearch"
         >
           搜索
         </el-button>
@@ -19,47 +19,28 @@
     </div>
 
     <div class="main-content">
-      <div
-        id="rank"
-        ref="rank"
-        class="rank"
-      >
+      <div id="rank" ref="rank" class="rank">
         分类统计
-        <div
-          id="rank1"
-          ref="rank1"
-          class="rank-item"
-        ></div>
-        <div
-          id="rank2"
-          ref="rank2"
-          class="rank-item"
-        ></div>
+        <div id="rank1" ref="rank1" class="rank-item"></div>
+        <div id="rank2" ref="rank2" class="rank-item"></div>
       </div>
 
       <div class="text">
         <h3>共{{ total }}条数据</h3>
-        <hr />
-        <div
-          v-for="(poem, index) in paginatedPoems"
-          :key="index"
-          class="poem-item-wrapper"
-        >
+        <hr>
+        <div v-for="(poem) in paginatedPoems" :key="poem.id" class="poem-item-wrapper">
           <router-link
             class="poem-item"
-            :to="{
-              name: 'winePoetryDetail',
-              params: { winePoetryDetailId: poem.id },
-            }"
+            :to="{name: 'winePoetryDetail', params: { winePoetryDetailId: poem.id } }"
           >
             <div class="poem-header">
               <span class="custom-title">{{ poem.title }}</span>
               <span class="custom-author">{{ poem.author }}</span>
-              <span class="custom-type">{{ poem.type }}</span>
+              <span class="custom-type">{{ poem.dynasty }}</span>
             </div>
             <p class="custom-content">{{ poem.content }}</p>
           </router-link>
-          <hr />
+          <hr>
         </div>
         <div class="demo-pagination-block">
           <el-pagination
@@ -79,102 +60,93 @@
 
 <script lang="ts" setup>
 import * as echarts from "echarts";
-import { onMounted, ref, computed } from "vue";
-import type { ComponentSize } from "element-plus";
+import { ref, computed, reactive, onMounted, onBeforeUpdate, onUpdated } from "vue";
 import request from "@/api/request.js";
+import { ElMessage } from 'element-plus';
 
-function load() {
-  request
-    .post("poemimages/api/listPage", {
-      pageSize: 1,
-      pageNum: 1,
-      // params: {
-      //   search: this.search,
-      // },
-    })
-    .then((res) => {
-      //res已经是data了
-      console.log("----------------------------------------");
-      console.log(res);
-      // if (res.code === 200) {
-      //   this.tableData = res.data;
-      //   this.total = res.total;
-      // } else {
-      //   alert("数据获取失败：" + res.msg);
-      // }
-    });
-}
-// -----------------------------
-function serach() {
-  request
-    .post("poemsbydynasty/api/listPage", {
-      pageSize: 1,
-      pageNum: 1,
-      // params: {
-      //   search: this.search,
-      // },
-    })
-    .then((res) => {
-      //res已经是data了
-      console.log("----------------------------------------");
-      console.log(res);
-      // if (res.code === 200) {
-      //   this.tableData = res.data;
-      //   this.total = res.total;
-      // } else {
-      //   alert("数据获取失败：" + res.msg);
-      // }
-    });
-    request
-    .post("poemsbylocation/api/listPage", {
-      pageSize: 1,
-      pageNum: 1,
-      // params: {
-      //   search: this.search,
-      // },
-    })
-    .then((res) => {
-      //res已经是data了
-      console.log("----------------------------------------");
-      console.log(res);
-      // if (res.code === 200) {
-      //   this.tableData = res.data;
-      //   this.total = res.total;
-      // } else {
-      //   alert("数据获取失败：" + res.msg);
-      // }
-    });
+interface Poem {
+  id: number;
+  title: string;
+  dynasty: string;
+  author: string;
+  content: string;
+  year?: number;
+  tags: string[];
 }
 
 const input = ref("");
 const currentPage4 = ref(1);
 const pageSize4 = ref(10);
-const size = ref<ComponentSize>("default");
+const size = ref("default");
 
-const poems = ref<any[]>([]);
+const poems = ref<Poem[]>([]);
+const total = ref(0);
+const filteredPoems = ref<Poem[]>([]);
 
-const filteredPoems = ref<any[]>([]);
+// const queryParam = reactive({
+//   search: '',
+//   pageNum: 1,
+//   pageSize: 10,
+// });
 
-const total = computed(() => filteredPoems.value.length);
+function fetchPoems() {
+  request
+    .post("poemsbydynasty/api/listPage", {
+      pageSize: pageSize4.value,
+      pageNum: currentPage4.value,
+      params: {
+        search: input.value,
+      },
+    })
+    .then((res) => {
+      console.log("----------------------------------------");
+      console.log(res);
+      if (res.code === 200) {
+        poems.value = res.data;
+        filteredPoems.value = res.data
+        total.value = res.total;
+      } else {
+        ElMessage.error("数据获取失败：" + res.msg);
+      }
+    });
+}
+
+
+const handleSizeChange = (newSize: number) => {
+  // queryParam.pageSize = newSize;
+  pageSize4.value = newSize;
+  fetchPoems();
+};
+
+const handleSearch = () => {
+  // queryParam.pageNum = 1; // 重置到第一页
+  fetchPoems();
+};
 
 const paginatedPoems = computed(() => {
-  const start = (currentPage4.value - 1) * pageSize4.value;
+  let start = (currentPage4.value - 1) * pageSize4.value;
+  start = 0
+  console.log("paginatedPoems computed value:",filteredPoems.value.slice(start, start + pageSize4.value),filteredPoems.value)
   return filteredPoems.value.slice(start, start + pageSize4.value);
 });
 
-// const searchPoems = () => {
-//   // 根据用户输入筛选诗词
-//   const query = input.value.toLowerCase();
-//   filteredPoems.value = poems.value.filter(
-//     (poem) =>
-//       poem.title.toLowerCase().includes(query) ||
-//       poem.author.toLowerCase().includes(query) ||
-//       poem.content.toLowerCase().includes(query)
-//   );
-// };
 
-const handlePageChange = (page: number) => {
-  currentPage4.value = page;
+const searchPoems = () => {
+  // 根据用户输入筛选诗词
+  const query = input.value.toLowerCase();
+  filteredPoems.value = poems.value.filter(
+    (poem) =>
+      poem.title.toLowerCase().includes(query) ||
+      poem.author.toLowerCase().includes(query) ||
+      poem.content.toLowerCase().includes(query)
+  );
+};
+
+const handlePageChange = (newPage: number) => {
+  // queryParam.pageNum = newPage;
+  currentPage4.value = newPage;
+  // console.log("currentPage4.value:",currentPage4.value,newPage)
+  fetchPoems();
 };
 
 const markCharts = (id: string, data: string[], category: string) => {
@@ -187,7 +159,7 @@ const markCharts = (id: string, data: string[], category: string) => {
     xAxis: [{ type: "value", show: false }],
     yAxis: [{ type: "category", axisTick: { show: false }, data }],
     series: [
-      {
+    {
         name: category,
         type: "bar",
         color: "#7D3030",
@@ -197,7 +169,6 @@ const markCharts = (id: string, data: string[], category: string) => {
       },
     ],
   };
-
   myChart.setOption(option);
 
   // 添加点击事件
@@ -210,7 +181,8 @@ const markCharts = (id: string, data: string[], category: string) => {
 const filterPoemsByCategory = (category: string, selectedItem: string) => {
   filteredPoems.value = poems.value.filter((poem) => {
     if (category === "朝代") {
-      return poem.author.includes(selectedItem); // 根据朝代筛选诗词
+      console.log("filterPoemsByCategory",poem.dynasty.includes(selectedItem))
+      return poem.dynasty.includes(selectedItem); // 根据朝代筛选诗词
     } else if (category === "作者") {
       return poem.author.includes(selectedItem); // 根据作者筛选诗词
     }
@@ -218,22 +190,35 @@ const filterPoemsByCategory = (category: string, selectedItem: string) => {
   });
 };
 
-onMounted(() => {
-  load();
-  markCharts(
-    "rank1",
-    ["辽朝", "宋朝", "盛唐", "隋朝", "南北朝", "魏晋", "汉朝", "先秦"],
-    "朝代"
-  );
-  markCharts(
-    "rank2",
-    ["李白", "白居易", "刘禹锡", "杜甫", "王维", "孟浩然", "韩愈", "柳宗元"],
-    "作者"
-  );
+const rankData = ref([
+  {
+    id: "rank1",
+    data: ["辽朝", "宋朝", "盛唐", "隋朝", "南北朝", "魏晋", "汉", "先秦"],
+    category: "朝代"
+  },
+  {
+    id: "rank2",
+    data: ["李白", "白居易", "刘禹锡", "杜甫", "王维", "孟浩然", "韩愈", "柳宗元"],
+    category: "作者"
+  }
+]);
 
-  // 初始化筛选
-  filteredPoems.value = poems.value;
+onMounted(() => {
+  rankData.value.forEach((rank) => {
+    markCharts(rank.id, rank.data, rank.category);
+  });
+  fetchPoems();
+  // filteredPoems.value = poems.value;
+  console.log('组件第一次加载...',poems.value)
 });
+
+onBeforeUpdate(() =>{
+  console.log("paginatedPoems",paginatedPoems)
+})
+
+onUpdated(() =>{
+  console.log("paginatedPoems onUpdated",paginatedPoems.value)
+})
 </script>
 
 <style lang="less" scoped>
