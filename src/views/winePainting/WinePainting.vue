@@ -19,9 +19,17 @@
       </div>
     </div>
 
-    <div id="rank" ref="rank" class="rank">
+    <div
+      id="rank"
+      ref="rank"
+      class="rank"
+    >
       分类统计
-      <div id="rank1" ref="rank1" class="rank1"></div>
+      <div
+        id="rank1"
+        ref="rank1"
+        class="rank1"
+      ></div>
     </div>
 
     <div class="text">
@@ -70,6 +78,7 @@ interface message {
   dynasty: string;
   id: number;
   imagename: string;
+  // eslint-disable-next-line no-undef
   image: byte[];
 }
 
@@ -142,7 +151,7 @@ const handleSizeChange = (newSize: number) => {
 
 const paginatedMessages = computed(() => {
   let start = (currentPage4.value - 1) * pageSize4.value;
-  start=0;
+  start = 0;
   return filteredMessages.value.slice(start, start + pageSize4.value);
 });
 
@@ -245,7 +254,6 @@ const viewDetail = (id: string) => {
   window.location.href = `/WinePaintingDetail/${id}`;
 };
 </script>
-
 
 <style lang="less" scoped>
 .about {

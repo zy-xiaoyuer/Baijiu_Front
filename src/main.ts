@@ -9,6 +9,11 @@ import { createPinia } from "pinia";
 import * as echarts from "echarts";
 
 const app = createApp(App);
+axios.get("/config.json").then((res) => {
+  app.config.globalProperties.$config = res.data;
+});
+export const globals = app.config.globalProperties;
+
 app.use(store);
 app.use(router);
 app.use(ElementPlus);

@@ -68,7 +68,7 @@ import request from "@/api/request.js";
 
 // 接口测试
 
-// 酒诗
+// 酒诗（地域）
 function load() {
   request
     .post("poemsbylocation/api/listPage", {
@@ -82,12 +82,12 @@ function load() {
       //res已经是data了
       console.log("----------------------------------------");
       console.log(res);
-      // if (res.code === 200) {
-      //   this.tableData = res.data;
-      //   this.total = res.total;
-      // } else {
-      //   alert("数据获取失败：" + res.msg);
-      // }
+      if (res.code === 200) {
+        this.tableData = res.data;
+        this.total = res.total;
+      } else {
+        alert("数据获取失败：" + res.msg);
+      }
     });
 }
 // -----------------------------

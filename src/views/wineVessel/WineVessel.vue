@@ -8,15 +8,26 @@
           placeholder="检索你感兴趣的内容"
           clearable
         />
-        <el-button type="primary" class="sbutton" @click="handleSearch"
+        <el-button
+          type="primary"
+          class="sbutton"
+          @click="handleSearch"
           >搜索</el-button
         >
       </div>
     </div>
 
-    <div id="rank" class="rank">
+    <div
+      id="rank"
+      class="rank"
+    >
       分类统计
-      <div id="rank1" class="rank1">朝代</div>
+      <div
+        id="rank1"
+        class="rank1"
+      >
+        朝代
+      </div>
     </div>
 
     <div class="text">
@@ -68,6 +79,7 @@ interface message {
   discription: string;
   id: number;
   name: string;
+  // eslint-disable-next-line no-undef
   picture: byte[];
 }
 
