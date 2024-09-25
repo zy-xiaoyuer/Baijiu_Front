@@ -7,6 +7,8 @@ import "element-plus/dist/index.css";
 import axios from "axios";
 import { createPinia } from "pinia";
 import * as echarts from "echarts";
+// 引入中文语言包
+import zhCn from 'element-plus/es/locale/lang/zh-cn';
 
 const app = createApp(App);
 axios.get("/config.json").then((res) => {
@@ -16,7 +18,9 @@ export const globals = app.config.globalProperties;
 
 app.use(store);
 app.use(router);
-app.use(ElementPlus);
+app.use(ElementPlus, {
+  locale: zhCn,
+});
 app.config.globalProperties.$axios = axios;
 const pinia = createPinia();
 app.use(pinia);

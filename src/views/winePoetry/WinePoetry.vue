@@ -8,11 +8,7 @@
           placeholder="检索你感兴趣的内容"
           clearable
         />
-        <el-button
-          type="primary"
-          class="sbutton"
-          @click="handleSearch"
-        >
+        <el-button type="primary" class="sbutton" @click="handleSearch">
           搜索
         </el-button>
       </div>
@@ -27,11 +23,18 @@
 
       <div class="text">
         <h3>共{{ total }}条数据</h3>
-        <hr>
-        <div v-for="(poem) in paginatedPoems" :key="poem.id" class="poem-item-wrapper">
+        <hr />
+        <div
+          v-for="poem in paginatedPoems"
+          :key="poem.id"
+          class="poem-item-wrapper"
+        >
           <router-link
             class="poem-item"
-            :to="{name: 'winePoetryDetail', params: { winePoetryDetailId: poem.id } }"
+            :to="{
+              name: 'winePoetryDetail',
+              params: { winePoetryDetailId: poem.id },
+            }"
           >
             <div class="poem-header">
               <span class="custom-title">{{ poem.title }}</span>
@@ -40,7 +43,7 @@
             </div>
             <p class="custom-content">{{ poem.content }}</p>
           </router-link>
-          <hr>
+          <hr />
         </div>
         <div class="demo-pagination-block">
           <el-pagination
@@ -51,6 +54,7 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="total"
             @current-change="handlePageChange"
+            @click="toTop"
           />
         </div>
       </div>
@@ -60,9 +64,16 @@
 
 <script lang="ts" setup>
 import * as echarts from "echarts";
-import { ref, computed, reactive, onMounted, onBeforeUpdate, onUpdated } from "vue";
+import {
+  ref,
+  computed,
+  reactive,
+  onMounted,
+  onBeforeUpdate,
+  onUpdated,
+} from "vue";
 import request from "@/api/request.js";
-import { ElMessage } from 'element-plus';
+import { ElMessage } from "element-plus";
 
 interface Poem {
   id: number;
@@ -83,11 +94,8 @@ const poems = ref<Poem[]>([]);
 const total = ref(0);
 const filteredPoems = ref<Poem[]>([]);
 
-// const queryParam = reactive({
-//   search: '',
-//   pageNum: 1,
-//   pageSize: 10,
-// });
+let currentFilterCategory = ref(null);
+let currentFilterSelectedItem = ref(null);
 
 function fetchPoems() {
   request
@@ -103,7 +111,7 @@ function fetchPoems() {
       console.log(res);
       if (res.code === 200) {
         poems.value = res.data;
-        filteredPoems.value = res.data
+        filteredPoems.value = res.data;
         total.value = res.total;
       } else {
         ElMessage.error("数据获取失败：" + res.msg);
@@ -111,25 +119,58 @@ function fetchPoems() {
     });
 }
 
+function fetchFilteredPoems(category, selectedItem) {
+  currentFilterCategory.value = category;
+  currentFilterSelectedItem.value = selectedItem;
+  request
+    .post("poemsbydynasty/api/listPage", {
+      pageSize: pageSize4.value,
+      pageNum: currentPage4.value,
+      params: {
+        search: selectedItem,
+      },
+    })
+    .then((res) => {
+      console.log("----------------------------------------");
+      console.log(res);
+      if (res.code === 200 && res.data) {
+        poems.value = res.data;
+        filteredPoems.value = res.data;
+        total.value = res.total;
+        currentPage4.value = 1; // 重置到第一页
+      } else {
+        ElMessage.error("数据获取失败：" + res.msg);
+      }
+    })
+    .catch((error) => {
+      console.error("请求失败:", error);
+      ElMessage.error("网络请求失败：" + error.message);
+    });
+}
 
 const handleSizeChange = (newSize: number) => {
-  // queryParam.pageSize = newSize;
   pageSize4.value = newSize;
   fetchPoems();
 };
 
 const handleSearch = () => {
-  // queryParam.pageNum = 1; // 重置到第一页
   fetchPoems();
+};
+
+const toTop = () => {
+  document.documentElement.scrollTop = 0;
 };
 
 const paginatedPoems = computed(() => {
   let start = (currentPage4.value - 1) * pageSize4.value;
-  start = 0
-  console.log("paginatedPoems computed value:",filteredPoems.value.slice(start, start + pageSize4.value),filteredPoems.value)
+  start = 0;
+  console.log(
+    "paginatedPoems computed value:",
+    filteredPoems.value.slice(start, start + pageSize4.value),
+    filteredPoems.value
+  );
   return filteredPoems.value.slice(start, start + pageSize4.value);
 });
-
 
 const searchPoems = () => {
   // 根据用户输入筛选诗词
@@ -143,82 +184,110 @@ const searchPoems = () => {
 };
 
 const handlePageChange = (newPage: number) => {
-  // queryParam.pageNum = newPage;
-  currentPage4.value = newPage;
-  // console.log("currentPage4.value:",currentPage4.value,newPage)
-  fetchPoems();
+  if (currentFilterCategory.value && currentFilterSelectedItem.value) {
+    // 如果存在筛选条件，则使用筛选条件获取数据
+    fetchFilteredPoems(
+      currentFilterCategory.value,
+      currentFilterSelectedItem.value
+    );
+  } else {
+    // 否则，获取未筛选的全部数据
+    fetchPoems();
+  }
 };
 
-const markCharts = (id: string, data: string[], category: string) => {
+const markCharts = (
+  id: string,
+  data: string[],
+  category: string,
+  seriesData: number[]
+) => {
   const chartDom = document.getElementById(id);
-  const myChart = echarts.init(chartDom);
-  const option = {
-    tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
-    legend: { data: [category] },
-    grid: { left: "3%", right: "4%", bottom: "3%", containLabel: true },
-    xAxis: [{ type: "value", show: false }],
-    yAxis: [{ type: "category", axisTick: { show: false }, data }],
-    series: [
-    {
-        name: category,
-        type: "bar",
-        color: "#7D3030",
-        label: { show: false, position: "inside" },
-        emphasis: { focus: "series" },
-        data: [200, 170, 240, 244, 200, 220, 210, 150],
-      },
-    ],
-  };
-  myChart.setOption(option);
+  if (chartDom) {
+    const myChart = echarts.init(chartDom);
+    const option = {
+      tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
+      legend: { data: [category] },
+      grid: { left: "3%", right: "4%", bottom: "3%", containLabel: true },
+      xAxis: [{ type: "value", show: false }],
+      yAxis: [{ type: "category", axisTick: { show: false }, data }],
+      series: [
+        {
+          name: category,
+          type: "bar",
+          color: "#7D3030",
+          label: { show: false, position: "inside" },
+          emphasis: { focus: "series" },
+          data: seriesData, // 使用传入的 seriesData 作为数据源
+        },
+      ],
+    };
+    myChart.setOption(option);
 
-  // 添加点击事件
-  myChart.on("click", (params) => {
-    const selectedItem = params.name; // 获取被点击的项
-    filterPoemsByCategory(category, selectedItem); // 根据点击的项筛选诗词
-  });
-};
-
-const filterPoemsByCategory = (category: string, selectedItem: string) => {
-  filteredPoems.value = poems.value.filter((poem) => {
-    if (category === "朝代") {
-      console.log("filterPoemsByCategory",poem.dynasty.includes(selectedItem))
-      return poem.dynasty.includes(selectedItem); // 根据朝代筛选诗词
-    } else if (category === "作者") {
-      return poem.author.includes(selectedItem); // 根据作者筛选诗词
-    }
-    return true;
-  });
+    // 添加点击事件
+    myChart.on("click", (params) => {
+      const selectedItem = params.name; // 获取被点击的项
+      fetchFilteredPoems(category, selectedItem);
+    });
+  }
 };
 
 const rankData = ref([
   {
     id: "rank1",
-    data: ["辽朝", "宋朝", "盛唐", "隋朝", "南北朝", "魏晋", "汉", "先秦"],
-    category: "朝代"
+    data: [
+      "秦",
+      "清",
+      "唐",
+      "隋",
+      "当代",
+      "魏晋南北朝",
+      "汉",
+      "先秦",
+      "现当代",
+      "民国",
+    ],
+    category: "朝代",
+    seriesData: [2000, 4689, 3200, 4000, 3700, 2000, 2200, 2100, 2200, 2000],
   },
   {
     id: "rank2",
-    data: ["李白", "白居易", "刘禹锡", "杜甫", "王维", "孟浩然", "韩愈", "柳宗元"],
-    category: "作者"
-  }
+    data: [
+      "李白",
+      "白居易",
+      "屈原",
+      "文种",
+      "两汉乐府",
+      "杨雪窗",
+      "诗经",
+      "无名氏",
+      "王易",
+      "叶楚伧",
+      "柳亚子",
+    ],
+    category: "作者",
+    seriesData: [
+      2000, 4689, 3200, 4000, 3700, 2000, 2200, 2100, 2000, 2100, 2000,
+    ],
+  },
 ]);
 
 onMounted(() => {
   rankData.value.forEach((rank) => {
-    markCharts(rank.id, rank.data, rank.category);
+    markCharts(rank.id, rank.data, rank.category, rank.seriesData);
   });
   fetchPoems();
   // filteredPoems.value = poems.value;
-  console.log('组件第一次加载...',poems.value)
+  console.log("组件第一次加载...", poems.value);
 });
 
-onBeforeUpdate(() =>{
-  console.log("paginatedPoems",paginatedPoems)
-})
+onBeforeUpdate(() => {
+  console.log("paginatedPoems", paginatedPoems);
+});
 
-onUpdated(() =>{
-  console.log("paginatedPoems onUpdated",paginatedPoems.value)
-})
+onUpdated(() => {
+  console.log("paginatedPoems onUpdated", paginatedPoems.value);
+});
 </script>
 
 <style lang="less" scoped>
