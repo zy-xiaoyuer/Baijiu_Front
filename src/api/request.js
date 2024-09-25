@@ -2,7 +2,7 @@ import router from "@/router";
 import axios from "axios";
 import { globals } from "@/main";
 
-const serveUrl = globals.$config?.serverUrl || "http://localhost:9000";
+const serveUrl = "http://localhost:9000" || globals.$config?.serverUrl;
 
 const request = axios.create({
   baseURL: serveUrl,
