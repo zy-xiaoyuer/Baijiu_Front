@@ -68,7 +68,7 @@ const router = createRouter({
         },
         // 酒器子页面
         {
-          path: "/wineVesselDetail/:id",
+          path: "/wineVesselDetail/:wineVesselDetailId",
           name: "wineVesselDetail",
           meta: {
             title: "酒器子页面",
@@ -89,7 +89,7 @@ const router = createRouter({
         },
         // 酒画子页面
         {
-          path: "/winePaintingDetail/:id",
+          path: "/winePaintingDetail/:winePaintingDetailId",
           name: "winePaintingDetail",
           meta: {
             title: "酒画子页面",

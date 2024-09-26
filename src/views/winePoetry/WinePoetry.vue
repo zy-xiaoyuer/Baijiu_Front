@@ -8,7 +8,7 @@
           placeholder="检索你感兴趣的内容"
           clearable
         />
-        <el-button type="primary" class="sbutton" @click="handleSearch">
+        <el-button type="primary" class="sbutton" color="#7D3030" @click="handleSearch">
           搜索
         </el-button>
       </div>
@@ -17,8 +17,8 @@
     <div class="main-content">
       <div id="rank" ref="rank" class="rank">
         分类统计
-        <div id="rank1" ref="rank1" class="rank-item"></div>
-        <div id="rank2" ref="rank2" class="rank-item"></div>
+        <div id="rank1" ref="rank1" class="rank-item1"></div>
+        <div id="rank2" ref="rank2" class="rank-item2"></div>
       </div>
 
       <div class="text">
@@ -248,13 +248,56 @@ const rankData = ref([
       "民国",
     ],
     category: "朝代",
-    seriesData: [2000, 4689, 3200, 4000, 3700, 2000, 2200, 2100, 2200, 2000],
+    seriesData: [20000, 28855, 46890, 32000, 29140, 40000, 24000, 42000, 32900, 27320],
   },
   {
     id: "rank2",
     data: [
       "李白",
-      "白居易",
+      "王维",
+      "徐安贞",
+      "王缙",
+      "高适",
+      "白履忠",
+      "苏广文",
+      "李嶷",
+      "王希明",
+      "丁仙芝",
+      "孙逖",
+      "祖咏",
+      "刘慎虚",
+      "李元纮",
+      "源乾曜",
+      "孟浩然",
+      "王昌龄",
+      "王翰",
+      "李颀",
+      "王湾",
+      "王之涣",
+      "魏奉古",
+      "李隆基",
+      "蔡孚",
+      "李皓",
+      "张子容",
+      "张九龄",
+      "李咸",
+      "周利用",
+      "赵彦伯",
+      "郑南金",
+      "赵冬曦",
+      "刘升",
+      "释智严",
+      "梁知微",
+      "裴光庭",
+      "徐彦伯",
+      "武平一",
+      "崔沔",
+      "崔日用",
+      "萧至忠",
+      "卢藏用",
+      "李迥秀",
+      "阎朝隐",
+      "岑羲",
       "屈原",
       "文种",
       "两汉乐府",
@@ -267,7 +310,7 @@ const rankData = ref([
     ],
     category: "作者",
     seriesData: [
-      2000, 4689, 3200, 4000, 3700, 2000, 2200, 2100, 2000, 2100, 2000,
+      1900,1902,1500,1600,1600,1300,1399,1499,1500,1500,1500,1500,1500,1500,1600,1788,1344,1988,1974,1976,1994,2000,2000,2001,2004,2008,2200,2100,2200,2200,2200,2200,2200,2200,2200,2200,2200,2200,2200,2200,2200,2200,2200,2000, 4689, 3200, 4000, 3700, 2000, 2200, 2100, 2000, 2100, 2000,
     ],
   },
 ]);
@@ -300,7 +343,7 @@ onUpdated(() => {
   padding: 0 0 5vw 0;
 
   .serachTop {
-    height: 10vw;
+    height: 5vw;
     width: 100vw;
     margin-left: -2vw;
     .serach {
@@ -322,14 +365,27 @@ onUpdated(() => {
   }
 
   .rank {
+    position: relative;
     margin-left: 1vw;
     width: 18vw;
+    height: 77vw;
     background: #f6f3e5;
+    border-radius: 1vw;
     padding: 2vw;
-    .rank-item {
+    .rank-item1 {
       width: 100%;
+      top: 1vw;
       height: 17vw;
       margin-bottom: 3vw;
+      border-radius: 1vw;
+      border: 1px solid #7d3030;
+    }
+    .rank-item2 {
+      width: 100%;
+      top: 1vw;
+      height: 56vw;
+      margin-bottom: 2vw;
+      border-radius: 1vw;
       border: 1px solid #7d3030;
     }
   }
