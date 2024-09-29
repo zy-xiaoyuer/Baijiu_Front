@@ -42,9 +42,9 @@
           :key="message.id"
           v-bind:title="message.imagename"
           :to="{
-              name: 'winePaintingDetail',
-              params: { winePaintingDetailId: message.id },
-            }"
+            name: 'winePaintingDetail',
+            params: { winePaintingDetailId: message.id },
+          }"
         >
           <img
             class="img"
@@ -106,7 +106,7 @@ function load() {
       pageSize: pageSize4.value,
       pageNum: currentPage4.value,
       params: {
-        imagename : input.value,
+        imagename: input.value,
       },
     })
     .then((res) => {
@@ -124,11 +124,7 @@ function load() {
 function fetchFilterMessages(dynasty: string) {
   console.log("fetchFilterMessages called with dynasty:", dynasty);
   request
-<<<<<<< HEAD
-    .post("apis/poemsbydynasty/api/listPage", {
-=======
     .post("poemimages/api/listPage", {
->>>>>>> 522e2c0378011776ce9a6df6d298ed43224b25f3
       pageSize: pageSize4.value,
       pageNum: currentPage4.value,
       params: {
@@ -143,7 +139,7 @@ function fetchFilterMessages(dynasty: string) {
       } else {
         ElMessage.error("筛选数据获取失败：" + res.msg);
       }
-    })
+    });
 }
 
 const handleSearch = () => {
@@ -205,16 +201,7 @@ const markCharts = () => {
         axisTick: {
           show: false,
         },
-        data: [
-          "辽朝",
-          "宋朝",
-          "唐朝",
-          "隋朝",
-          "南北朝",
-          "未知",
-          "汉",
-          "先秦",
-        ],
+        data: ["辽朝", "宋朝", "唐朝", "隋朝", "南北朝", "未知", "汉", "先秦"],
       },
     ],
     series: [
@@ -350,4 +337,3 @@ const viewDetail = (id: string) => {
   }
 }
 </style>
-

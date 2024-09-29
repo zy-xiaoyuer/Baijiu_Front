@@ -1,9 +1,16 @@
 <template>
   <div class="detail">
     <div class="back-button">
-      <el-button type="primary" @click="goBack">返回</el-button>
+      <el-button
+        type="primary"
+        @click="goBack"
+        >返回</el-button
+      >
     </div>
-    <div class="content" v-if="poetry">
+    <div
+      class="content"
+      v-if="poetry"
+    >
       <h1>{{ poetry.title }}</h1>
       <h3>{{ poetry.author }}</h3>
       <p class="poetry-content">{{ poetry.content }}</p>
@@ -21,29 +28,16 @@ import request from "@/api/request.js"; // 确保这是你的请求方法的路�
 
 const route = useRoute();
 const router = useRouter();
-<<<<<<< HEAD
 const poetryId = ref<number>(
   parseInt(route.params.winePoetryDetailId as string, 10)
 );
-
-console.log("id--------------------");
-console.log(poetryId);
-
-const poetry = ref({
-  title: "",
-  author: "",
-  content: "",
-  location: "",
-  characters: [] as { name: string; description: string }[],
-});
-=======
-const poetryId = ref<number>(parseInt(route.params.winePoetryDetailId as string, 10));
 const poetry = ref<any>(null);
->>>>>>> 522e2c0378011776ce9a6df6d298ed43224b25f3
 
 const fetchPoetryDetail = async () => {
   try {
-    const res = await request.get(`poemsbydynasty/api/getPoemById`, { params: { id: poetryId.value } });
+    const res = await request.get(`poemsbydynasty/api/getPoemById`, {
+      params: { id: poetryId.value },
+    });
     if (res.code === 200 && res.data) {
       poetry.value = res.data;
     } else {
@@ -56,7 +50,7 @@ const fetchPoetryDetail = async () => {
       };
     }
   } catch (error) {
-    console.error('请求失败:', error);
+    console.error("请求失败:", error);
     poetry.value = {
       title: "未找到诗词",
       author: "",

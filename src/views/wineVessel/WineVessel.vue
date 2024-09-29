@@ -100,11 +100,7 @@ const searchQuery = ref(""); // 用于存储搜索查询条件
 
 function load() {
   request
-<<<<<<< HEAD
-    .post("apis/vesselTotal/api/listPage", {
-=======
     .post("vessel/api/listPage", {
->>>>>>> 522e2c0378011776ce9a6df6d298ed43224b25f3
       pageSize: pageSize4.value,
       pageNum: currentPage4.value,
       params: {
@@ -172,7 +168,16 @@ const markCharts = () => {
       {
         type: "category",
         axisTick: { show: false },
-        data: ["商", "唐", "西周前期", "夏代晚期", "春秋时期", "战国时期", "未知", "西周"],
+        data: [
+          "商",
+          "唐",
+          "西周前期",
+          "夏代晚期",
+          "春秋时期",
+          "战国时期",
+          "未知",
+          "西周",
+        ],
       },
     ],
     series: [
@@ -189,12 +194,12 @@ const markCharts = () => {
   myChart.setOption(option);
 
   myChart.on("click", (params) => {
-    if (params.componentType === 'series') {
-        const selectedItem = params.name; // 获取被点击的项
-        searchQuery.value = selectedItem; // 更新搜索查询条件
-        currentPage4.value = 1; // 重置为第一页
-        load(); // 重新加载数据
-      }
+    if (params.componentType === "series") {
+      const selectedItem = params.name; // 获取被点击的项
+      searchQuery.value = selectedItem; // 更新搜索查询条件
+      currentPage4.value = 1; // 重置为第一页
+      load(); // 重新加载数据
+    }
   });
 };
 
