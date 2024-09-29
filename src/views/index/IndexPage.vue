@@ -2,7 +2,7 @@
   <div class="indexMain">
     <div class="serachTop">
       <div class="serach">
-        <el-select
+        <!-- <el-select
           v-model="value"
           clearable
           placeholder="全部"
@@ -14,7 +14,7 @@
             :label="item.label"
             :value="item.value"
           />
-        </el-select>
+        </el-select> -->
         <el-input
           class="input"
           v-model="input"
@@ -621,7 +621,7 @@ onUnmounted(() => {
     background-size: 100% 100%;
     // border: 1px solid #000;
     .serach {
-      padding: 10vw 0 0 37vw;
+      padding: 10vw 0 0 40vw;
       .select {
         width: 5vw;
         margin-right: 0.5vw;

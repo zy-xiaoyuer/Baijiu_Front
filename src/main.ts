@@ -9,9 +9,25 @@ import { createPinia } from "pinia";
 import * as echarts from "echarts";
 
 const app = createApp(App);
-axios.get("/config.json").then((res) => {
-  app.config.globalProperties.$config = res.data;
-});
+
+function getServerConfig() {
+  return new Promise<void | undefined>((resolve, reject) => {
+    axios
+      .get("/config.json")
+      .then((res) => {
+        app.config.globalProperties.$config = res.data;
+        resolve(undefined);
+      })
+      .catch((error) => {
+        console.log(error);
+        reject(undefined);
+      });
+  });
+}
+async function init() {
+  await getServerConfig();
+}
+app.use(init);
 export const globals = app.config.globalProperties;
 
 app.use(store);

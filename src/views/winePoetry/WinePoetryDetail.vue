@@ -38,6 +38,9 @@ const poetryId = ref<number>(
   parseInt(route.params.winePoetryDetailId as string, 10)
 );
 
+console.log("id--------------------");
+console.log(poetryId);
+
 const poetry = ref({
   title: "",
   author: "",

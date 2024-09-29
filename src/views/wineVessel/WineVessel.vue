@@ -97,7 +97,7 @@ const total = ref(0);
 
 function load() {
   request
-    .post("vesselTotal/api/listPage", {
+    .post("apis/vesselTotal/api/listPage", {
       pageSize: pageSize4.value,
       pageNum: currentPage4.value,
       params: {

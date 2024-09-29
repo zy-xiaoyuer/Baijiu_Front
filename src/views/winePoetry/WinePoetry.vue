@@ -19,19 +19,38 @@
     </div>
 
     <div class="main-content">
-      <div id="rank" ref="rank" class="rank">
+      <div
+        id="rank"
+        ref="rank"
+        class="rank"
+      >
         分类统计
-        <div id="rank1" ref="rank1" class="rank-item"></div>
-        <div id="rank2" ref="rank2" class="rank-item"></div>
+        <div
+          id="rank1"
+          ref="rank1"
+          class="rank-item"
+        ></div>
+        <div
+          id="rank2"
+          ref="rank2"
+          class="rank-item"
+        ></div>
       </div>
 
       <div class="text">
         <h3>共{{ total }}条数据</h3>
-        <hr>
-        <div v-for="(poem) in paginatedPoems" :key="poem.id" class="poem-item-wrapper">
+        <hr />
+        <div
+          v-for="poem in paginatedPoems"
+          :key="poem.id"
+          class="poem-item-wrapper"
+        >
           <router-link
             class="poem-item"
-            :to="{name: 'winePoetryDetail', params: { winePoetryDetailId: poem.id } }"
+            :to="{
+              name: 'winePoetryDetail',
+              params: { winePoetryDetailId: poem.id },
+            }"
           >
             <div class="poem-header">
               <span class="custom-title">{{ poem.title }}</span>
@@ -40,7 +59,7 @@
             </div>
             <p class="custom-content">{{ poem.content }}</p>
           </router-link>
-          <hr>
+          <hr />
         </div>
         <div class="demo-pagination-block">
           <el-pagination
@@ -60,9 +79,16 @@
 
 <script lang="ts" setup>
 import * as echarts from "echarts";
-import { ref, computed, reactive, onMounted, onBeforeUpdate, onUpdated } from "vue";
+import {
+  ref,
+  computed,
+  reactive,
+  onMounted,
+  onBeforeUpdate,
+  onUpdated,
+} from "vue";
 import request from "@/api/request.js";
-import { ElMessage } from 'element-plus';
+import { ElMessage } from "element-plus";
 
 interface Poem {
   id: number;
@@ -103,14 +129,13 @@ function fetchPoems() {
       console.log(res);
       if (res.code === 200) {
         poems.value = res.data;
-        filteredPoems.value = res.data
+        filteredPoems.value = res.data;
         total.value = res.total;
       } else {
         ElMessage.error("数据获取失败：" + res.msg);
       }
     });
 }
-
 
 const handleSizeChange = (newSize: number) => {
   // queryParam.pageSize = newSize;
@@ -125,11 +150,14 @@ const handleSearch = () => {
 
 const paginatedPoems = computed(() => {
   let start = (currentPage4.value - 1) * pageSize4.value;
-  start = 0
-  console.log("paginatedPoems computed value:",filteredPoems.value.slice(start, start + pageSize4.value),filteredPoems.value)
+  start = 0;
+  console.log(
+    "paginatedPoems computed value:",
+    filteredPoems.value.slice(start, start + pageSize4.value),
+    filteredPoems.value
+  );
   return filteredPoems.value.slice(start, start + pageSize4.value);
 });
-
 
 const searchPoems = () => {
   // 根据用户输入筛选诗词
@@ -159,7 +187,7 @@ const markCharts = (id: string, data: string[], category: string) => {
     xAxis: [{ type: "value", show: false }],
     yAxis: [{ type: "category", axisTick: { show: false }, data }],
     series: [
-    {
+      {
         name: category,
         type: "bar",
         color: "#7D3030",
@@ -181,7 +209,7 @@ const markCharts = (id: string, data: string[], category: string) => {
 const filterPoemsByCategory = (category: string, selectedItem: string) => {
   filteredPoems.value = poems.value.filter((poem) => {
     if (category === "朝代") {
-      console.log("filterPoemsByCategory",poem.dynasty.includes(selectedItem))
+      console.log("filterPoemsByCategory", poem.dynasty.includes(selectedItem));
       return poem.dynasty.includes(selectedItem); // 根据朝代筛选诗词
     } else if (category === "作者") {
       return poem.author.includes(selectedItem); // 根据作者筛选诗词
@@ -194,13 +222,22 @@ const rankData = ref([
   {
     id: "rank1",
     data: ["辽朝", "宋朝", "盛唐", "隋朝", "南北朝", "魏晋", "汉", "先秦"],
-    category: "朝代"
+    category: "朝代",
   },
   {
     id: "rank2",
-    data: ["李白", "白居易", "刘禹锡", "杜甫", "王维", "孟浩然", "韩愈", "柳宗元"],
-    category: "作者"
-  }
+    data: [
+      "李白",
+      "白居易",
+      "刘禹锡",
+      "杜甫",
+      "王维",
+      "孟浩然",
+      "韩愈",
+      "柳宗元",
+    ],
+    category: "作者",
+  },
 ]);
 
 onMounted(() => {
@@ -209,16 +246,16 @@ onMounted(() => {
   });
   fetchPoems();
   // filteredPoems.value = poems.value;
-  console.log('组件第一次加载...',poems.value)
+  console.log("组件第一次加载...", poems.value);
 });
 
-onBeforeUpdate(() =>{
-  console.log("paginatedPoems",paginatedPoems)
-})
+onBeforeUpdate(() => {
+  console.log("paginatedPoems", paginatedPoems);
+});
 
-onUpdated(() =>{
-  console.log("paginatedPoems onUpdated",paginatedPoems.value)
-})
+onUpdated(() => {
+  console.log("paginatedPoems onUpdated", paginatedPoems.value);
+});
 </script>
 
 <style lang="less" scoped>

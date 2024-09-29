@@ -96,7 +96,7 @@ const total = ref(0);
 
 function load() {
   request
-    .post("poemimages/api/listPage", {
+    .post("apis/poemimages/api/listPage", {
       pageSize: pageSize4.value,
       pageNum: currentPage4.value,
       params: {
@@ -119,7 +119,7 @@ function load() {
 // -----------------------------
 function handSearch() {
   request
-    .post("poemsbydynasty/api/listPage", {
+    .post("apis/poemsbydynasty/api/listPage", {
       pageSize: pageSize4.value,
       pageNum: currentPage4.value,
       params: {
