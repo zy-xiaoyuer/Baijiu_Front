@@ -7,10 +7,10 @@ const serveUrl = globals.$config?.serverUrl || "http://localhost:9000";
 const request = axios.create({
   baseURL: serveUrl,
   timeout: 30000,
-  responseType: `json`,
-  headers: {
-    "Content-Type": "application/json",
-  },
+  // responseType: `json`,
+  // headers: {
+  //   "Content-Type": "application/json",
+  // },
 });
 
 //response拦截器

@@ -102,7 +102,7 @@ const dynasty = ref(""); // 新增变量用于存储朝代筛选条件
 
 function load() {
   request
-    .post("apis/poemimages/api/listPage", {
+    .post("poemimages/api/listPage", {
       pageSize: pageSize4.value,
       pageNum: currentPage4.value,
       params: {
