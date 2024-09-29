@@ -12,7 +12,7 @@
           type="primary"
           color="#7D3030"
           class="sbutton"
-          @click="handSearch"
+          @click="handleSearch"
         >
           搜索
         </el-button>
@@ -41,11 +41,14 @@
           v-for="message in paginatedMessages"
           :key="message.id"
           v-bind:title="message.imagename"
+          :to="{
+              name: 'winePaintingDetail',
+              params: { winePaintingDetailId: message.id },
+            }"
         >
           <img
             class="img"
             :src="'data:image/jpeg;base64,' + message.image"
-            @click="viewDetail(message.id)"
             alt="Image"
           />
           <br />
@@ -73,6 +76,7 @@ import * as echarts from "echarts";
 import { onMounted, ref, computed } from "vue";
 import type { ComponentSize } from "element-plus";
 import request from "@/api/request.js";
+import { ElMessage } from "element-plus";
 
 interface message {
   dynasty: string;
@@ -94,21 +98,21 @@ const filteredMessages = ref<any[]>(messages.value);
 // const total = computed(() => filteredMessages.value.length);
 const total = ref(0);
 
+const dynasty = ref(""); // 新增变量用于存储朝代筛选条件
+
 function load() {
   request
     .post("apis/poemimages/api/listPage", {
       pageSize: pageSize4.value,
       pageNum: currentPage4.value,
       params: {
-        search: input.value,
+        imagename : input.value,
       },
     })
     .then((res) => {
-      //res已经是data了
       console.log("----------------------------------------");
       console.log(res);
       if (res.code === 200) {
-        // messages.value = res.data;
         filteredMessages.value = res.data;
         total.value = res.total;
       } else {
@@ -116,35 +120,37 @@ function load() {
       }
     });
 }
-// -----------------------------
-function handSearch() {
+
+function fetchFilterMessages(dynasty: string) {
+  console.log("fetchFilterMessages called with dynasty:", dynasty);
   request
+<<<<<<< HEAD
     .post("apis/poemsbydynasty/api/listPage", {
+=======
+    .post("poemimages/api/listPage", {
+>>>>>>> 522e2c0378011776ce9a6df6d298ed43224b25f3
       pageSize: pageSize4.value,
       pageNum: currentPage4.value,
       params: {
-        search: input.value,
+        imagename: dynasty,
       },
     })
     .then((res) => {
-      //res已经是data了
-      console.log("----------------------------------------");
-      console.log(res);
-      if (res.code === 200) {
-        messages.value = res.data;
+      if (res.code === 200 && res.data) {
         filteredMessages.value = res.data;
         total.value = res.total;
+        currentPage4.value = 1; // 重置到第一页
       } else {
-        alert("数据获取失败：" + res.msg);
+        ElMessage.error("筛选数据获取失败：" + res.msg);
       }
-    });
+    })
 }
-// const handleSearch = () => {
-//   load();
-// };
+
+const handleSearch = () => {
+  load();
+};
 
 const handleSizeChange = (newSize: number) => {
-  // queryParam.pageSize = newSize;
   pageSize4.value = newSize;
   load();
 };
@@ -155,10 +161,10 @@ const paginatedMessages = computed(() => {
   return filteredMessages.value.slice(start, start + pageSize4.value);
 });
 
-const search = () => {
+const searchPaints = () => {
   const query = input.value.toLowerCase();
   filteredMessages.value = messages.value.filter((message) =>
-    message.title.toLowerCase().includes(query)
+    message.imagename.toLowerCase().includes(query)
   );
   currentPage4.value = 1; // 搜索后重置分页到第一页
 };
@@ -205,8 +211,8 @@ const markCharts = () => {
           "唐朝",
           "隋朝",
           "南北朝",
-          "魏晋",
-          "汉朝",
+          "未知",
+          "汉",
           "先秦",
         ],
       },
@@ -232,15 +238,8 @@ const markCharts = () => {
 
   myChart.on("click", (params) => {
     const selectedItem = params.name; // 获取被点击的项
-    filterMessagesByCategory(selectedItem); // 根据点击的项筛选数据
+    fetchFilterMessages(selectedItem); // 调用筛选函数
   });
-};
-
-const filterMessagesByCategory = (selectedItem: string) => {
-  filteredMessages.value = messages.value.filter((message) => {
-    return message.dynasty === selectedItem;
-  });
-  currentPage4.value = 1; // 筛选后重置分页到第一页
 };
 
 onMounted(() => {
@@ -266,7 +265,7 @@ const viewDetail = (id: string) => {
   padding: 0 0 5vw 0;
 
   .serachTop {
-    height: 25vw;
+    height: 18vw;
     width: 100vw;
     margin-left: -2vw;
     background-size: 100% 100%;
@@ -289,7 +288,7 @@ const viewDetail = (id: string) => {
   .rank {
     position: relative;
     padding: 2vw;
-    left: 2vw;
+    left: 1vw;
     top: -12vw;
     width: 18vw;
     height: 23vw;
@@ -310,8 +309,8 @@ const viewDetail = (id: string) => {
 
   .text {
     position: absolute;
-    left: 32vw;
-    top: 14vw;
+    left: 28vw;
+    top: 10vw;
     width: 60vw;
     height: 56vw; /* Changed to auto to fit content */
     border-radius: 1px;
@@ -351,3 +350,4 @@ const viewDetail = (id: string) => {
   }
 }
 </style>
+

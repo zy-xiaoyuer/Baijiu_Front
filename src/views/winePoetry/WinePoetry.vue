@@ -8,11 +8,7 @@
           placeholder="检索你感兴趣的内容"
           clearable
         />
-        <el-button
-          type="primary"
-          class="sbutton"
-          @click="handleSearch"
-        >
+        <el-button type="primary" class="sbutton" color="#7D3030" @click="handleSearch">
           搜索
         </el-button>
       </div>
@@ -25,6 +21,7 @@
         class="rank"
       >
         分类统计
+<<<<<<< HEAD
         <div
           id="rank1"
           ref="rank1"
@@ -35,6 +32,10 @@
           ref="rank2"
           class="rank-item"
         ></div>
+=======
+        <div id="rank1" ref="rank1" class="rank-item1"></div>
+        <div id="rank2" ref="rank2" class="rank-item2"></div>
+>>>>>>> 522e2c0378011776ce9a6df6d298ed43224b25f3
       </div>
 
       <div class="text">
@@ -70,6 +71,7 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="total"
             @current-change="handlePageChange"
+            @click="toTop"
           />
         </div>
       </div>
@@ -109,11 +111,8 @@ const poems = ref<Poem[]>([]);
 const total = ref(0);
 const filteredPoems = ref<Poem[]>([]);
 
-// const queryParam = reactive({
-//   search: '',
-//   pageNum: 1,
-//   pageSize: 10,
-// });
+let currentFilterCategory = ref(null);
+let currentFilterSelectedItem = ref(null);
 
 function fetchPoems() {
   request
@@ -137,15 +136,49 @@ function fetchPoems() {
     });
 }
 
+<<<<<<< HEAD
+=======
+function fetchFilteredPoems(category, selectedItem) {
+  currentFilterCategory.value = category;
+  currentFilterSelectedItem.value = selectedItem;
+  request
+    .post("poemsbydynasty/api/listPage", {
+      pageSize: pageSize4.value,
+      pageNum: currentPage4.value,
+      params: {
+        search: selectedItem,
+      },
+    })
+    .then((res) => {
+      console.log("----------------------------------------");
+      console.log(res);
+      if (res.code === 200 && res.data) {
+        poems.value = res.data;
+        filteredPoems.value = res.data;
+        total.value = res.total;
+        currentPage4.value = 1; // 重置到第一页
+      } else {
+        ElMessage.error("数据获取失败：" + res.msg);
+      }
+    })
+    .catch((error) => {
+      console.error("请求失败:", error);
+      ElMessage.error("网络请求失败：" + error.message);
+    });
+}
+
+>>>>>>> 522e2c0378011776ce9a6df6d298ed43224b25f3
 const handleSizeChange = (newSize: number) => {
-  // queryParam.pageSize = newSize;
   pageSize4.value = newSize;
   fetchPoems();
 };
 
 const handleSearch = () => {
-  // queryParam.pageNum = 1; // 重置到第一页
   fetchPoems();
+};
+
+const toTop = () => {
+  document.documentElement.scrollTop = 0;
 };
 
 const paginatedPoems = computed(() => {
@@ -171,14 +204,26 @@ const searchPoems = () => {
 };
 
 const handlePageChange = (newPage: number) => {
-  // queryParam.pageNum = newPage;
-  currentPage4.value = newPage;
-  // console.log("currentPage4.value:",currentPage4.value,newPage)
-  fetchPoems();
+  if (currentFilterCategory.value && currentFilterSelectedItem.value) {
+    // 如果存在筛选条件，则使用筛选条件获取数据
+    fetchFilteredPoems(
+      currentFilterCategory.value,
+      currentFilterSelectedItem.value
+    );
+  } else {
+    // 否则，获取未筛选的全部数据
+    fetchPoems();
+  }
 };
 
-const markCharts = (id: string, data: string[], category: string) => {
+const markCharts = (
+  id: string,
+  data: string[],
+  category: string,
+  seriesData: number[]
+) => {
   const chartDom = document.getElementById(id);
+<<<<<<< HEAD
   const myChart = echarts.init(chartDom);
   const option = {
     tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
@@ -216,18 +261,65 @@ const filterPoemsByCategory = (category: string, selectedItem: string) => {
     }
     return true;
   });
+=======
+  if (chartDom) {
+    const myChart = echarts.init(chartDom);
+    const option = {
+      tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
+      legend: { data: [category] },
+      grid: { left: "3%", right: "4%", bottom: "3%", containLabel: true },
+      xAxis: [{ type: "value", show: false }],
+      yAxis: [{ type: "category", axisTick: { show: false }, data }],
+      series: [
+        {
+          name: category,
+          type: "bar",
+          color: "#7D3030",
+          label: { show: false, position: "inside" },
+          emphasis: { focus: "series" },
+          data: seriesData, // 使用传入的 seriesData 作为数据源
+        },
+      ],
+    };
+    myChart.setOption(option);
+
+    // 添加点击事件
+    myChart.on("click", (params) => {
+      const selectedItem = params.name; // 获取被点击的项
+      fetchFilteredPoems(category, selectedItem);
+    });
+  }
+>>>>>>> 522e2c0378011776ce9a6df6d298ed43224b25f3
 };
 
 const rankData = ref([
   {
     id: "rank1",
+<<<<<<< HEAD
     data: ["辽朝", "宋朝", "盛唐", "隋朝", "南北朝", "魏晋", "汉", "先秦"],
     category: "朝代",
+=======
+    data: [
+      "秦",
+      "清",
+      "唐",
+      "隋",
+      "当代",
+      "魏晋南北朝",
+      "汉",
+      "先秦",
+      "现当代",
+      "民国",
+    ],
+    category: "朝代",
+    seriesData: [20000, 28855, 46890, 32000, 29140, 40000, 24000, 42000, 32900, 27320],
+>>>>>>> 522e2c0378011776ce9a6df6d298ed43224b25f3
   },
   {
     id: "rank2",
     data: [
       "李白",
+<<<<<<< HEAD
       "白居易",
       "刘禹锡",
       "杜甫",
@@ -237,12 +329,72 @@ const rankData = ref([
       "柳宗元",
     ],
     category: "作者",
+=======
+      "王维",
+      "徐安贞",
+      "王缙",
+      "高适",
+      "白履忠",
+      "苏广文",
+      "李嶷",
+      "王希明",
+      "丁仙芝",
+      "孙逖",
+      "祖咏",
+      "刘慎虚",
+      "李元纮",
+      "源乾曜",
+      "孟浩然",
+      "王昌龄",
+      "王翰",
+      "李颀",
+      "王湾",
+      "王之涣",
+      "魏奉古",
+      "李隆基",
+      "蔡孚",
+      "李皓",
+      "张子容",
+      "张九龄",
+      "李咸",
+      "周利用",
+      "赵彦伯",
+      "郑南金",
+      "赵冬曦",
+      "刘升",
+      "释智严",
+      "梁知微",
+      "裴光庭",
+      "徐彦伯",
+      "武平一",
+      "崔沔",
+      "崔日用",
+      "萧至忠",
+      "卢藏用",
+      "李迥秀",
+      "阎朝隐",
+      "岑羲",
+      "屈原",
+      "文种",
+      "两汉乐府",
+      "杨雪窗",
+      "诗经",
+      "无名氏",
+      "王易",
+      "叶楚伧",
+      "柳亚子",
+    ],
+    category: "作者",
+    seriesData: [
+      1900,1902,1500,1600,1600,1300,1399,1499,1500,1500,1500,1500,1500,1500,1600,1788,1344,1988,1974,1976,1994,2000,2000,2001,2004,2008,2200,2100,2200,2200,2200,2200,2200,2200,2200,2200,2200,2200,2200,2200,2200,2200,2200,2000, 4689, 3200, 4000, 3700, 2000, 2200, 2100, 2000, 2100, 2000,
+    ],
+>>>>>>> 522e2c0378011776ce9a6df6d298ed43224b25f3
   },
 ]);
 
 onMounted(() => {
   rankData.value.forEach((rank) => {
-    markCharts(rank.id, rank.data, rank.category);
+    markCharts(rank.id, rank.data, rank.category, rank.seriesData);
   });
   fetchPoems();
   // filteredPoems.value = poems.value;
@@ -268,7 +420,7 @@ onUpdated(() => {
   padding: 0 0 5vw 0;
 
   .serachTop {
-    height: 10vw;
+    height: 5vw;
     width: 100vw;
     margin-left: -2vw;
     .serach {
@@ -290,14 +442,27 @@ onUpdated(() => {
   }
 
   .rank {
+    position: relative;
     margin-left: 1vw;
     width: 18vw;
+    height: 77vw;
     background: #f6f3e5;
+    border-radius: 1vw;
     padding: 2vw;
-    .rank-item {
+    .rank-item1 {
       width: 100%;
+      top: 1vw;
       height: 17vw;
       margin-bottom: 3vw;
+      border-radius: 1vw;
+      border: 1px solid #7d3030;
+    }
+    .rank-item2 {
+      width: 100%;
+      top: 1vw;
+      height: 56vw;
+      margin-bottom: 2vw;
+      border-radius: 1vw;
       border: 1px solid #7d3030;
     }
   }

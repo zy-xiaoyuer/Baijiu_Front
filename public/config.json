@@ -1,3 +1,7 @@
 {
+<<<<<<< HEAD
     "serverUrl": "http://172.27.0.40:9000"
+=======
+    "serverUrl": "http://localhost:9000"
+>>>>>>> 522e2c0378011776ce9a6df6d298ed43224b25f3
 }

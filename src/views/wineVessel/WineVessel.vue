@@ -11,6 +11,7 @@
         <el-button
           type="primary"
           class="sbutton"
+          color="#7D3030"
           @click="handleSearch"
           >搜索</el-button
         >
@@ -58,11 +59,10 @@
           v-model:page-size="pageSize4"
           :page-sizes="[9, 18, 27, 36]"
           :size="size"
-          :disabled="disabled"
-          :background="background"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total"
           @current-change="handlePageChange"
+          @click="toTop"
         />
       </div>
     </div>
@@ -74,11 +74,12 @@ import { onMounted, ref, computed } from "vue";
 import * as echarts from "echarts";
 import type { ComponentSize } from "element-plus";
 import request from "@/api/request.js";
+import { ElMessage } from "element-plus";
 
 interface message {
-  discription: string;
+  age: string;
   id: number;
-  name: string;
+  now: string;
   // eslint-disable-next-line no-undef
   picture: byte[];
 }
@@ -95,13 +96,19 @@ const filteredMessages = ref<any[]>(messages.value);
 
 const total = ref(0);
 
+const searchQuery = ref(""); // 用于存储搜索查询条件
+
 function load() {
   request
+<<<<<<< HEAD
     .post("apis/vesselTotal/api/listPage", {
+=======
+    .post("vessel/api/listPage", {
+>>>>>>> 522e2c0378011776ce9a6df6d298ed43224b25f3
       pageSize: pageSize4.value,
       pageNum: currentPage4.value,
       params: {
-        search: input.value,
+        search: searchQuery.value,
       },
     })
     .then((res) => {
@@ -112,36 +119,15 @@ function load() {
         // messages.value = res.data;
         filteredMessages.value = res.data;
         total.value = res.total;
+        // currentPage4.value = 1;
       } else {
         alert("数据获取失败：" + res.msg);
       }
     });
 }
-// -----------------------------
-// function handleSearch() {
-//   request
-//     .post("vessel/api/list", {
-//       pageSize: 1,
-//       pageNum: 1,
-//       params: {
-//         search: input.value,
-//       },
-//     })
-//     .then((res) => {
-//       //res已经是data了
-//       console.log("----------------------------------------");
-//       console.log(res);
-//       if (res.code === 200) {
-//         messages.value = res.data;
-//         filteredMessages.value=res.data
-//         total.value= res.total;
-//       } else {
-//         alert("数据获取失败：" + res.msg);
-//       }
-//     });
-// }
-// -----------------------------
+
 const handleSearch = () => {
+  searchQuery.value = input.value;
   load();
 };
 
@@ -156,6 +142,10 @@ const paginatedMessages = computed(() => {
   start = 0;
   return filteredMessages.value.slice(start, start + pageSize4.value);
 });
+
+const toTop = () => {
+  document.documentElement.scrollTop = 0;
+};
 
 const search = () => {
   const query = input.value.toLowerCase();
@@ -182,7 +172,7 @@ const markCharts = () => {
       {
         type: "category",
         axisTick: { show: false },
-        data: ["辽朝", "宋朝", "唐朝", "隋朝", "南北朝", "魏晋", "汉", "先秦"],
+        data: ["商", "唐", "西周前期", "夏代晚期", "春秋时期", "战国时期", "未知", "西周"],
       },
     ],
     series: [
@@ -199,16 +189,13 @@ const markCharts = () => {
   myChart.setOption(option);
 
   myChart.on("click", (params) => {
-    const selectedItem = params.name; // 获取被点击的项
-    filterMessagesByCategory(selectedItem); // 根据点击的项筛选数据
+    if (params.componentType === 'series') {
+        const selectedItem = params.name; // 获取被点击的项
+        searchQuery.value = selectedItem; // 更新搜索查询条件
+        currentPage4.value = 1; // 重置为第一页
+        load(); // 重新加载数据
+      }
   });
-};
-
-const filterMessagesByCategory = (selectedItem: string) => {
-  filteredMessages.value = messages.value.filter((message) => {
-    return message.dynasty === selectedItem;
-  });
-  currentPage4.value = 1; // 筛选后重置分页到第一页
 };
 
 onMounted(() => {
@@ -230,7 +217,7 @@ const viewDetail = (id: string) => {
   margin-left: 2vw;
   padding-bottom: 5vw;
   .serachTop {
-    height: 25vw;
+    height: 14vw;
     width: 100%;
     background-size: cover;
     .serach {
@@ -248,8 +235,8 @@ const viewDetail = (id: string) => {
   .rank {
     position: relative;
     padding: 2vw;
-    left: 2vw;
-    top: -12vw;
+    left: 1vw;
+    top: -8vw;
     width: 18vw;
     height: 23vw;
     border-radius: 1vw;
@@ -266,8 +253,8 @@ const viewDetail = (id: string) => {
   }
   .text {
     position: absolute;
-    left: 32vw;
-    top: 14vw;
+    left: 28vw;
+    top: 10vw;
     width: 60vw;
     height: 54vw;
     border-radius: 1px;
