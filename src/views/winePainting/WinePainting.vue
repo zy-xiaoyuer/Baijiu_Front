@@ -19,32 +19,23 @@
       </div>
     </div>
 
-    <div
-      id="rank"
-      ref="rank"
-      class="rank"
-    >
+    <div id="rank" ref="rank" class="rank">
       分类统计
-      <div
-        id="rank1"
-        ref="rank1"
-        class="rank1"
-      ></div>
+      <div id="rank1" ref="rank1" class="rank1"></div>
     </div>
 
     <div class="text">
       <h3>共{{ total }}条数据</h3>
       <hr />
       <div id="imgs">
-        <div
-          class="card"
+        <router-link
           v-for="message in paginatedMessages"
           :key="message.id"
-          v-bind:title="message.imagename"
           :to="{
-              name: 'winePaintingDetail',
-              params: { winePaintingDetailId: message.id },
-            }"
+            name: 'winePaintingDetail',
+            params: { winePaintingDetailId: message.id },
+          }"
+          class="card"
         >
           <img
             class="img"
@@ -52,7 +43,7 @@
             alt="Image"
           />
           <br />
-        </div>
+        </router-link>
       </div>
       <div class="demo-pagination-block">
         <el-pagination
@@ -106,7 +97,7 @@ function load() {
       pageSize: pageSize4.value,
       pageNum: currentPage4.value,
       params: {
-        imagename : input.value,
+        imagename: input.value,
       },
     })
     .then((res) => {
@@ -139,7 +130,7 @@ function fetchFilterMessages(dynasty: string) {
       } else {
         ElMessage.error("筛选数据获取失败：" + res.msg);
       }
-    })
+    });
 }
 
 const handleSearch = () => {
@@ -201,16 +192,7 @@ const markCharts = () => {
         axisTick: {
           show: false,
         },
-        data: [
-          "辽朝",
-          "宋朝",
-          "唐朝",
-          "隋朝",
-          "南北朝",
-          "未知",
-          "汉",
-          "先秦",
-        ],
+        data: ["辽朝", "宋朝", "唐朝", "隋朝", "南北朝", "未知", "汉", "先秦"],
       },
     ],
     series: [
@@ -245,9 +227,9 @@ onMounted(() => {
   }, 1000);
 });
 
-const viewDetail = (id: string) => {
-  window.location.href = `/WinePaintingDetail/${id}`;
-};
+// const viewDetail = (id: string) => {
+//   window.location.href = `/WinePaintingDetail/${id}`;
+// };
 </script>
 
 <style lang="less" scoped>
@@ -287,7 +269,7 @@ const viewDetail = (id: string) => {
     left: 1vw;
     top: -12vw;
     width: 18vw;
-    height: 23vw;
+    height: 21vw;
     border-radius: 1vw;
     background: #f6f3e5;
 
@@ -308,7 +290,7 @@ const viewDetail = (id: string) => {
     left: 28vw;
     top: 10vw;
     width: 60vw;
-    height: 56vw; /* Changed to auto to fit content */
+    height: 58vw; /* Changed to auto to fit content */
     border-radius: 1px;
     background: #f6f3e5;
     padding: 1vw;

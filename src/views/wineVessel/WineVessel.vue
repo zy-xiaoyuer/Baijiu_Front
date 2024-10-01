@@ -234,7 +234,7 @@ const viewDetail = (id: string) => {
     left: 1vw;
     top: -8vw;
     width: 18vw;
-    height: 23vw;
+    height: 21vw;
     border-radius: 1vw;
     background: #f6f3e5;
     .rank1 {
@@ -252,7 +252,7 @@ const viewDetail = (id: string) => {
     left: 28vw;
     top: 10vw;
     width: 60vw;
-    height: 54vw;
+    height: 56vw;
     border-radius: 1px;
     background: #f6f3e5;
     padding: 1vw;

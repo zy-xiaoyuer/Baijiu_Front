@@ -3,8 +3,12 @@
     <div class="back-button">
       <el-button type="primary" @click="goBack">返回</el-button>
     </div>
-    <div class="content" v-if="message">
-      <h1>{{ message.image }}</h1>
+    <div class="content" v-if="message && message.imagename">
+      <img v-if="message.image"
+           :src="getImageUrl(message.image)"
+           alt="酒器图片"
+           style="width: 100%; height: auto;"
+           @error="handleImageError"/>
       <h3>{{ message.imagename }}</h3>
       <p class="poetry-content">{{ message.dynasty }}</p>
     </div>
@@ -12,39 +16,49 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, getCurrentInstance } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import request from "@/api/request.js"; // 确保这是你的请求方法的路径
+import request from "@/api/request.js";
 
+const instance = getCurrentInstance();
+const globalProperties = instance?.appContext.config.globalProperties;
+const getImageURL = ref(globalProperties.$getimageURL);
 const route = useRoute();
 const router = useRouter();
-const messageId = ref<number>(
-  parseInt(route.params.winePaintingDetailId as string, 10)
-);
-const message = ref<any>(null);
+const messageId = ref(parseInt(route.params.winePaintingDetailId as string, 10));
+const message = ref({
+  image: "",
+  dynasty: "",
+  imagename: "",
+});
+console.log("Base Image URL:", getImageURL.value); // 确认基础 URL
+
+const getImageUrl = (image: string) => {
+  const imageUrl = `${getImageURL.value}/${image.split('\\').pop()}`;
+  console.log("Image URL:", imageUrl);
+  return imageUrl;
+};
 
 const fetchMessageDetail = async () => {
   try {
-    const res = await request.get(`poemsimages/api/getPoemById`, {
+    const res = await request.get(`/poemimages/api/getPoemById`, {
       params: { id: messageId.value },
     });
-    if (res.code === 200 && res.data) {
+    console.log("Response:", res);
+    if (res.code === 200) {
       message.value = res.data;
+      console.log("Picture from backend:", message.value.image); // 确认 picture 有值
     } else {
-      message.value = {
-        image: "未找到酒画",
-        dynasty: "",
-        imagename: "该酒画不存在。",
-      };
+      message.value.imagename = "该酒画不存在。";
     }
   } catch (error) {
     console.error("请求失败:", error);
-    message.value = {
-      image: "未找到酒画",
-      dynasty: "",
-      imagename: "请求失败。",
-    };
+    message.value.imagename = "请求失败。";
   }
+};
+
+const handleImageError = (event) => {
+  console.error("Image load error:", event);
 };
 
 onMounted(() => {
@@ -52,7 +66,7 @@ onMounted(() => {
 });
 
 const goBack = () => {
-  router.back(); // 使用 router.back() 来模拟浏览器的后退功能
+  router.back();
 };
 </script>
 
@@ -67,14 +81,6 @@ const goBack = () => {
   .content {
     font-family: Source Han Sans;
     text-align: center;
-    h1 {
-      font-family: Source Han Sans;
-      font-variation-settings: "opsz" auto;
-      font-feature-settings: "kern" on;
-      font-size: 2rem;
-      color: #3d3d3d;
-      margin-bottom: 1vw;
-    }
     h3 {
       font-size: 1.5rem;
       font-variation-settings: "opsz" auto;

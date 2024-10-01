@@ -26,3 +26,5 @@ const pinia = createPinia();
 app.use(pinia);
 app.config.globalProperties.$echarts = echarts;
 app.mount("#app");
+app.config.globalProperties.$httpURL = "http://localhost:9000";
+app.config.globalProperties.$getimageURL = "http://localhost:9000/upload";
