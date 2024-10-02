@@ -2,11 +2,15 @@ import router from "@/router";
 import axios from "axios";
 import { globals } from "@/main";
 
-const serveUrl = "http://localhost:9000" || globals.$config?.serverUrl;
+const serveUrl = globals.$config?.serverUrl || "http://localhost:9000";
 
 const request = axios.create({
   baseURL: serveUrl,
   timeout: 30000,
+  // responseType: `json`,
+  // headers: {
+  //   "Content-Type": "application/json",
+  // },
 });
 
 //response拦截器

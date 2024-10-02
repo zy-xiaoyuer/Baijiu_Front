@@ -32,10 +32,9 @@
           v-for="message in paginatedMessages"
           :key="message.id"
           :to="{
-            name: 'winePaintingDetail',
-            params: { winePaintingDetailId: message.id },
-          }"
-          class="card"
+              name: 'winePaintingDetail',
+              params: { winePaintingDetailId: message.id },
+            }"
         >
           <img
             class="img"
@@ -328,4 +327,3 @@ onMounted(() => {
   }
 }
 </style>
-

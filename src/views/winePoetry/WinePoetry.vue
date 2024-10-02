@@ -20,10 +20,22 @@
     </div>
 
     <div class="main-content">
-      <div id="rank" ref="rank" class="rank">
+      <div
+        id="rank"
+        ref="rank"
+        class="rank"
+      >
         分类统计
-        <div id="rank1" ref="rank1" class="rank-item1"></div>
-        <div id="rank2" ref="rank2" class="rank-item2"></div>
+        <div
+          id="rank1"
+          ref="rank1"
+          class="rank-item"
+        ></div>
+        <div
+          id="rank2"
+          ref="rank2"
+          class="rank-item"
+        ></div>
       </div>
 
       <div class="text">
@@ -59,7 +71,6 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="total"
             @current-change="handlePageChange"
-            @click="toTop"
           />
         </div>
       </div>
@@ -99,8 +110,11 @@ const poems = ref<Poem[]>([]);
 const total = ref(0);
 const filteredPoems = ref<Poem[]>([]);
 
-let currentFilterCategory = ref(null);
-let currentFilterSelectedItem = ref(null);
+// const queryParam = reactive({
+//   search: '',
+//   pageNum: 1,
+//   pageSize: 10,
+// });
 
 function fetchPoems() {
   request
@@ -124,46 +138,15 @@ function fetchPoems() {
     });
 }
 
-function fetchFilteredPoems(category, selectedItem) {
-  currentFilterCategory.value = category;
-  currentFilterSelectedItem.value = selectedItem;
-  request
-    .post("poemsbydynasty/api/listPage", {
-      pageSize: pageSize4.value,
-      pageNum: currentPage4.value,
-      params: {
-        search: selectedItem,
-      },
-    })
-    .then((res) => {
-      console.log("----------------------------------------");
-      console.log(res);
-      if (res.code === 200 && res.data) {
-        poems.value = res.data;
-        filteredPoems.value = res.data;
-        total.value = res.total;
-        currentPage4.value = 1; // 重置到第一页
-      } else {
-        ElMessage.error("数据获取失败：" + res.msg);
-      }
-    })
-    .catch((error) => {
-      console.error("请求失败:", error);
-      ElMessage.error("网络请求失败：" + error.message);
-    });
-}
-
 const handleSizeChange = (newSize: number) => {
+  // queryParam.pageSize = newSize;
   pageSize4.value = newSize;
   fetchPoems();
 };
 
 const handleSearch = () => {
+  // queryParam.pageNum = 1; // 重置到第一页
   fetchPoems();
-};
-
-const toTop = () => {
-  document.documentElement.scrollTop = 0;
 };
 
 const paginatedPoems = computed(() => {
@@ -189,16 +172,10 @@ const searchPoems = () => {
 };
 
 const handlePageChange = (newPage: number) => {
-  if (currentFilterCategory.value && currentFilterSelectedItem.value) {
-    // 如果存在筛选条件，则使用筛选条件获取数据
-    fetchFilteredPoems(
-      currentFilterCategory.value,
-      currentFilterSelectedItem.value
-    );
-  } else {
-    // 否则，获取未筛选的全部数据
-    fetchPoems();
-  }
+  // queryParam.pageNum = newPage;
+  currentPage4.value = newPage;
+  // console.log("currentPage4.value:",currentPage4.value,newPage)
+  fetchPoems();
 };
 
 // 定义 rankData 变量
@@ -311,7 +288,7 @@ onUpdated(() => {
   margin-left: 2vw;
   padding: 0 0 5vw 0;
   .serachTop {
-    height: 5vw;
+    height: 10vw;
     width: 100vw;
     margin-left: -2vw;
     .serach {
@@ -331,27 +308,14 @@ onUpdated(() => {
     gap: 2vw;
   }
   .rank {
-    position: relative;
     margin-left: 1vw;
     width: 18vw;
-    height: 77vw;
     background: #f6f3e5;
-    border-radius: 1vw;
     padding: 2vw;
-    .rank-item1 {
+    .rank-item {
       width: 100%;
-      top: 1vw;
       height: 17vw;
       margin-bottom: 3vw;
-      border-radius: 1vw;
-      border: 1px solid #7d3030;
-    }
-    .rank-item2 {
-      width: 100%;
-      top: 1vw;
-      height: 56vw;
-      margin-bottom: 2vw;
-      border-radius: 1vw;
       border: 1px solid #7d3030;
     }
   }
