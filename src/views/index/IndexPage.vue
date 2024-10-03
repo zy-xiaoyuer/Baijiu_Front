@@ -66,32 +66,6 @@ import { onMounted, ref, watch, onUnmounted, reactive } from "vue";
 import ts from "@/assets/json/ts.json";
 import request from "@/api/request.js";
 
-// 接口测试
-
-// 酒诗（地域）
-function load() {
-  request
-    .post("search/api/global", {
-      pageSize: 1,
-      pageNum: 1,
-      // params: {
-      //   search: this.search,
-      // },
-    })
-    .then((res) => {
-      //res已经是data了
-      console.log("----------------------------------------");
-      console.log(res);
-      if (res.code === 200) {
-        // this.tableData = res.data;
-        // this.total = res.total;
-      } else {
-        alert("数据获取失败：" + res.msg);
-      }
-    });
-}
-// -----------------------------
-
 const value = ref("全部");
 const options = [
   {
@@ -595,7 +569,6 @@ const initChart = () => {
 };
 
 onMounted(() => {
-  // load();
   initChart();
   window.addEventListener("resize", handleResize);
 });

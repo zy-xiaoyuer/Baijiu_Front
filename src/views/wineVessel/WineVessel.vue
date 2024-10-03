@@ -42,17 +42,21 @@
             :key="message.id"
             :title="message.name"
           >
-            <!-- Base64 编码图片的正确格式 -->
             <img
               class="img"
-              :src="'data:image/jpeg;base64,' + message.picture"
+              :src="
+                globals.$config?.serverUrl +
+                '/' +
+                message.picture.split('\\').pop()
+              "
               @click="viewDetail(message.id)"
               alt="Image"
             />
-            <!-- <p>{{ message.name }}</p> -->
+            {{}}
           </div>
         </div>
       </div>
+
       <div class="demo-pagination-block">
         <el-pagination
           v-model:current-page="currentPage4"
@@ -75,6 +79,7 @@ import * as echarts from "echarts";
 import type { ComponentSize } from "element-plus";
 import request from "@/api/request.js";
 import { ElMessage } from "element-plus";
+import { globals } from "@/main";
 
 interface message {
   age: string;
@@ -98,6 +103,8 @@ const total = ref(0);
 
 const searchQuery = ref(""); // 用于存储搜索查询条件
 
+let pTest = ref("");
+
 function load() {
   request
     .post("vessel/api/listPage", {
@@ -108,9 +115,7 @@ function load() {
       },
     })
     .then((res) => {
-      //res已经是data了
-      console.log("----------------------------------------");
-      console.log(res);
+      console.log(globals.$config?.serverUrl);
       if (res.code === 200) {
         // messages.value = res.data;
         filteredMessages.value = res.data;
