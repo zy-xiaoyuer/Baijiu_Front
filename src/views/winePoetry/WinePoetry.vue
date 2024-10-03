@@ -221,7 +221,7 @@ const markCharts = async (id: string, category: string) => {
         // 添加点击事件
         myChart.on("click", (params) => {
           const selectedItem = params.name; // 获取被点击的项
-          fetchFilteredPoems(category, selectedItem);
+          fetchPoems();
         });
       } else {
         ElMessage.error("数据获取失败：" + response.msg);
