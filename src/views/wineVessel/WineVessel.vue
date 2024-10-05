@@ -36,11 +36,15 @@
       <hr />
       <div>
         <div id="imgs">
-          <div
+          <router-link
             class="card"
             v-for="message in paginatedMessages"
             :key="message.id"
             :title="message.name"
+            :to="{
+              name: 'wineVesselDetail',
+              params: { wineVesselDetailId: message.id },
+            }"
           >
             <img
               class="img"
@@ -49,11 +53,10 @@
                 '/' +
                 message.picture.split('\\').pop()
               "
-              @click="viewDetail(message.id)"
               alt="Image"
             />
             {{}}
-          </div>
+          </router-link>
         </div>
       </div>
 
@@ -213,9 +216,6 @@ onMounted(() => {
   setTimeout(markCharts, 1000);
 });
 
-const viewDetail = (id: string) => {
-  window.location.href = `/WineVesselDetail/${id}`;
-};
 </script>
 
 <style lang="less" scoped>

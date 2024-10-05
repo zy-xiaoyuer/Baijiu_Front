@@ -36,12 +36,16 @@
               params: { winePaintingDetailId: message.id },
             }"
         >
-          <img
-            class="img"
-            :src="'data:image/jpeg;base64,' + message.image"
-            alt="Image"
-          />
-          <br />
+        <img
+              class="img"
+              :src="
+                globals.$config?.serverUrl +
+                '/' +
+                message.image.split('\\').pop()
+              "
+              alt="Image"
+            />
+            {{}}
         </router-link>
       </div>
       <div class="demo-pagination-block">
@@ -50,11 +54,10 @@
           v-model:page-size="pageSize4"
           :page-sizes="[9, 18, 27, 36]"
           :size="size"
-          :disabled="disabled"
-          :background="background"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total"
           @current-change="handlePageChange"
+          @click="toTop"
         />
       </div>
     </div>
@@ -67,6 +70,8 @@ import { onMounted, ref, computed } from "vue";
 import type { ComponentSize } from "element-plus";
 import request from "@/api/request.js";
 import { ElMessage } from "element-plus";
+import { globals } from "@/main";
+
 
 interface message {
   dynasty: string;
@@ -100,8 +105,7 @@ function load() {
       },
     })
     .then((res) => {
-      console.log("----------------------------------------");
-      console.log(res);
+      console.log(globals.$config?.serverUrl);
       if (res.code === 200) {
         filteredMessages.value = res.data;
         total.value = res.total;
@@ -146,6 +150,10 @@ const paginatedMessages = computed(() => {
   start = 0;
   return filteredMessages.value.slice(start, start + pageSize4.value);
 });
+
+const toTop = () => {
+  document.documentElement.scrollTop = 0;
+};
 
 const searchPaints = () => {
   const query = input.value.toLowerCase();
@@ -226,9 +234,6 @@ onMounted(() => {
   }, 1000);
 });
 
-// const viewDetail = (id: string) => {
-//   window.location.href = `/WinePaintingDetail/${id}`;
-// };
 </script>
 
 <style lang="less" scoped>

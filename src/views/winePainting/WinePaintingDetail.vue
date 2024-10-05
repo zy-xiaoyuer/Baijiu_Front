@@ -4,11 +4,13 @@
       <el-button type="primary" @click="goBack">返回</el-button>
     </div>
     <div class="content" v-if="message && message.imagename">
-      <img v-if="message.image"
-           :src="getImageUrl(message.image)"
-           alt="酒器图片"
-           style="width: 100%; height: auto;"
-           @error="handleImageError"/>
+      <img
+        v-if="message.image"
+        :src="getImageUrl(message.image)"
+        alt="酒画图片"
+        style="width: 100%; height: auto"
+        @error="handleImageError"
+      />
       <h3>{{ message.imagename }}</h3>
       <p class="poetry-content">{{ message.dynasty }}</p>
     </div>
@@ -25,7 +27,9 @@ const globalProperties = instance?.appContext.config.globalProperties;
 const getImageURL = ref(globalProperties.$getimageURL);
 const route = useRoute();
 const router = useRouter();
-const messageId = ref(parseInt(route.params.winePaintingDetailId as string, 10));
+const messageId = ref(
+  parseInt(route.params.winePaintingDetailId as string, 10)
+);
 const message = ref({
   image: "",
   dynasty: "",
@@ -34,7 +38,7 @@ const message = ref({
 console.log("Base Image URL:", getImageURL.value); // 确认基础 URL
 
 const getImageUrl = (image: string) => {
-  const imageUrl = `${getImageURL.value}/${image.split('\\').pop()}`;
+  const imageUrl = `${getImageURL.value}/${image.split("\\").pop()}`;
   console.log("Image URL:", imageUrl);
   return imageUrl;
 };
