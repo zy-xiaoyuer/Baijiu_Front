@@ -27,10 +27,12 @@
     <div class="text">
       <h3>共{{ total }}条数据</h3>
       <hr />
+      <div>
       <div id="imgs">
         <router-link
           v-for="message in paginatedMessages"
           :key="message.id"
+          :title="message.name"
           :to="{
               name: 'winePaintingDetail',
               params: { winePaintingDetailId: message.id },
@@ -47,6 +49,7 @@
             />
             {{}}
         </router-link>
+        </div>
       </div>
       <div class="demo-pagination-block">
         <el-pagination
@@ -68,7 +71,7 @@
 import * as echarts from "echarts";
 import { onMounted, ref, computed } from "vue";
 import type { ComponentSize } from "element-plus";
-import request from "@/api/request.js";
+import request from "@/api/request";
 import { ElMessage } from "element-plus";
 import { globals } from "@/main";
 
@@ -78,7 +81,7 @@ interface message {
   id: number;
   imagename: string;
   // eslint-disable-next-line no-undef
-  image: byte[];
+  image: string;
 }
 
 const input = ref("");
@@ -93,7 +96,7 @@ const filteredMessages = ref<any[]>(messages.value);
 // const total = computed(() => filteredMessages.value.length);
 const total = ref(0);
 
-const dynasty = ref(""); // 新增变量用于存储朝代筛选条件
+const searchQuery = ref(""); 
 
 function load() {
   request
@@ -101,7 +104,7 @@ function load() {
       pageSize: pageSize4.value,
       pageNum: currentPage4.value,
       params: {
-        imagename: input.value,
+        imagename: searchQuery.value,
       },
     })
     .then((res) => {
@@ -115,28 +118,29 @@ function load() {
     });
 }
 
-function fetchFilterMessages(dynasty: string) {
-  console.log("fetchFilterMessages called with dynasty:", dynasty);
-  request
-    .post("poemimages/api/listPage", {
-      pageSize: pageSize4.value,
-      pageNum: currentPage4.value,
-      params: {
-        imagename: dynasty,
-      },
-    })
-    .then((res) => {
-      if (res.code === 200 && res.data) {
-        filteredMessages.value = res.data;
-        total.value = res.total;
-        currentPage4.value = 1; // 重置到第一页
-      } else {
-        ElMessage.error("筛选数据获取失败：" + res.msg);
-      }
-    });
-}
+// function fetchFilterMessages(dynasty: string) {
+//   console.log("fetchFilterMessages called with dynasty:", dynasty);
+//   request
+//     .post("poemimages/api/listPage", {
+//       pageSize: pageSize4.value,
+//       pageNum: currentPage4.value,
+//       params: {
+//         imagename: dynasty,
+//       },
+//     })
+//     .then((res) => {
+//       if (res.code === 200 && res.data) {
+//         filteredMessages.value = res.data;
+//         total.value = res.total;
+//         currentPage4.value = 1; // 重置到第一页
+//       } else {
+//         ElMessage.error("筛选数据获取失败：" + res.msg);
+//       }
+//     });
+// }
 
 const handleSearch = () => {
+  searchQuery.value = input.value;
   load();
 };
 
@@ -158,7 +162,7 @@ const toTop = () => {
 const searchPaints = () => {
   const query = input.value.toLowerCase();
   filteredMessages.value = messages.value.filter((message) =>
-    message.imagename.toLowerCase().includes(query)
+    message.title.toLowerCase().includes(query)
   );
   currentPage4.value = 1; // 搜索后重置分页到第一页
 };
@@ -168,70 +172,68 @@ const handlePageChange = (page: number) => {
   load();
 };
 
-const markCharts = () => {
+const markCharts = async () => {
   const chartDom = document.getElementById("rank1");
-  const myChart = echarts.init(chartDom);
-  const option = {
-    tooltip: {
-      trigger: "axis",
-      axisPointer: {
-        type: "shadow",
-      },
-    },
-    legend: {
-      data: ["朝代"],
-    },
-    grid: {
-      left: "3%",
-      right: "4%",
-      bottom: "3%",
-      containLabel: true,
-    },
-    xAxis: [
-      {
-        type: "value",
-        show: false,
-      },
-    ],
-    yAxis: [
-      {
-        type: "category",
-        axisTick: {
-          show: false,
-        },
-        data: ["辽朝", "宋朝", "唐朝", "隋朝", "南北朝", "未知", "汉", "先秦"],
-      },
-    ],
-    series: [
-      {
-        name: "朝代",
-        type: "bar",
-        color: "#7D3030",
-        label: {
-          show: false,
-          position: "inside",
-        },
-        emphasis: {
-          focus: "series",
-        },
-        data: [200, 170, 240, 244, 200, 220, 210, 150],
-      },
-    ],
-  };
+  if (chartDom) {
+    let myChart = echarts.getInstanceByDom(chartDom);
+    if (myChart) {
+      myChart.dispose(); // 销毁已有的实例
+    }
+    myChart = echarts.init(chartDom); // 初始化新的图表实例
 
-  option && myChart.setOption(option);
+    try {
+      const response = await request.get("/poemimages/api/countByDynasty");
+      if (response.code === 200 && response.data) {
+        const dynastyCount = response.data;
+        const dynastyNames = Object.keys(dynastyCount);
+        const counts = Object.values(dynastyCount);
 
-  myChart.on("click", (params) => {
-    const selectedItem = params.name; // 获取被点击的项
-    fetchFilterMessages(selectedItem); // 调用筛选函数
-  });
+        const option = {
+          tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
+          legend: { data: ["朝代"] },
+          grid: { left: "3%", right: "4%", bottom: "3%", containLabel: true },
+          xAxis: [{ type: "value", show: false }],
+          yAxis: [
+            {
+              type: "category",
+              axisTick: { show: false },
+              data: dynastyNames,
+            },
+          ],
+          series: [
+            {
+              name: "朝代",
+              type: "bar",
+              color: "#7D3030",
+              label: { show: false },
+              emphasis: { focus: "series" },
+              data: counts,
+            },
+          ],
+        };
+        myChart.setOption(option);
+
+        myChart.on("click", (params) => {
+          if (params.componentType === "series") {
+            const selectedItem = params.name; // 获取被点击的项
+            searchQuery.value = selectedItem; // 更新搜索查询条件
+            currentPage4.value = 1; // 重置为第一页
+            load(); // 重新加载数据
+          }
+        });
+      } else {
+        ElMessage.error("获取数据失败：" + response.msg);
+      }
+    } catch (error) {
+      console.error("请求出错：", error);
+      ElMessage.error("网络请求失败");
+    }
+  }
 };
 
 onMounted(() => {
   load();
-  setTimeout(() => {
-    markCharts();
-  }, 1000);
+  setTimeout(markCharts, 1000);
 });
 
 </script>

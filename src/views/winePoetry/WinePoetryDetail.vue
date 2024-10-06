@@ -24,7 +24,7 @@
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import request from "@/api/request.js"; // 确保这是你的请求方法的路径
+import request from "@/api/request"; // 确保这是你的请求方法的路径
 
 const route = useRoute();
 const router = useRouter();

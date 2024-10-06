@@ -29,12 +29,12 @@
         <div
           id="rank1"
           ref="rank1"
-          class="rank-item"
+          class="rank-item1"
         ></div>
         <div
           id="rank2"
           ref="rank2"
-          class="rank-item"
+          class="rank-item2"
         ></div>
       </div>
 
@@ -110,19 +110,16 @@ const poems = ref<Poem[]>([]);
 const total = ref(0);
 const filteredPoems = ref<Poem[]>([]);
 
-// const queryParam = reactive({
-//   search: '',
-//   pageNum: 1,
-//   pageSize: 10,
-// });
+const dynastyData = ref({});
+const authorData = ref({});
 
-function fetchPoems() {
+function fetchPoems(searchTerm: string) {
   request
     .post("poemsbydynasty/api/listPage", {
       pageSize: pageSize4.value,
       pageNum: currentPage4.value,
       params: {
-        search: input.value,
+        search: searchTerm || input.value,
       },
     })
     .then((res) => {
@@ -179,92 +176,117 @@ const handlePageChange = (newPage: number) => {
 };
 
 // 定义 rankData 变量
-const rankData = ref<
-  { id: string; data: string[]; category: string; seriesData: number[] }[]
->([]);
+// const rankData = ref<
+//   { id: string; data: string[]; category: string; seriesData: number[] }[]
+// >([]);
 
-const markCharts = async (id: string, category: string) => {
-  const chartDom = document.getElementById(id);
-  if (chartDom) {
-    const myChart = echarts.init(chartDom);
-    try {
-      const response = await request.get("poemsbydynasty/api/getPoemInfoById", {
-        params: { category: category },
-      });
-      if (response.code === 200 && response.data) {
-        const data = response.data;
-        const option = {
-          tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
-          legend: { data: [category] },
-          grid: { left: "3%", right: "4%", bottom: "3%", containLabel: true },
-          xAxis: [{ type: "value", show: false }],
-          yAxis: [
-            {
-              type: "category",
-              axisTick: { show: false },
-              data: Object.keys(data),
-            },
-          ],
-          series: [
-            {
-              name: category,
-              type: "bar",
-              color: "#7D3030",
-              label: { show: false, position: "inside" },
-              emphasis: { focus: "series" },
-              data: Object.values(data), // 使用接口返回的数据作为数据源
-            },
-          ],
-        };
-        myChart.setOption(option);
+// const markCharts = async (id: string, category: string) => {
+//   const chartDom = document.getElementById(id);
+//   if (chartDom) {
+//     const myChart = echarts.init(chartDom);
+//     try {
+//       const response = await request.get("poemsbydynasty/api/getPoemInfoById", {
+//         params: { category: category },
+//       });
+//       if (response.code === 200 && response.data) {
+//         const data = response.data;
+//         const option = {
+//           tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
+//           legend: { data: [category] },
+//           grid: { left: "3%", right: "4%", bottom: "3%", containLabel: true },
+//           xAxis: [{ type: "value", show: false }],
+//           yAxis: [
+//             {
+//               type: "category",
+//               axisTick: { show: false },
+//               data: Object.keys(data),
+//             },
+//           ],
+//           series: [
+//             {
+//               name: category,
+//               type: "bar",
+//               color: "#7D3030",
+//               label: { show: false, position: "inside" },
+//               emphasis: { focus: "series" },
+//               data: Object.values(data), // 使用接口返回的数据作为数据源
+//             },
+//           ],
+//         };
+//         myChart.setOption(option);
 
-        // 添加点击事件
-        myChart.on("click", (params) => {
-          const selectedItem = params.name; // 获取被点击的项
-          fetchPoems();
-        });
-      } else {
-        ElMessage.error("数据获取失败：" + response.msg);
-      }
-    } catch (error) {
-      console.error("请求失败:", error);
-      ElMessage.error("网络请求失败：" + error.message);
-    }
-  }
-};
+//         // 添加点击事件
+//         myChart.on("click", (params) => {
+//           const selectedItem = params.name; // 获取被点击的项
+//           fetchPoems();
+//         });
+//       } else {
+//         ElMessage.error("数据获取失败：" + response.msg);
+//       }
+//     } catch (error) {
+//       console.error("请求失败:", error);
+//       ElMessage.error("网络请求失败：" + error.message);
+//     }
+//   }
+// };
 
-onMounted(async () => {
+const fetchPoemsByDynasty = async () => {
   try {
-    const responseDynasty = await request.get("poemsbydynasty/api/getPoemInfoById", {
-      params: { id: "dynasty" },
-    });
-    const responseAuthor = await request.get("poemsbydynasty/api/getPoemInfoById", {
-      params: { id: "author" },
-    });
-
-    if (responseDynasty.code === 200 && responseAuthor.code === 200) {
-      rankData.value = [
-        {
-          id: "rank1",
-          data: [responseDynasty.data.dynasty],
-          category: "朝代",
-          seriesData: [1], // 示例数据，需要根据实际数据调整
-        },
-        {
-          id: "rank2",
-          data: [responseAuthor.data.author],
-          category: "作者",
-          seriesData: [1], // 示例数据，需要根据实际数据调整
-        },
-      ];
+    const response = await request.get("/poemsbydynasty/api/getPoemByIdsearch");
+    if (response.code === 200 && response.data) {
+      return response.data;
     } else {
-      ElMessage.error(
-        "数据获取失败："(responseDynasty.msg || responseAuthor.msg)
-      );
+      ElMessage.error("获取数据失败：" + response.msg);
     }
   } catch (error) {
     console.error("请求失败:", error);
     ElMessage.error("网络请求失败：" + error.message);
+  }
+  return [];
+};
+
+const initChart = (chartId, category, data) => {
+  const chartDom = document.getElementById(chartId);
+  if (chartDom) {
+    const myChart = echarts.init(chartDom);
+    const option = {
+      tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
+      legend: { data: [category] },
+      grid: { left: "3%", right: "4%", bottom: "3%", containLabel: true },
+      xAxis: [{ type: "value" }],
+      yAxis: [{ type: "category", data: Object.keys(data) }],
+      series: [
+        {
+          name: category,
+          color: "#7D3030",
+          type: "bar",
+          data: Object.values(data),
+        },
+      ],
+    };
+    myChart.setOption(option);
+    // 初始化图表实例并监听点击事件
+    myChart.on('click', (params) => {
+  if (params.componentType === 'series') {
+    const selectedItem = params.name; // 获取被点击的项
+    console.log("Clicked item:", selectedItem);
+    // 执行筛选逻辑
+    fetchPoems(selectedItem); // 传递筛选参数
+  }
+});
+  }
+};
+
+onMounted(async () => {
+  const poemsData = await fetchPoemsByDynasty();
+  if (poemsData.length > 0) {
+    poemsData.forEach((poem) => {
+      dynastyData.value[poem.dynasty] = (dynastyData.value[poem.dynasty] || 0) + 1;
+      authorData.value[poem.author] = (authorData.value[poem.author] || 0) + 1;
+    });
+    // 初始化两个图表
+    initChart("rank1", "朝代", dynastyData.value);
+    initChart("rank2", "作者", authorData.value);
   }
   fetchPoems();
   console.log("组件第一次加载...", poems.value);
@@ -308,18 +330,32 @@ onUpdated(() => {
     gap: 2vw;
   }
   .rank {
+    position: relative;
+    top: -4vw;
     margin-left: 1vw;
     width: 18vw;
+    height:88vw;
     background: #f6f3e5;
+    border-radius: 1vw;
     padding: 2vw;
-    .rank-item {
+    .rank-item1 {
       width: 100%;
+      border-radius: 1vw;
       height: 17vw;
+      margin-bottom: 3vw;
+      border: 1px solid #7d3030;
+    }
+    .rank-item2 {
+      width: 100%;
+      border-radius: 1vw;
+      height: 67vw;
       margin-bottom: 3vw;
       border: 1px solid #7d3030;
     }
   }
   .text {
+    position: relative;
+    top: -4vw;
     flex: 1;
     background: #f6f3e5;
     padding: 2vw;

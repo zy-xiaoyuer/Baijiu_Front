@@ -80,7 +80,7 @@
 import { onMounted, ref, computed } from "vue";
 import * as echarts from "echarts";
 import type { ComponentSize } from "element-plus";
-import request from "@/api/request.js";
+import request from "@/api/request";
 import { ElMessage } from "element-plus";
 import { globals } from "@/main";
 
@@ -89,7 +89,7 @@ interface message {
   id: number;
   now: string;
   // eslint-disable-next-line no-undef
-  picture: byte[];
+  picture: string;
 }
 
 const input = ref("");
@@ -164,51 +164,63 @@ const handlePageChange = (page: number) => {
   load();
 };
 
-const markCharts = () => {
+const markCharts = async () => {
   const chartDom = document.getElementById("rank1");
-  const myChart = echarts.init(chartDom);
-  const option = {
-    tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
-    legend: { data: ["朝代"] },
-    grid: { left: "3%", right: "4%", bottom: "3%", containLabel: true },
-    xAxis: [{ type: "value", show: false }],
-    yAxis: [
-      {
-        type: "category",
-        axisTick: { show: false },
-        data: [
-          "商",
-          "唐",
-          "西周前期",
-          "夏代晚期",
-          "春秋时期",
-          "战国时期",
-          "未知",
-          "西周",
-        ],
-      },
-    ],
-    series: [
-      {
-        name: "朝代",
-        type: "bar",
-        color: "#7D3030",
-        label: { show: false },
-        emphasis: { focus: "series" },
-        data: [200, 170, 240, 244, 200, 220, 210, 150],
-      },
-    ],
-  };
-  myChart.setOption(option);
-
-  myChart.on("click", (params) => {
-    if (params.componentType === "series") {
-      const selectedItem = params.name; // 获取被点击的项
-      searchQuery.value = selectedItem; // 更新搜索查询条件
-      currentPage4.value = 1; // 重置为第一页
-      load(); // 重新加载数据
+  if (chartDom) {
+    let myChart = echarts.getInstanceByDom(chartDom);
+    if (myChart) {
+      myChart.dispose(); // 销毁已有的实例
     }
-  });
+    myChart = echarts.init(chartDom); // 初始化新的图表实例
+
+    try {
+      const response = await request.get("/vessel/api/countByDynasty");
+      if (response.code === 200 && response.data) {
+        const dynastyCount = response.data;
+        const dynastyNames = Object.keys(dynastyCount);
+        const counts = Object.values(dynastyCount);
+
+        const option = {
+          tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
+          legend: { data: ["朝代"] },
+          grid: { left: "3%", right: "4%", bottom: "3%", containLabel: true },
+          xAxis: [{ type: "value", show: false }],
+          yAxis: [
+            {
+              type: "category",
+              axisTick: { show: false },
+              data: dynastyNames,
+            },
+          ],
+          series: [
+            {
+              name: "朝代",
+              type: "bar",
+              color: "#7D3030",
+              label: { show: false },
+              emphasis: { focus: "series" },
+              data: counts,
+            },
+          ],
+        };
+        myChart.setOption(option);
+
+        myChart.on("click", (params) => {
+          if (params.componentType === "series") {
+            const selectedItem = params.name; // 获取被点击的项
+            searchQuery.value = selectedItem; // 更新搜索查询条件
+            currentPage4.value = 1; // 重置为第一页
+            load(); // 重新加载数据
+          }
+        });
+      } else {
+        ElMessage.error("获取数据失败：" + response.msg);
+      }
+    } catch (error) {
+      console.error("请求出错：", error);
+      ElMessage.error("网络请求失败");
+    }
+  }
 };
 
 onMounted(() => {
