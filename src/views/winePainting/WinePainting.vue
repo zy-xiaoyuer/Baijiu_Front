@@ -42,7 +42,7 @@
               class="img"
               :src="
                 globals.$config?.serverUrl +
-                '/' +
+                '/upload/' +
                 message.image.split('\\').pop()
               "
               alt="Image"
@@ -296,7 +296,7 @@ onMounted(() => {
     left: 28vw;
     top: 10vw;
     width: 60vw;
-    height: 58vw; /* Changed to auto to fit content */
+    height: 56vw; /* Changed to auto to fit content */
     border-radius: 1px;
     background: #f6f3e5;
     padding: 1vw;
@@ -304,24 +304,13 @@ onMounted(() => {
       margin-top: 1vw;
       display: flex;
       flex-wrap: wrap;
-      justify-content: center; /* Center the images */
-      align-content: flex-start;
+      justify-content: space-around;
+      // align-content: flex-start;
     }
-
-    .card {
-      margin-top: 1vw;
-      width: 17vw;
+    .img {
       height: 14vw;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center; /* Center cards */
-      margin-bottom: 1vw;
-      margin-left: 0; /* Adjust left margin */
-    }
-
-    .card .img {
-      height: 14vw;
-      width: 11vw;
+      // padding: 1vw;
+      width: 16vw;
     }
 
     .demo-pagination-block {
@@ -329,7 +318,7 @@ onMounted(() => {
       display: flex;
       justify-content: center; /* Center pagination */
       align-items: center;
-      margin-top: 1vw; /* Space between images and pagination */
+      margin-top: 2vw; /* Space between images and pagination */
     }
   }
 }

@@ -50,7 +50,7 @@
               class="img"
               :src="
                 globals.$config?.serverUrl +
-                '/' +
+                '/upload/' +
                 message.picture.split('\\').pop()
               "
               alt="Image"
@@ -293,14 +293,6 @@ onMounted(() => {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-  }
-  .card {
-    width: 17vw;
-    height: 14vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 1vw;
   }
   .img {
     height: 14vw;
