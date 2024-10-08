@@ -17,60 +17,54 @@
         >
       </div>
     </div>
-
-    <div
-      id="rank"
-      class="rank"
-    >
-      分类统计
-      <div
-        id="rank1"
-        class="rank1"
-      >
-        朝代
+    <div class="main-content">
+      <div id="rank" class="rank">
+        分类统计
+        <div id="rank1" class="rank1">朝代</div>
       </div>
-    </div>
 
-    <div class="text">
-      <h3>共{{ total }}条数据</h3>
-      <hr />
-      <div>
-        <div id="imgs">
-          <router-link
-            class="card"
-            v-for="message in paginatedMessages"
-            :key="message.id"
-            :title="message.name"
-            :to="{
-              name: 'wineVesselDetail',
-              params: { wineVesselDetailId: message.id },
-            }"
-          >
-            <img
-              class="img"
-              :src="
-                globals.$config?.serverUrl +
-                '/upload/' +
-                message.picture.split('\\').pop()
-              "
-              alt="Image"
-            />
-            {{}}
-          </router-link>
+      <div class="text">
+        <h3>共{{ total }}条数据</h3>
+        <hr />
+        <div>
+          <div id="imgs">
+            <router-link
+              class="card"
+              v-for="message in paginatedMessages"
+              :key="message.id"
+              :title="message.name"
+              :to="{
+                name: 'wineVesselDetail',
+                params: { wineVesselDetailId: message.id },
+              }"
+            >
+              <img
+                class="img"
+                :src="
+                  globals.$config?.serverUrl +
+                  '/upload/' +
+                  message.picture.split('\\').pop()
+                "
+                alt="Image"
+              />
+              {{}}
+            </router-link>
+          </div>
         </div>
-      </div>
 
-      <div class="demo-pagination-block">
-        <el-pagination
-          v-model:current-page="currentPage4"
-          v-model:page-size="pageSize4"
-          :page-sizes="[9, 18, 27, 36]"
-          :size="size"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total"
-          @current-change="handlePageChange"
-          @click="toTop"
-        />
+        <div class="demo-pagination-block">
+          <el-pagination
+            v-model:current-page="currentPage4"
+            v-model:page-size="pageSize4"
+            :page-sizes="[9, 18, 27, 36]"
+            :size="size"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total"
+            @current-change="handlePageChange"
+            @size-change="handleSizeChange"
+            @click="toTop"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -227,38 +221,45 @@ onMounted(() => {
   load();
   setTimeout(markCharts, 1000);
 });
-
 </script>
 
 <style lang="less" scoped>
 .about {
   background-image: url("@/assets/images/background.jpg");
-  background-size: cover;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
   width: 96vw;
-  height: 62vw;
+  // height: 62vw;
   margin-left: 2vw;
   padding-bottom: 5vw;
   .serachTop {
-    height: 14vw;
-    width: 100%;
-    background-size: cover;
+    height: 10vw;
+    width: 100vw;
+    // background-size: cover;
+    margin-left: -2vw;
     .serach {
       padding: 1vw 0 0 37vw;
       .input {
         width: 24vw;
         margin-right: 1vw;
-        font-size: 0.8rem;
+        // font-size: 0.8rem;
       }
       .sbutton {
         font-size: 1rem;
       }
     }
   }
+  .main-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 2vw;
+  }
   .rank {
     position: relative;
     padding: 2vw;
-    left: 1vw;
-    top: -8vw;
+    // left: 1vw;
+    margin-left: 1vw;
+    top: -4vw;
     width: 18vw;
     height: 21vw;
     border-radius: 1vw;
@@ -274,29 +275,35 @@ onMounted(() => {
     }
   }
   .text {
-    position: absolute;
-    left: 28vw;
-    top: 10vw;
-    width: 60vw;
-    height: 56vw;
-    border-radius: 1px;
+    position: relative;
+    // left: 28vw;
+    top: -4vw;
+    flex: 1;
+    // width: 60vw;
+    // height: 56vw;
+    // border-radius: 1px;
     background: #f6f3e5;
     padding: 1vw;
+    margin-right: 6vw;
     .demo-pagination-block {
       display: flex;
       justify-content: center;
       align-items: center;
       margin-top: 2vw;
     }
-  }
-  #imgs {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-  }
-  .img {
-    height: 14vw;
-    width: 16vw;
+    .imgs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
+    .img {
+      height: 14vw;
+      width: 16vw;
+      margin-left: 2vw;
+      margin-right: 2vw;
+      margin-bottom: 1vw;
+      margin-top: 1vw;
+    }
   }
 }
 </style>

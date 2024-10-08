@@ -71,6 +71,7 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="total"
             @current-change="handlePageChange"
+            @size-change="handleSizeChange"
           />
         </div>
       </div>
@@ -174,61 +175,6 @@ const handlePageChange = (newPage: number) => {
   // console.log("currentPage4.value:",currentPage4.value,newPage)
   fetchPoems();
 };
-
-// 定义 rankData 变量
-// const rankData = ref<
-//   { id: string; data: string[]; category: string; seriesData: number[] }[]
-// >([]);
-
-// const markCharts = async (id: string, category: string) => {
-//   const chartDom = document.getElementById(id);
-//   if (chartDom) {
-//     const myChart = echarts.init(chartDom);
-//     try {
-//       const response = await request.get("poemsbydynasty/api/getPoemInfoById", {
-//         params: { category: category },
-//       });
-//       if (response.code === 200 && response.data) {
-//         const data = response.data;
-//         const option = {
-//           tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
-//           legend: { data: [category] },
-//           grid: { left: "3%", right: "4%", bottom: "3%", containLabel: true },
-//           xAxis: [{ type: "value", show: false }],
-//           yAxis: [
-//             {
-//               type: "category",
-//               axisTick: { show: false },
-//               data: Object.keys(data),
-//             },
-//           ],
-//           series: [
-//             {
-//               name: category,
-//               type: "bar",
-//               color: "#7D3030",
-//               label: { show: false, position: "inside" },
-//               emphasis: { focus: "series" },
-//               data: Object.values(data), // 使用接口返回的数据作为数据源
-//             },
-//           ],
-//         };
-//         myChart.setOption(option);
-
-//         // 添加点击事件
-//         myChart.on("click", (params) => {
-//           const selectedItem = params.name; // 获取被点击的项
-//           fetchPoems();
-//         });
-//       } else {
-//         ElMessage.error("数据获取失败：" + response.msg);
-//       }
-//     } catch (error) {
-//       console.error("请求失败:", error);
-//       ElMessage.error("网络请求失败：" + error.message);
-//     }
-//   }
-// };
 
 const fetchPoemsByDynasty = async () => {
   try {
