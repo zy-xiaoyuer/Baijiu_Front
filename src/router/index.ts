@@ -95,8 +95,7 @@ const router = createRouter({
             title: "酒画子页面",
             icon: "WinePaintingDetail",
           },
-          component: () =>
-            import("../views/winePainting/WinePaintingDetail.vue"),
+          component: () => import("../views/winePainting/WinePaintingDetail.vue"),
           props:true
         },
         // 酒诗图谱

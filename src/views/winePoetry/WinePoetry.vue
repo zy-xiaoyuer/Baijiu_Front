@@ -11,6 +11,7 @@
         <el-button
           type="primary"
           class="sbutton"
+          color="#7D3030"
           @click="handleSearch"
         >
           搜索
@@ -28,12 +29,12 @@
         <div
           id="rank1"
           ref="rank1"
-          class="rank-item"
+          class="rank-item1"
         ></div>
         <div
           id="rank2"
           ref="rank2"
-          class="rank-item"
+          class="rank-item2"
         ></div>
       </div>
 
@@ -70,6 +71,7 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="total"
             @current-change="handlePageChange"
+            @size-change="handleSizeChange"
           />
         </div>
       </div>
@@ -96,8 +98,10 @@ interface Poem {
   dynasty: string;
   author: string;
   content: string;
-  year?: number;
-  tags: string[];
+  place: string;
+  time: number;
+  emotion: string;
+  emotionList: string;
 }
 
 const input = ref("");
@@ -109,19 +113,16 @@ const poems = ref<Poem[]>([]);
 const total = ref(0);
 const filteredPoems = ref<Poem[]>([]);
 
-// const queryParam = reactive({
-//   search: '',
-//   pageNum: 1,
-//   pageSize: 10,
-// });
+const dynastyData = ref({});
+const authorData = ref({});
 
-function fetchPoems() {
+function fetchPoems(searchTerm: string) {
   request
     .post("poemsbydynasty/api/listPage", {
       pageSize: pageSize4.value,
       pageNum: currentPage4.value,
       params: {
-        search: input.value,
+        search: searchTerm || input.value,
       },
     })
     .then((res) => {
@@ -177,75 +178,65 @@ const handlePageChange = (newPage: number) => {
   fetchPoems();
 };
 
-const markCharts = (id: string, data: string[], category: string) => {
-  const chartDom = document.getElementById(id);
-  const myChart = echarts.init(chartDom);
-  const option = {
-    tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
-    legend: { data: [category] },
-    grid: { left: "3%", right: "4%", bottom: "3%", containLabel: true },
-    xAxis: [{ type: "value", show: false }],
-    yAxis: [{ type: "category", axisTick: { show: false }, data }],
-    series: [
-      {
-        name: category,
-        type: "bar",
-        color: "#7D3030",
-        label: { show: false, position: "inside" },
-        emphasis: { focus: "series" },
-        data: [200, 170, 240, 244, 200, 220, 210, 150],
-      },
-    ],
-  };
-  myChart.setOption(option);
-
-  // 添加点击事件
-  myChart.on("click", (params) => {
-    const selectedItem = params.name; // 获取被点击的项
-    filterPoemsByCategory(category, selectedItem); // 根据点击的项筛选诗词
-  });
-};
-
-const filterPoemsByCategory = (category: string, selectedItem: string) => {
-  filteredPoems.value = poems.value.filter((poem) => {
-    if (category === "朝代") {
-      console.log("filterPoemsByCategory", poem.dynasty.includes(selectedItem));
-      return poem.dynasty.includes(selectedItem); // 根据朝代筛选诗词
-    } else if (category === "作者") {
-      return poem.author.includes(selectedItem); // 根据作者筛选诗词
+const fetchPoemsByDynasty = async () => {
+  try {
+    const response = await request.get("/poemsbydynasty/api/getPoemByIdsearch");
+    if (response.code === 200 && response.data) {
+      return response.data;
+    } else {
+      ElMessage.error("获取数据失败：" + response.msg);
     }
-    return true;
-  });
+  } catch (error) {
+    console.error("请求失败:", error);
+    ElMessage.error("网络请求失败：" + error.message);
+  }
+  return [];
 };
 
-const rankData = ref([
-  {
-    id: "rank1",
-    data: ["辽朝", "宋朝", "盛唐", "隋朝", "南北朝", "魏晋", "汉", "先秦"],
-    category: "朝代",
-  },
-  {
-    id: "rank2",
-    data: [
-      "李白",
-      "白居易",
-      "刘禹锡",
-      "杜甫",
-      "王维",
-      "孟浩然",
-      "韩愈",
-      "柳宗元",
-    ],
-    category: "作者",
-  },
-]);
+const initChart = (chartId, category, data) => {
+  const chartDom = document.getElementById(chartId);
+  if (chartDom) {
+    const myChart = echarts.init(chartDom);
+    const option = {
+      tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
+      legend: { data: [category] },
+      grid: { left: "3%", right: "4%", bottom: "3%", containLabel: true },
+      xAxis: [{ type: "value" }],
+      yAxis: [{ type: "category", data: Object.keys(data) }],
+      series: [
+        {
+          name: category,
+          color: "#7D3030",
+          type: "bar",
+          data: Object.values(data),
+        },
+      ],
+    };
+    myChart.setOption(option);
+    // 初始化图表实例并监听点击事件
+    myChart.on('click', (params) => {
+  if (params.componentType === 'series') {
+    const selectedItem = params.name; // 获取被点击的项
+    console.log("Clicked item:", selectedItem);
+    // 执行筛选逻辑
+    fetchPoems(selectedItem); // 传递筛选参数
+  }
+});
+  }
+};
 
-onMounted(() => {
-  rankData.value.forEach((rank) => {
-    markCharts(rank.id, rank.data, rank.category);
-  });
+onMounted(async () => {
+  const poemsData = await fetchPoemsByDynasty();
+  if (poemsData.length > 0) {
+    poemsData.forEach((poem) => {
+      dynastyData.value[poem.dynasty] = (dynastyData.value[poem.dynasty] || 0) + 1;
+      authorData.value[poem.author] = (authorData.value[poem.author] || 0) + 1;
+    });
+    // 初始化两个图表
+    initChart("rank1", "朝代", dynastyData.value);
+    initChart("rank2", "作者", authorData.value);
+  }
   fetchPoems();
-  // filteredPoems.value = poems.value;
   console.log("组件第一次加载...", poems.value);
 });
 
@@ -266,7 +257,6 @@ onUpdated(() => {
   width: 96vw;
   margin-left: 2vw;
   padding: 0 0 5vw 0;
-
   .serachTop {
     height: 10vw;
     width: 100vw;
@@ -282,36 +272,45 @@ onUpdated(() => {
       }
     }
   }
-
   .main-content {
     display: flex;
     align-items: flex-start;
     gap: 2vw;
   }
-
   .rank {
+    position: relative;
+    top: -4vw;
     margin-left: 1vw;
     width: 18vw;
+    height:88vw;
     background: #f6f3e5;
+    border-radius: 1vw;
     padding: 2vw;
-    .rank-item {
+    .rank-item1 {
       width: 100%;
+      border-radius: 1vw;
       height: 17vw;
       margin-bottom: 3vw;
       border: 1px solid #7d3030;
     }
+    .rank-item2 {
+      width: 100%;
+      border-radius: 1vw;
+      height: 67vw;
+      margin-bottom: 3vw;
+      border: 1px solid #7d3030;
+    }
   }
-
   .text {
+    position: relative;
+    top: -4vw;
     flex: 1;
     background: #f6f3e5;
     padding: 2vw;
     margin-right: 1vw;
-
     .poem-item-wrapper {
       margin-bottom: 1vw;
     }
-
     .poem-item {
       display: flex;
       flex-direction: column;
@@ -325,41 +324,35 @@ onUpdated(() => {
         background-color: #e0d8d1;
       }
     }
-
     .poem-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 0.5vw;
     }
-
     .custom-title {
       font-family: "Source Han Sans", sans-serif;
       color: #3d3d3d;
       flex: 2;
       text-align: left;
     }
-
     .custom-author {
       font-family: "Source Han Sans", sans-serif;
       color: #3d3d3d;
       flex: 1;
       text-align: center;
     }
-
     .custom-type {
       font-family: "Source Han Sans", sans-serif;
       color: #3d3d3d;
       flex: 1;
       text-align: right;
     }
-
     .custom-content {
       font-family: "Source Han Sans", sans-serif;
       color: #908d8d;
       margin-top: 0.5vw;
     }
-
     .demo-pagination-block {
       display: flex;
       justify-content: center;
