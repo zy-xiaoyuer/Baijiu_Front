@@ -5,10 +5,10 @@
     </div>
     <div class="content" v-if="message && message.imagename">
       <img
+        class="img"
         v-if="message.image"
         :src="getImageUrl(message.image)"
         alt="酒画图片"
-        style="width: 100%; height: auto"
         @error="handleImageError"
       />
       <h3>{{ message.imagename }}</h3>

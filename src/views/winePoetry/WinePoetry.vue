@@ -98,8 +98,10 @@ interface Poem {
   dynasty: string;
   author: string;
   content: string;
-  year?: number;
-  tags: string[];
+  place: string;
+  time: number;
+  emotion: string;
+  emotionList: string;
 }
 
 const input = ref("");

@@ -5,9 +5,9 @@
     </div>
     <div class="content" v-if="message && message.age">
       <img
+        class="img"
         v-if="message.picture"
         :src="getImageUrl(message.picture)"
-        style="width: 100%; height: auto"
         alt="酒器图片"
         @error="handleImageError"
       />
