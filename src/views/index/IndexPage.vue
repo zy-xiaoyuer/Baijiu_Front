@@ -25,6 +25,7 @@
           type="primary"
           color="#7D3030"
           class="sbutton"
+          @click="load"
           >搜索</el-button
         >
       </div>
@@ -66,30 +67,6 @@ import { onMounted, ref, watch, onUnmounted, reactive } from "vue";
 import ts from "@/assets/json/ts.json";
 import request from "@/api/request.js";
 
-const value = ref("全部");
-const options = [
-  {
-    value: "Option1",
-    label: "Option1",
-  },
-  {
-    value: "Option2",
-    label: "Option2",
-  },
-  {
-    value: "Option3",
-    label: "Option3",
-  },
-  {
-    value: "Option4",
-    label: "Option4",
-  },
-  {
-    value: "Option5",
-    label: "Option5",
-  },
-];
-const input = ref("");
 // 监听窗口变化
 // let nowClientWidth = document.documentElement.clientWidth;
 // console.log(nowClientWidth);
@@ -567,6 +544,35 @@ const initChart = () => {
   myCharts.setOption(option);
   // console.log("option----------------", option);
 };
+
+//  搜索
+const value = ref("全部");
+const options = [
+  {
+    value: "Option1",
+    label: "Option1",
+  },
+  {
+    value: "Option2",
+    label: "Option2",
+  },
+  {
+    value: "Option3",
+    label: "Option3",
+  },
+  {
+    value: "Option4",
+    label: "Option4",
+  },
+  {
+    value: "Option5",
+    label: "Option5",
+  },
+];
+const input = ref("");
+function load() {
+  window.location.href = `/indexDetail?searchQuery=${input.value}`;
+}
 
 onMounted(() => {
   initChart();
