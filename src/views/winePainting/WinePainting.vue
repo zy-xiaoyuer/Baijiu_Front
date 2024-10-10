@@ -120,27 +120,6 @@ function load() {
     });
 }
 
-// function fetchFilterMessages(dynasty: string) {
-//   console.log("fetchFilterMessages called with dynasty:", dynasty);
-//   request
-//     .post("poemimages/api/listPage", {
-//       pageSize: pageSize4.value,
-//       pageNum: currentPage4.value,
-//       params: {
-//         imagename: dynasty,
-//       },
-//     })
-//     .then((res) => {
-//       if (res.code === 200 && res.data) {
-//         filteredMessages.value = res.data;
-//         total.value = res.total;
-//         currentPage4.value = 1; // 重置到第一页
-//       } else {
-//         ElMessage.error("筛选数据获取失败：" + res.msg);
-//       }
-//     });
-// }
-
 const handleSearch = () => {
   searchQuery.value = input.value;
   load();
@@ -174,68 +153,68 @@ const handlePageChange = (page: number) => {
   load();
 };
 
-const markCharts = async () => {
-  const chartDom = document.getElementById("rank1");
-  if (chartDom) {
-    let myChart = echarts.getInstanceByDom(chartDom);
-    if (myChart) {
-      myChart.dispose(); // 销毁已有的实例
-    }
-    myChart = echarts.init(chartDom); // 初始化新的图表实例
+// const markCharts = async () => {
+//   const chartDom = document.getElementById("rank1");
+//   if (chartDom) {
+//     let myChart = echarts.getInstanceByDom(chartDom);
+//     if (myChart) {
+//       myChart.dispose(); // 销毁已有的实例
+//     }
+//     myChart = echarts.init(chartDom); // 初始化新的图表实例
 
-    try {
-      const response = await request.get("/poemimages/api/countByDynasty");
-      if (response.code === 200 && response.data) {
-        const dynastyCount = response.data;
-        const dynastyNames = Object.keys(dynastyCount);
-        const counts = Object.values(dynastyCount);
+//     try {
+//       const response = await request.get("/poemimages/api/countByDynasty");
+//       if (response.code === 200 && response.data) {
+//         const dynastyCount = response.data;
+//         const dynastyNames = Object.keys(dynastyCount);
+//         const counts = Object.values(dynastyCount);
 
-        const option = {
-          tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
-          legend: { data: ["朝代"] },
-          grid: { left: "3%", right: "4%", bottom: "3%", containLabel: true },
-          xAxis: [{ type: "value", show: false }],
-          yAxis: [
-            {
-              type: "category",
-              axisTick: { show: false },
-              data: dynastyNames,
-            },
-          ],
-          series: [
-            {
-              name: "朝代",
-              type: "bar",
-              color: "#7D3030",
-              label: { show: false },
-              emphasis: { focus: "series" },
-              data: counts,
-            },
-          ],
-        };
-        myChart.setOption(option);
+//         const option = {
+//           tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
+//           legend: { data: ["朝代"] },
+//           grid: { left: "3%", right: "4%", bottom: "3%", containLabel: true },
+//           xAxis: [{ type: "value", show: false }],
+//           yAxis: [
+//             {
+//               type: "category",
+//               axisTick: { show: false },
+//               data: dynastyNames,
+//             },
+//           ],
+//           series: [
+//             {
+//               name: "朝代",
+//               type: "bar",
+//               color: "#7D3030",
+//               label: { show: false },
+//               emphasis: { focus: "series" },
+//               data: counts,
+//             },
+//           ],
+//         };
+//         myChart.setOption(option);
 
-        myChart.on("click", (params) => {
-          if (params.componentType === "series") {
-            const selectedItem = params.name; // 获取被点击的项
-            searchQuery.value = selectedItem; // 更新搜索查询条件
-            currentPage4.value = 1; // 重置为第一页
-            load(); // 重新加载数据
-          }
-        });
-      } else {
-        ElMessage.error("获取数据失败：" + response.msg);
-      }
-    } catch (error) {
-      console.error("请求出错：", error);
-      ElMessage.error("网络请求失败");
-    }
-  }
-};
+//         myChart.on("click", (params) => {
+//           if (params.componentType === "series") {
+//             const selectedItem = params.name; // 获取被点击的项
+//             searchQuery.value = selectedItem; // 更新搜索查询条件
+//             currentPage4.value = 1; // 重置为第一页
+//             load(); // 重新加载数据
+//           }
+//         });
+//       } else {
+//         ElMessage.error("获取数据失败：" + response.msg);
+//       }
+//     } catch (error) {
+//       console.error("请求出错：", error);
+//       ElMessage.error("网络请求失败");
+//     }
+//   }
+// };
 
 onMounted(() => {
   load();
-  setTimeout(markCharts, 1000);
+  // setTimeout(markCharts, 1000);
 });
 
 </script>
@@ -282,6 +261,7 @@ onMounted(() => {
     height: 21vw;
     border-radius: 1vw;
     background: #f6f3e5;
+    opacity: 0;
     .rank1 {
       position: absolute;
       left: 1vw;
