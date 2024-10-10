@@ -32,8 +32,11 @@
                 "
                 alt="Image"
               />
-              {{}}
             </router-link>
+            <p style="margin-left: 2vw; color: #3d3d3d">
+              朝代：{{ item.age }}<br />
+              收藏博物馆：{{ item.now }}
+            </p>
           </div>
           <div v-else-if="'image' in item">
             <router-link
@@ -52,8 +55,10 @@
                 "
                 alt="Image"
               />
-              {{}}
             </router-link>
+            <p style="margin-left: 2vw; color: #3d3d3d">
+              酒画名称：{{ item.imagename }}
+            </p>
           </div>
           <div
             class="poem-item-wrapper"
@@ -112,10 +117,13 @@ const size = ref("default");
 const total = ref(0);
 const handleSizeChange = (val: number) => {
   pageSize.value = `${val}`;
+
+  // console.log(typeof pageSize.value);
   load();
 };
 const handleCurrentChange = (val: number) => {
   currentPage.value = `${val}`;
+  // console.log(typeof currentPage.value);
   load();
 };
 

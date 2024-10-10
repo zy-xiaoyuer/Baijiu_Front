@@ -280,7 +280,8 @@ const initChart = () => {
           show: false, // 不显示坐标轴线
         },
         position: "top",
-        offset: -1.02 * nowSize(305),
+        // offset: -1.02 * nowSize(305),
+        offset: -280 * (window.innerHeight / 950),
       },
     ],
     yAxis: [
