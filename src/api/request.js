@@ -3,9 +3,9 @@ import axios from "axios";
 import { globals } from "@/main";
 
 // 生产环境
-// const serveUrl = globals.$config?.serverUrl || "http://localhost:9000";
+const serveUrl = globals.$config?.serverUrl || "http://localhost:9000";
 // 开发环境
-const serveUrl = "http://localhost:9000";
+// const serveUrl = "http://localhost:9000";
 
 const request = axios.create({
   baseURL: serveUrl,
