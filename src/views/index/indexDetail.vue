@@ -15,10 +15,7 @@
           v-for="item in searchdata"
           :key="item.id"
         >
-          <div
-            id="imgs"
-            v-if="'picture' in item"
-          >
+          <div v-if="'picture' in item">
             <router-link
               :title="item.name"
               :to="{
@@ -32,6 +29,26 @@
                   globals.$config?.serverUrl +
                   '/upload/' +
                   item.picture.split('\\').pop()
+                "
+                alt="Image"
+              />
+              {{}}
+            </router-link>
+          </div>
+          <div v-else-if="'image' in item">
+            <router-link
+              :title="item.name"
+              :to="{
+                name: 'winePaintingDetail',
+                params: { winePaintingDetailId: item.id },
+              }"
+            >
+              <img
+                class="img"
+                :src="
+                  globals.$config?.serverUrl +
+                  '/upload/' +
+                  item.image.split('\\').pop()
                 "
                 alt="Image"
               />
@@ -61,13 +78,12 @@
         </div>
         <div class="demo-pagination-block">
           <el-pagination
-            v-model:current-page="currentPage4"
-            v-model:page-size="pageSize4"
-            :page-sizes="[9, 18, 27, 36]"
+            :current-page="currentPage"
+            :page-size="[10, 20, 30, 40]"
             :size="size"
             layout="total, sizes, prev, pager, next, jumper"
             :total="total"
-            @current-change="handlePageChange"
+            @current-change="handleCurrentChange"
             @size-change="handleSizeChange"
             @click="toTop"
           />
@@ -80,9 +96,7 @@
 <script lang="ts" setup>
 import * as echarts from "echarts";
 import { onMounted, ref, computed, reactive } from "vue";
-import type { ComponentSize } from "element-plus";
 import request from "@/api/request";
-import { ElMessage } from "element-plus";
 import { globals } from "@/main";
 import { useRoute } from "vue-router";
 
@@ -92,16 +106,36 @@ console.log(route.query.searchQuery);
 let searchdata = ref();
 
 // const input = ref("");
+const currentPage = ref(1);
+const pageSize = ref(10);
+const size = ref("default");
+const total = ref(0);
+const handleSizeChange = (val: number) => {
+  pageSize.value = `${val}`;
+  load();
+};
+const handleCurrentChange = (val: number) => {
+  currentPage.value = `${val}`;
+  load();
+};
+
 function load() {
   request
-    .post(`/search/api/global?searchQuery=${route.query.searchQuery}`)
+    .post("/search/api/globalPage", {
+      pageSize: pageSize.value,
+      pageNum: currentPage.value,
+      params: {
+        searchQuery: route.query.searchQuery,
+      },
+    })
     .then((res) => {
       //res已经是data了
-      //   console.log("全局检索");
-      //   console.log(res);
-      //   console.log(res.data);
+      console.log("全局检索");
+      console.log(res);
+      // console.log(res.data);
       searchdata.value = res.data;
-      console.log("searchdata", searchdata.value);
+      total.value = res.total;
+      // console.log("searchdata", searchdata.value);
       //console.log(res.data.dynasty)
       if (res.code === 200) {
         //
