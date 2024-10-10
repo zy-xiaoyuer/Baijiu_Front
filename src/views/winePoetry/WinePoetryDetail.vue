@@ -118,8 +118,8 @@ const goBack = () => {
       color: #908d8d;
       // text-align-last: left;
       white-space: pre-wrap;
-      margin-left: 30vw;
-      margin-right: 24vw;
+      margin-left: 38vw;
+      margin-right: 35vw;
       // margin-bottom: 2vw;
       // text-indent: 2em; /* 每段首行缩进两个字符 */
     }
