@@ -52,13 +52,17 @@
           src="@/assets/images/user.png"
           class="rightimg"
         />
-        <el-button
-          link
-          @click="toggleChange"
-          class="loginbtn"
+        <router-link
+          :to="{
+            name: 'loginPage',
+          }"
+          ><el-button
+            link
+            class="loginbtn"
+          >
+            登录
+          </el-button></router-link
         >
-          登录
-        </el-button>
       </div>
     </div>
     <div class="main">
@@ -138,9 +142,10 @@ const handleSelect = (key: string, keyPath: string[]) => {
   console.log(key, keyPath);
 };
 // 跳转登录
-const toggleChange = () => {
-  window.location.href = "/login";
-};
+// const toggleChange = () => {
+//   window.location.href =
+//     window.location.protocol + "//" + window.location.host + "/login";
+// };
 
 // 回到顶部
 

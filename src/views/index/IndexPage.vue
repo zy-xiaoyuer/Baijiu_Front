@@ -21,6 +21,7 @@
           placeholder="检索你感兴趣的内容"
           clearable
         />
+
         <el-button
           type="primary"
           color="#7D3030"
@@ -66,6 +67,8 @@ import { onMounted, ref, watch, onUnmounted, reactive } from "vue";
 // import ts from "@/assets/ts.json";
 import ts from "@/assets/json/ts.json";
 import request from "@/api/request.js";
+import { globals } from "@/main";
+import router from "@/router";
 
 // 监听窗口变化
 // let nowClientWidth = document.documentElement.clientWidth;
@@ -571,8 +574,14 @@ const options = [
   },
 ];
 const input = ref("");
+
 function load() {
-  window.location.href = `/indexDetail?searchQuery=${input.value}`;
+  // window.location.href = `/indexDetail?searchQuery=${input.value}`;
+  console.log("load()", input.value);
+  router.push({
+    name: "indexDetail",
+    query: { searchQuery: input.value },
+  });
 }
 
 onMounted(() => {
