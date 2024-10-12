@@ -7,20 +7,22 @@
       <h1>{{ poetry.title }}</h1>
       <h3>{{ poetry.dynasty }} · {{ poetry.author }}</h3>
       <p class="poetry-content">{{ poetry.content }}</p>
-      <!-- <div class="additional-info">
-        <p><strong>作诗地点：</strong>{{ poetry.place }}</p>
-        <p><strong>情感：</strong>{{ poetry.emotion }}</p>
-      </div> -->
       <div class="additional-info">
         <el-collapse v-model="activeNames" @change="handleChange">
-          <el-collapse-item title="作诗地点:" name="place">
-            <div class="place">
-              {{ poetry.place }}
-            </div>
-          </el-collapse-item>
-          <el-collapse-item title="情感" name="emotion">
-            <div class="emotion">
-              {{ poetry.emotion }}
+          <el-collapse-item title="相关描述" name="description">
+            <div class="description">
+              <el-collapse v-model="innerActiveNames">
+                <el-collapse-item title="作诗地点" name="place">
+                  <div class="place">
+                    {{ poetry.place }}
+                  </div>
+                </el-collapse-item>
+                <el-collapse-item title="情感" name="emotion">
+                  <div class="emotion">
+                    {{ poetry.emotion }}
+                  </div>
+                </el-collapse-item>
+              </el-collapse>
             </div>
           </el-collapse-item>
         </el-collapse>
@@ -35,6 +37,7 @@ import { useRoute, useRouter } from "vue-router";
 import request from "@/api/request"; // 确保这是你的请求方法的路径
 
 const activeNames = ref(["1"]);
+const innerActiveNames = ref([]);
 const handleChange = (val: string[]) => {
   console.log(val);
 };

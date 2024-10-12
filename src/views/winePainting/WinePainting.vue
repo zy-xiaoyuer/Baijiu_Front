@@ -84,6 +84,7 @@ interface message {
   imagename: string;
   // eslint-disable-next-line no-undef
   image: string;
+  palce: string;
 }
 
 const input = ref("");
