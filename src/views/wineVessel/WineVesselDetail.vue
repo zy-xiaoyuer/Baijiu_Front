@@ -1,9 +1,16 @@
 <template>
   <div class="detail">
     <div class="back-button">
-      <el-button type="primary" @click="goBack">返回</el-button>
+      <el-button
+        type="primary"
+        @click="goBack"
+        >返回</el-button
+      >
     </div>
-    <div class="content" v-if="message && message.age">
+    <div
+      class="content"
+      v-if="message && message.age"
+    >
       <img
         class="img"
         v-if="message.picture"
@@ -21,10 +28,8 @@
 import { ref, onMounted, getCurrentInstance } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import request from "@/api/request.js";
+import { globals } from "@/main";
 
-const instance = getCurrentInstance();
-const globalProperties = instance?.appContext.config.globalProperties;
-const getImageURL = ref(globalProperties.$getimageURL);
 const route = useRoute();
 const router = useRouter();
 const messageId = ref(parseInt(route.params.wineVesselDetailId as string, 10));
@@ -33,11 +38,11 @@ const message = ref({
   now: "",
   age: "",
 });
-console.log("Base Image URL:", getImageURL.value); // 确认基础 URL
 
 // 定义getImageUrl函数
 const getImageUrl = (picture: string) => {
-  const imageUrl = `${getImageURL.value}/${picture.split("\\").pop()}`;
+  const imageUrl =
+    globals.$config?.serverUrl + `/upload/${picture.split("\\").pop()}`;
   console.log("Image URL:", imageUrl);
   return imageUrl;
 };

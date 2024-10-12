@@ -1,9 +1,16 @@
 <template>
   <div class="detail">
     <div class="back-button">
-      <el-button type="primary" @click="goBack">返回</el-button>
+      <el-button
+        type="primary"
+        @click="goBack"
+        >返回</el-button
+      >
     </div>
-    <div class="content" v-if="message && message.imagename">
+    <div
+      class="content"
+      v-if="message && message.imagename"
+    >
       <img
         class="img"
         v-if="message.image"
@@ -21,10 +28,8 @@
 import { ref, onMounted, getCurrentInstance } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import request from "@/api/request.js";
+import { globals } from "@/main";
 
-const instance = getCurrentInstance();
-const globalProperties = instance?.appContext.config.globalProperties;
-const getImageURL = ref(globalProperties.$getimageURL);
 const route = useRoute();
 const router = useRouter();
 const messageId = ref(
@@ -35,10 +40,10 @@ const message = ref({
   dynasty: "",
   imagename: "",
 });
-console.log("Base Image URL:", getImageURL.value); // 确认基础 URL
 
 const getImageUrl = (image: string) => {
-  const imageUrl = `${getImageURL.value}/${image.split("\\").pop()}`;
+  const imageUrl =
+    globals.$config?.serverUrl + `/upload/${image.split("\\").pop()}`;
   console.log("Image URL:", imageUrl);
   return imageUrl;
 };

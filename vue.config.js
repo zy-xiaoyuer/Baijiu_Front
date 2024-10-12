@@ -5,8 +5,8 @@ module.exports = defineConfig({
     port: 8080,
     proxy: {
       "/apis": {
-        // target: "http://47.108.118.219:9000", // 对应自己的接口
-        target: "http://localhost:9000", // 对应自己的接口
+        target: "http://47.108.118.219:9000", // 对应自己的接口
+        // target: "http://localhost:9000", // 对应自己的接口
         changeOrigin: true,
         ws: false,
         pathRewrite: {
