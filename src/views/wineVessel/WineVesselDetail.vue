@@ -114,4 +114,7 @@ const handleImageError = (event) => {
     }
   }
 }
+.img {
+  // width: 80%;
+}
 </style>

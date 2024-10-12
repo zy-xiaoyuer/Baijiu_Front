@@ -107,4 +107,7 @@ const goBack = () => {
     }
   }
 }
+.img {
+  width: 50%;
+}
 </style>
