@@ -87,7 +87,29 @@
         ></component>
       </router-view>
     </div>
-    <div class="foot"></div>
+    <div class="foot">
+      <!-- <div class="serachBottom">
+        <div class="serach">
+          <el-input
+            class="input"
+            v-model="input"
+            placeholder="全局检索你感兴趣的内容"
+            clearable
+          />
+
+          <el-button
+            type="primary"
+            color="#7D3030"
+            class="sbutton"
+            @click="load"
+            >搜索</el-button
+          >
+        </div>
+      </div> -->
+      <p style="float: left; margin: 14vh 0 0 33vw">
+        © 2021-2024 四川省大数据可视分析技术工程实验室 版权所有
+      </p>
+    </div>
   </div>
 
   <el-backtop :bottom="100">
@@ -148,6 +170,17 @@ const handleSelect = (key: string, keyPath: string[]) => {
 // };
 
 // 回到顶部
+
+// 搜索
+const input = ref("");
+function load() {
+  // window.location.href = `/indexDetail?searchQuery=${input.value}`;
+  console.log("load()", input.value);
+  router.push({
+    name: "indexDetail",
+    query: { searchQuery: input.value },
+  });
+}
 
 onMounted(() => {
   //
@@ -210,6 +243,25 @@ onUnmounted(() => {
     height: 9vw;
     background-image: url("@/assets/images/foot.png");
     background-size: 100% 100%;
+    .serachBottom {
+      .serach {
+        float: right;
+        margin-right: 20vw;
+        margin-top: 2vh;
+        .select {
+          width: 5vw;
+          margin-right: 0.5vw;
+        }
+        .input {
+          width: 15vw;
+          margin-right: 0.5vw;
+          font-size: 0.8rem;
+        }
+        .sbutton {
+          font-size: 1rem;
+        }
+      }
+    }
   }
 }
 @media screen and (max-width: 900px) {
@@ -270,6 +322,24 @@ onUnmounted(() => {
       height: 9vw;
       background-image: url("@/assets/images/foot.png");
       background-size: 100% 100%;
+      .serachBottom {
+        .serach {
+          :deep(.el-select__wrapper) {
+            min-height: 3vw;
+          }
+          .input {
+            width: 15vw;
+            margin-right: 0.5vw;
+            font-size: 0.6rem;
+            height: 3vw;
+          }
+          .sbutton {
+            font-size: 0.5rem;
+            width: 5vw;
+            height: 3vw;
+          }
+        }
+      }
     }
   }
 }
@@ -332,6 +402,24 @@ onUnmounted(() => {
       height: 9vw;
       background-image: url("@/assets/images/foot.png");
       background-size: 100% 100%;
+      .serachBottom {
+        .serach {
+          :deep(.el-select__wrapper) {
+            min-height: 3vw;
+          }
+          .input {
+            width: 15vw;
+            margin-right: 0.5vw;
+            font-size: 0.6rem;
+            height: 3vw;
+          }
+          .sbutton {
+            font-size: 0.5rem;
+            width: 5vw;
+            height: 3vw;
+          }
+        }
+      }
     }
   }
 }

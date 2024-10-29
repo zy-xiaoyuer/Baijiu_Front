@@ -29,33 +29,37 @@
         style="
           margin-left: 10vw;
           width: 80vw;
-          margin-bottom: 10vh;
           font-size: 1rem;
           margin-top: -2vh;
+          color: #3d3d3d;
         "
       >
-        “酒诗年代山水图”中峰峦起伏的山峰代表唐代不同年号时期诗人所著的酒诗数目，在最高峰处升起的旭日代表着酒诗最兴盛的年号。
-        翠绿色的年代号连接着山水，层叠的水纹代表着唐代不断出生的诗人，长短不一的水纹代表诗人的生命周期。水中长出的荷叶代表着唐
-        代酒诗数量排名前十的诗人。
+        长短不一的水纹代表诗人的生命周期,水中长出的荷叶代表着唐代酒诗数量排名前十的诗人;<br />
+        峰峦起伏的山峰代表唐代不同年号时期诗人所著的酒诗数目，在最高峰处升起的旭日代表着酒诗最兴盛的年号。
       </p>
     </div>
-    <div class="title"></div>
+    <!-- <div class="title"></div> -->
 
-    <div class="serachTop">
+    <!-- <div class="serachTop">
       <div class="serach">
-        <!-- <el-select
-          v-model="value"
+        <el-input
+          class="input"
+          v-model="input"
+          placeholder="全局检索你感兴趣的内容"
           clearable
-          placeholder="全部"
-          class="select"
+        />
+
+        <el-button
+          type="primary"
+          color="#7D3030"
+          class="sbutton"
+          @click="load"
+          >搜索</el-button
         >
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select> -->
+      </div>
+    </div> -->
+    <div class="serachBottom">
+      <div class="serach">
         <el-input
           class="input"
           v-model="input"
@@ -615,7 +619,26 @@ onUnmounted(() => {
   background-repeat: no-repeat;
   width: 100vw;
   // margin-left: 2vw;
-  padding: 0 0 5vw 0;
+  padding: 0 0 1vh 0;
+  .serachBottom {
+    .serach {
+      float: right;
+      margin-right: 10vw;
+      margin-top: -6vh;
+      .select {
+        width: 5vw;
+        margin-right: 0.5vw;
+      }
+      .input {
+        width: 15vw;
+        margin-right: 0.5vw;
+        font-size: 0.8rem;
+      }
+      .sbutton {
+        font-size: 1rem;
+      }
+    }
+  }
   .serachTop {
     height: 25vw;
     width: 100vw;
@@ -640,6 +663,7 @@ onUnmounted(() => {
       }
     }
   }
+
   .title {
     height: 3vw;
     width: 100vw;
