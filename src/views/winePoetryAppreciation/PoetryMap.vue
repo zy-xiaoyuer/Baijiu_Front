@@ -13,7 +13,7 @@
         src="@/assets/images/infoAppreciation1.png"
       />
     </div> -->
-    <p style="margin-left: 25vw; font-size: 1.3rem; color: #3d3d3d">
+    <p style="margin-left: 23vw; font-size: 1.3rem; color: #3d3d3d">
       醉翁之意不在酒，在乎山水之间。喝过的酒，走过的路，那些酒的记忆都散落在哪些地方呢?
     </p>
     <div style="display: flex">
@@ -26,14 +26,7 @@
         <poetryRank></poetryRank>
       </div>
     </div>
-    <p
-      style="
-        margin-left: 15vw;
-        font-size: 1rem;
-        color: #3d3d3d;
-        margin-top: -5vh;
-      "
-    >
+    <p style="margin-left: 15vw; font-size: 1rem; color: #3d3d3d">
       注：地图的纹理代表着不同地区的高程情况，柱状图的颜色和形状代表诗人们在该地区所著作的酒诗数目，颜色越浅越高代表着诗人们在该地区所饮酒作诗越多
     </p>
   </div>
