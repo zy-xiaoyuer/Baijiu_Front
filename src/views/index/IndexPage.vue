@@ -12,9 +12,7 @@
         ref="charts"
         class="echarts"
       ></div>
-      <div class="title">
-        <!-- <div style="text-align: center; font-size: 2rem">唐·酒诗年代山水图</div> -->
-      </div>
+      <!-- <div class="title"></div> -->
 
       <!-- <div>
         <img
@@ -23,11 +21,26 @@
         />
       </div> -->
       <!-- <p class="textInfo">
-          “酒诗年代山水图”中峰峦起伏的山峰代表唐代不同年号时期诗人所著的酒诗数目，在最高峰处升起的旭日代表着酒诗最兴盛的年号。
-          翠绿色的年代号连接着山水，层叠的水纹代表着唐代不断出生的诗人，长短不一的水纹代表诗人的生命周期。水中长出的荷叶代表着唐
-          代酒诗数量排名前十的诗人。
-        </p> -->
+        “酒诗年代山水图”中峰峦起伏的山峰代表唐代不同年号时期诗人所著的酒诗数目，在最高峰处升起的旭日代表着酒诗最兴盛的年号。
+        翠绿色的年代号连接着山水，层叠的水纹代表着唐代不断出生的诗人，长短不一的水纹代表诗人的生命周期。水中长出的荷叶代表着唐
+        代酒诗数量排名前十的诗人。
+      </p> -->
+      <p
+        style="
+          margin-left: 10vw;
+          width: 80vw;
+          margin-bottom: 10vh;
+          font-size: 1rem;
+          margin-top: -2vh;
+        "
+      >
+        “酒诗年代山水图”中峰峦起伏的山峰代表唐代不同年号时期诗人所著的酒诗数目，在最高峰处升起的旭日代表着酒诗最兴盛的年号。
+        翠绿色的年代号连接着山水，层叠的水纹代表着唐代不断出生的诗人，长短不一的水纹代表诗人的生命周期。水中长出的荷叶代表着唐
+        代酒诗数量排名前十的诗人。
+      </p>
     </div>
+    <div class="title"></div>
+
     <div class="serachTop">
       <div class="serach">
         <!-- <el-select
@@ -111,23 +124,23 @@ const initChart = () => {
   // 绘制图表
   let option = {
     title: {
-      text: "峰峦起伏的山峰代表唐代不同年号时期诗人所著的酒诗数目，\n在最高峰处升起的旭日代表着酒诗最兴盛的年号。\n翠绿色的年代号连接着山水，层叠的水纹代表着唐代不断出生的诗人，长短不一的水纹代表诗人的生命周期。\n水中长出的荷叶代表着唐代酒诗数量排名前十的诗人。\t",
+      text: "\t唐·年代山水图\t",
       top: 50,
       bottom: 20,
       left: 10,
       padding: [5, 5],
       // backgroundColor: "#fff",
-      // borderWidth: 2,
-      // borderColor: "#b87333",
-      // borderRadius: 5,
+      borderWidth: 2,
+      borderColor: "#b87333",
+      borderRadius: 5,
       textStyle: {
-        fontSize: nowSize(15),
+        fontSize: nowSize(25),
         lineHeight: nowSize(16),
         // width: 100,
         // height: 100,
         color: "#b87333",
         fontFamily: "SimSun",
-        // textShadowColor: "#d1ad69",
+        textShadowColor: "#d1ad69",
         textShadowBlur: 1,
         textShadowOffsetX: 1,
         textShadowOffsetY: 1,
@@ -150,8 +163,8 @@ const initChart = () => {
       },
     },
     grid: {
-      left: nowSize(0) + "%",
-      right: nowSize(2) + "%",
+      left: nowSize(-2) + "%",
+      right: nowSize(0.5) + "%",
       bottom: nowSize(3) + "%",
       top: nowSize(0) + "%",
       containLabel: true,
@@ -600,13 +613,14 @@ onUnmounted(() => {
   background-image: url("@/assets/images/background.jpg");
   background-size: 100% 100%;
   background-repeat: no-repeat;
-  width: 96vw;
-  margin-left: 2vw;
+  width: 100vw;
+  // margin-left: 2vw;
   padding: 0 0 5vw 0;
   .serachTop {
     height: 25vw;
     width: 100vw;
     margin-left: -2vw;
+    // margin-top: 21vh;
     background-image: url("@/assets/images/indexbackground.png");
     background-size: 100% 100%;
     // border: 1px solid #000;
@@ -629,22 +643,15 @@ onUnmounted(() => {
   .title {
     height: 3vw;
     width: 100vw;
-    margin-top: 2vh;
-    margin-bottom: 2vh;
-    background-image: url("@/assets/images/titleIndex.png");
+    // margin-top: 2vh;
+    margin-bottom: 15vh;
+    // background-image: url("@/assets/images/title.png");
     background-size: 100% 100%;
   }
   .poetryRiver {
     margin-left: -2vw;
     // height: 5vw;
     width: 100vw;
-    // .textInfo {
-    //   margin: 2vw 0 0 25vw;
-    //   // height: 5vw;
-    //   width: 50vw;
-    //   font-size: 1.2rem;
-    //   color: #908d8d;
-    // }
     .textInfo {
       margin: 3vw 0 0 14vw;
       // height: 5vw;
@@ -662,11 +669,12 @@ onUnmounted(() => {
       }
     }
     .echarts {
-      width: 92vw;
+      width: 100vw;
       height: 80vh;
-      background-color: #f6f3e5;
-      margin: 1vh 0 0 4vw;
-      border-radius: 20px;
+      margin-left: 2vw;
+      // background-color: #f6f3e5;
+      background-image: linear-gradient(#f6f3e5, transparent);
+      // background-image: linear-gradient(transparent, #f6f3e5);
       display: inline-block;
     }
   }
@@ -710,7 +718,7 @@ onUnmounted(() => {
       height: 3vw;
       width: 100vw;
       margin-top: 2vh;
-      background-image: url("@/assets/images/titleIndex.png");
+      background-image: url("@/assets/images/title.png");
       background-size: 100% 100%;
     }
     .poetryRiver {
@@ -741,11 +749,12 @@ onUnmounted(() => {
         }
       }
       .echarts {
-        width: 92vw;
+        width: 100vw;
         height: 80vh;
-        background-color: #f6f3e5;
-        margin: 1vh 0 0 4vw;
-        border-radius: 20px;
+        margin-left: 2vw;
+        // background-color: #f6f3e5;
+        background-image: linear-gradient(#f6f3e5, transparent);
+        // background-image: linear-gradient(transparent, #f6f3e5);
         display: inline-block;
       }
     }
@@ -789,7 +798,7 @@ onUnmounted(() => {
       height: 3vw;
       width: 100vw;
       margin-top: 2vh;
-      background-image: url("@/assets/images/titleIndex.png");
+      background-image: url("@/assets/images/title.png");
       background-size: 100% 100%;
     }
     .poetryRiver {
@@ -820,11 +829,12 @@ onUnmounted(() => {
         }
       }
       .echarts {
-        width: 92vw;
+        width: 100vw;
         height: 80vh;
-        background-color: #f6f3e5;
-        margin: 1vh 0 0 4vw;
-        border-radius: 20px;
+        margin-left: 2vw;
+        // background-color: #f6f3e5;
+        background-image: linear-gradient(#f6f3e5, transparent);
+        // background-image: linear-gradient(transparent, #f6f3e5);
         display: inline-block;
       }
     }
