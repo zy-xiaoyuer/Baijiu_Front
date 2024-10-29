@@ -1,23 +1,23 @@
 <template>
   <div class="poetryRank">
-    <div class="title">
+    <!-- <div class="title">
       <img
         class="titleImg"
         src="@/assets/images/titleAppreciation2.png"
       />
-    </div>
+    </div> -->
 
     <div
       id="ranking"
       ref="ranking"
       class="ranking"
     ></div>
-    <div class="textInfo">
+    <!-- <div class="textInfo">
       <img
         class="imgInfo"
         src="@/assets/images/infoAppreciation2.png"
       />
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -76,12 +76,12 @@ const initChart = () => {
         type: "shadow",
       },
       textStyle: {
-        fontSize: nowSize(16),
+        fontSize: nowSize(12),
       },
     },
     legend: {},
     grid: {
-      left: nowSize(10) + "%",
+      left: nowSize(20) + "%",
       right: nowSize(10) + "%",
       bottom: nowSize(6) + "%",
       top: nowSize(10) + "%",
@@ -108,7 +108,7 @@ const initChart = () => {
         position: "left",
         axisLabel: {
           show: true,
-          fontSize: nowSize(20),
+          fontSize: nowSize(15),
           color: "#9d7294",
         },
         data: yData,
@@ -164,11 +164,11 @@ onUnmounted(() => {
   .ranking {
     display: inline-block;
     background-color: #f6f3e5;
-    margin: 5vw 0 0 15vw;
+    margin: 1vh 0 0 0;
 
-    width: 40vw;
-    height: 62vh;
-    border-radius: 20px;
+    width: 30vw;
+    height: 50vh;
+    border-radius: 0 20px 20px 0;
   }
   .textInfo {
     position: absolute;

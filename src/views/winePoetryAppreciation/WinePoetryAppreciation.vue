@@ -3,9 +3,9 @@
     <div class="poetryMap">
       <poetryMap></poetryMap>
     </div>
-    <div class="poetryRank">
+    <!-- <div class="poetryRank">
       <poetryRank></poetryRank>
-    </div>
+    </div> -->
     <div class="poetryImages">
       <div class="wordCloud">
         <wordCloud></wordCloud>
@@ -19,7 +19,7 @@
 
 <script lang="ts" setup>
 import poetryMap from "@/views/winePoetryAppreciation/PoetryMap";
-import poetryRank from "@/views/winePoetryAppreciation/PoetryRank";
+// import poetryRank from "@/views/winePoetryAppreciation/PoetryRank";
 import wordCloud from "@/views/winePoetryAppreciation/WordCloud";
 import hotMap from "@/views/winePoetryAppreciation/HotMap";
 </script>
