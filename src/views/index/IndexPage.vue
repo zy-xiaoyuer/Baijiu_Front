@@ -1,5 +1,33 @@
 <template>
   <div class="indexMain">
+    <div class="poetryRiver">
+      <!-- <div class="textInfo">
+        <img
+          src="@/assets/images/infoIndex.png"
+          class="infoImg"
+        />
+      </div> -->
+      <div
+        :id="echartId"
+        ref="charts"
+        class="echarts"
+      ></div>
+      <div class="title">
+        <!-- <div style="text-align: center; font-size: 2rem">唐·酒诗年代山水图</div> -->
+      </div>
+
+      <!-- <div>
+        <img
+          class="textInfo"
+          src="@/assets/images/info1.png"
+        />
+      </div> -->
+      <!-- <p class="textInfo">
+          “酒诗年代山水图”中峰峦起伏的山峰代表唐代不同年号时期诗人所著的酒诗数目，在最高峰处升起的旭日代表着酒诗最兴盛的年号。
+          翠绿色的年代号连接着山水，层叠的水纹代表着唐代不断出生的诗人，长短不一的水纹代表诗人的生命周期。水中长出的荷叶代表着唐
+          代酒诗数量排名前十的诗人。
+        </p> -->
+    </div>
     <div class="serachTop">
       <div class="serach">
         <!-- <el-select
@@ -18,7 +46,7 @@
         <el-input
           class="input"
           v-model="input"
-          placeholder="检索你感兴趣的内容"
+          placeholder="全局检索你感兴趣的内容"
           clearable
         />
 
@@ -30,33 +58,6 @@
           >搜索</el-button
         >
       </div>
-    </div>
-    <div class="title">
-      <!-- <div style="text-align: center; font-size: 2rem">唐·酒诗年代山水图</div> -->
-    </div>
-    <div class="poetryRiver">
-      <div class="textInfo">
-        <img
-          src="@/assets/images/infoIndex.png"
-          class="infoImg"
-        />
-      </div>
-      <div
-        :id="echartId"
-        ref="charts"
-        class="echarts"
-      ></div>
-      <!-- <div>
-        <img
-          class="textInfo"
-          src="@/assets/images/info1.png"
-        />
-      </div> -->
-      <!-- <p class="textInfo">
-          “酒诗年代山水图”中峰峦起伏的山峰代表唐代不同年号时期诗人所著的酒诗数目，在最高峰处升起的旭日代表着酒诗最兴盛的年号。
-          翠绿色的年代号连接着山水，层叠的水纹代表着唐代不断出生的诗人，长短不一的水纹代表诗人的生命周期。水中长出的荷叶代表着唐
-          代酒诗数量排名前十的诗人。
-        </p> -->
     </div>
   </div>
 </template>
@@ -109,29 +110,29 @@ const initChart = () => {
   myCharts.clear();
   // 绘制图表
   let option = {
-    // title: {
-    //   text: "\t年代山水图\t",
-    //   top: 20,
-    //   bottom: 20,
-    //   left: 100,
-    //   padding: [5, 5],
-    //   backgroundColor: "#fff",
-    //   borderWidth: 2,
-    //   borderColor: "#b87333",
-    //   borderRadius: 25,
-    //   textStyle: {
-    //     fontSize: 32,
-    //     lineHeight: 56,
-    //     // width: 100,
-    //     // height: 100,
-    //     color: "#b87333",
-    //     fontFamily: "SimSun",
-    //     textShadowColor: "#d1ad69",
-    //     textShadowBlur: 1,
-    //     textShadowOffsetX: 1,
-    //     textShadowOffsetY: 1,
-    //   },
-    // },
+    title: {
+      text: "峰峦起伏的山峰代表唐代不同年号时期诗人所著的酒诗数目，\n在最高峰处升起的旭日代表着酒诗最兴盛的年号。\n翠绿色的年代号连接着山水，层叠的水纹代表着唐代不断出生的诗人，长短不一的水纹代表诗人的生命周期。\n水中长出的荷叶代表着唐代酒诗数量排名前十的诗人。\t",
+      top: 50,
+      bottom: 20,
+      left: 10,
+      padding: [5, 5],
+      // backgroundColor: "#fff",
+      // borderWidth: 2,
+      // borderColor: "#b87333",
+      // borderRadius: 5,
+      textStyle: {
+        fontSize: nowSize(15),
+        lineHeight: nowSize(16),
+        // width: 100,
+        // height: 100,
+        color: "#b87333",
+        fontFamily: "SimSun",
+        // textShadowColor: "#d1ad69",
+        textShadowBlur: 1,
+        textShadowOffsetX: 1,
+        textShadowOffsetY: 1,
+      },
+    },
     color: "#d2691e",
     tooltip: {
       trigger: "item",
@@ -149,10 +150,10 @@ const initChart = () => {
       },
     },
     grid: {
-      left: nowSize(1) + "%",
-      right: nowSize(10) + "%",
+      left: nowSize(0) + "%",
+      right: nowSize(2) + "%",
       bottom: nowSize(3) + "%",
-      top: nowSize(1) + "%",
+      top: nowSize(0) + "%",
       containLabel: true,
     },
     xAxis: [
@@ -284,7 +285,7 @@ const initChart = () => {
         },
         position: "top",
         // offset: -1.02 * nowSize(305),
-        offset: -280 * (window.innerHeight / 950),
+        offset: -280 * (window.innerHeight / 1200),
       },
     ],
     yAxis: [
@@ -628,7 +629,8 @@ onUnmounted(() => {
   .title {
     height: 3vw;
     width: 100vw;
-    margin-left: -2vw;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
     background-image: url("@/assets/images/titleIndex.png");
     background-size: 100% 100%;
   }
@@ -660,11 +662,11 @@ onUnmounted(() => {
       }
     }
     .echarts {
-      width: 60vw;
-      height: 100vh;
+      width: 92vw;
+      height: 80vh;
       background-color: #f6f3e5;
-      margin: 3vw 0 0 0;
-      border-radius: 0 20px 20px 0;
+      margin: 1vh 0 0 4vw;
+      border-radius: 20px;
       display: inline-block;
     }
   }
@@ -707,7 +709,7 @@ onUnmounted(() => {
     .title {
       height: 3vw;
       width: 100vw;
-      margin-left: -2vw;
+      margin-top: 2vh;
       background-image: url("@/assets/images/titleIndex.png");
       background-size: 100% 100%;
     }
@@ -739,11 +741,11 @@ onUnmounted(() => {
         }
       }
       .echarts {
-        width: 60vw;
-        height: 100vh;
+        width: 92vw;
+        height: 80vh;
         background-color: #f6f3e5;
-        margin: 3vw 0 0 0;
-        border-radius: 0 20px 20px 0;
+        margin: 1vh 0 0 4vw;
+        border-radius: 20px;
         display: inline-block;
       }
     }
@@ -786,7 +788,7 @@ onUnmounted(() => {
     .title {
       height: 3vw;
       width: 100vw;
-      margin-left: -2vw;
+      margin-top: 2vh;
       background-image: url("@/assets/images/titleIndex.png");
       background-size: 100% 100%;
     }
@@ -818,11 +820,11 @@ onUnmounted(() => {
         }
       }
       .echarts {
-        width: 60vw;
-        height: 100vh;
-        // background-color: #f6f3e5;
-        margin: 3vw 0 0 0;
-        border-radius: 0 20px 20px 0;
+        width: 92vw;
+        height: 80vh;
+        background-color: #f6f3e5;
+        margin: 1vh 0 0 4vw;
+        border-radius: 20px;
         display: inline-block;
       }
     }

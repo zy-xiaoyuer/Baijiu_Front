@@ -18,9 +18,17 @@
       </div>
     </div>
     <div class="main-content">
-      <div id="rank" class="rank">
+      <div
+        id="rank"
+        class="rank"
+      >
         分类统计
-        <div id="rank1" class="rank1">朝代</div>
+        <div
+          id="rank1"
+          class="rank1"
+        >
+          朝代
+        </div>
       </div>
 
       <div class="text">
