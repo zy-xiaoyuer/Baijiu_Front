@@ -41,6 +41,7 @@
       <div class="text">
         <h3>共{{ total }}条数据</h3>
         <hr />
+        <!-- <el-loading :loading="isLoading" text="加载中..."></el-loading> -->
         <div
           v-for="poem in paginatedPoems"
           :key="poem.id"
@@ -115,6 +116,8 @@ const filteredPoems = ref<Poem[]>([]);
 
 const dynastyData = ref({});
 const authorData = ref({});
+// const isLoading = ref(false);
+
 
 function fetchPoems(searchTerm: string) {
   request
@@ -178,11 +181,27 @@ const handlePageChange = (newPage: number) => {
   fetchPoems();
 };
 
-const fetchPoemsByDynasty = async () => {
+const fetchPoemStatistics = async () => {
   try {
-    const response = await request.get("/poemsbydynasty/api/getPoemByIdsearch");
+    const response = await request.get("/poemsbydynasty/api/getPoemStatistics");
     if (response.code === 200 && response.data) {
-      return response.data;
+      const stats = response.data.split("; ").filter(Boolean);
+      const dynastyData = {};
+      const authorData = {};
+
+      stats.forEach((stat) => {
+        const [key, value] = stat.split(", Count: ");
+        const name = key.split(": ")[1];
+        const count = parseInt(value, 10);
+
+        if (key.startsWith("Dynasty")) {
+          dynastyData[name] = count;
+        } else if (key.startsWith("Author")) {
+          authorData[name] = count;
+        }
+      });
+
+      return { dynastyData, authorData };
     } else {
       ElMessage.error("获取数据失败：" + response.msg);
     }
@@ -190,7 +209,7 @@ const fetchPoemsByDynasty = async () => {
     console.error("请求失败:", error);
     ElMessage.error("网络请求失败：" + error.message);
   }
-  return [];
+  return { dynastyData: {}, authorData: {} };
 };
 
 const initChart = (chartId, category, data) => {
@@ -213,32 +232,27 @@ const initChart = (chartId, category, data) => {
       ],
     };
     myChart.setOption(option);
-    // 初始化图表实例并监听点击事件
     myChart.on('click', (params) => {
-  if (params.componentType === 'series') {
-    const selectedItem = params.name; // 获取被点击的项
-    console.log("Clicked item:", selectedItem);
-    // 执行筛选逻辑
-    fetchPoems(selectedItem); // 传递筛选参数
-  }
-});
+      if (params.componentType === 'series') {
+        const selectedItem = params.name;
+        console.log("Clicked item:", selectedItem);
+        fetchPoems(selectedItem); // 传递筛选参数
+      }
+    });
   }
 };
 
 onMounted(async () => {
-  const poemsData = await fetchPoemsByDynasty();
-  if (poemsData.length > 0) {
-    poemsData.forEach((poem) => {
-      dynastyData.value[poem.dynasty] = (dynastyData.value[poem.dynasty] || 0) + 1;
-      authorData.value[poem.author] = (authorData.value[poem.author] || 0) + 1;
-    });
-    // 初始化两个图表
-    initChart("rank1", "朝代", dynastyData.value);
-    initChart("rank2", "作者", authorData.value);
+  const { dynastyData, authorData } = await fetchPoemStatistics();
+  if (Object.keys(dynastyData).length > 0) {
+    initChart("rank1", "朝代", dynastyData);
+    initChart("rank2", "作者", authorData);
   }
   fetchPoems();
   console.log("组件第一次加载...", poems.value);
 });
+
+
 
 onBeforeUpdate(() => {
   console.log("paginatedPoems", paginatedPoems);
