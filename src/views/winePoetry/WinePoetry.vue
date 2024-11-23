@@ -20,22 +20,10 @@
     </div>
 
     <div class="main-content">
-      <div
-        id="rank"
-        ref="rank"
-        class="rank"
-      >
+      <div id="rank" ref="rank" class="rank">
         分类统计
-        <div
-          id="rank1"
-          ref="rank1"
-          class="rank-item1"
-        ></div>
-        <div
-          id="rank2"
-          ref="rank2"
-          class="rank-item2"
-        ></div>
+        <div id="rank1" ref="rank1" class="rank-item1"></div>
+        <div id="rank2" ref="rank2" class="rank-item2"></div>
       </div>
 
       <div class="text">
@@ -118,7 +106,6 @@ const dynastyData = ref({});
 const authorData = ref({});
 // const isLoading = ref(false);
 
-
 function fetchPoems(searchTerm: string) {
   request
     .post("poemsbydynasty/api/listPage", {
@@ -185,21 +172,17 @@ const fetchPoemStatistics = async () => {
   try {
     const response = await request.get("/poemsbydynasty/api/getPoemStatistics");
     if (response.code === 200 && response.data) {
-      const stats = response.data.split("; ").filter(Boolean);
+      const { dynastyStats, authorStats } = response.data; // 处理朝代统计数据
+
       const dynastyData = {};
+      for (const [key, value] of Object.entries(dynastyStats)) {
+        dynastyData[key] = value;
+      } // 处理作者统计数据
+
       const authorData = {};
-
-      stats.forEach((stat) => {
-        const [key, value] = stat.split(", Count: ");
-        const name = key.split(": ")[1];
-        const count = parseInt(value, 10);
-
-        if (key.startsWith("Dynasty")) {
-          dynastyData[name] = count;
-        } else if (key.startsWith("Author")) {
-          authorData[name] = count;
-        }
-      });
+      for (const [key, value] of Object.entries(authorStats)) {
+        authorData[key] = value;
+      }
 
       return { dynastyData, authorData };
     } else {
@@ -232,8 +215,8 @@ const initChart = (chartId, category, data) => {
       ],
     };
     myChart.setOption(option);
-    myChart.on('click', (params) => {
-      if (params.componentType === 'series') {
+    myChart.on("click", (params) => {
+      if (params.componentType === "series") {
         const selectedItem = params.name;
         console.log("Clicked item:", selectedItem);
         fetchPoems(selectedItem); // 传递筛选参数
@@ -251,8 +234,6 @@ onMounted(async () => {
   fetchPoems();
   console.log("组件第一次加载...", poems.value);
 });
-
-
 
 onBeforeUpdate(() => {
   console.log("paginatedPoems", paginatedPoems);
@@ -296,7 +277,7 @@ onUpdated(() => {
     top: -4vw;
     margin-left: 1vw;
     width: 18vw;
-    height:88vw;
+    height: 88vw;
     background: #f6f3e5;
     border-radius: 1vw;
     padding: 2vw;
